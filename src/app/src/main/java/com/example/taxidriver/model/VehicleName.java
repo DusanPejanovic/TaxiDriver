@@ -1,6 +1,6 @@
 package com.example.taxidriver.model;
 
-public enum NameOfVehicle {
+public enum VehicleName {
     Standard,
     Luxury,
     Van

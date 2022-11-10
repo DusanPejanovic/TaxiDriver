@@ -1,4 +1,4 @@
 package com.example.taxidriver.model;
 
-public class TypeOfVehicle {
+public class VehicleType {
 }

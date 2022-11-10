@@ -7,14 +7,18 @@ import java.time.LocalDateTime;
 public class RejectionLetter {
 
     private String id;
-    private String reasoon;
+    private String reason;
     private LocalDateTime dateTime;
 
+    private User user;
+    private Drive drive;
 
-    public RejectionLetter(String id, String reasoon, LocalDateTime dateTime) {
+    public RejectionLetter(String id, String reason, LocalDateTime dateTime, User user, Drive drive) {
         this.id = id;
-        this.reasoon = reasoon;
+        this.reason = reason;
         this.dateTime = dateTime;
+        this.user = user;
+        this.drive = drive;
     }
 
     public String getId() {
@@ -25,12 +29,12 @@ public class RejectionLetter {
         this.id = id;
     }
 
-    public String getReasoon() {
-        return reasoon;
+    public String getReason() {
+        return reason;
     }
 
-    public void setReasoon(String reasoon) {
-        this.reasoon = reasoon;
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public LocalDateTime getDateTime() {
@@ -41,15 +45,32 @@ public class RejectionLetter {
         this.dateTime = dateTime;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Drive getDrive() {
+        return drive;
+    }
+
+    public void setDrive(Drive drive) {
+        this.drive = drive;
+    }
+
+
     @NonNull
     @Override
     public String toString() {
         return "RejectionLetter{" +
                 "id='" + id + '\'' +
-                ", reasoon='" + reasoon + '\'' +
+                ", reasoon='" + reason + '\'' +
                 ", dateTime=" + dateTime +
+                ", user=" + user +
+                ", drive=" + drive +
                 '}';
     }
-
-
 }

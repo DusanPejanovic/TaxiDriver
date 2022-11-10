@@ -10,10 +10,15 @@ public class Payment {
     private LocalDateTime dateTime;
     private int totalPrice;
 
-    public Payment(String id, LocalDateTime dateTime, int totalPrice) {
+    private Passenger passenger;
+    private Drive drive;
+
+    public Payment(String id, LocalDateTime dateTime, int totalPrice, Passenger passenger, Drive drive) {
         this.id = id;
         this.dateTime = dateTime;
         this.totalPrice = totalPrice;
+        this.passenger = passenger;
+        this.drive = drive;
     }
 
     public String getId() {
@@ -40,6 +45,22 @@ public class Payment {
         this.totalPrice = totalPrice;
     }
 
+    public Passenger getPassenger() {
+        return passenger;
+    }
+
+    public void setPassenger(Passenger passenger) {
+        this.passenger = passenger;
+    }
+
+    public Drive getDrive() {
+        return drive;
+    }
+
+    public void setDrive(Drive drive) {
+        this.drive = drive;
+    }
+
 
     @NonNull
     @Override
@@ -48,6 +69,8 @@ public class Payment {
                 "id='" + id + '\'' +
                 ", dateTime=" + dateTime +
                 ", totalPrice=" + totalPrice +
+                ", passenger=" + passenger +
+                ", drive=" + drive +
                 '}';
     }
 }
