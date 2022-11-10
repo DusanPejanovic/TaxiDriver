@@ -4,17 +4,16 @@ import androidx.annotation.NonNull;
 
 import java.time.LocalDateTime;
 
-public class RejectionLetter {
+public class Payment {
 
     private String id;
-    private String reasoon;
     private LocalDateTime dateTime;
+    private int totalPrice;
 
-
-    public RejectionLetter(String id, String reasoon, LocalDateTime dateTime) {
+    public Payment(String id, LocalDateTime dateTime, int totalPrice) {
         this.id = id;
-        this.reasoon = reasoon;
         this.dateTime = dateTime;
+        this.totalPrice = totalPrice;
     }
 
     public String getId() {
@@ -25,14 +24,6 @@ public class RejectionLetter {
         this.id = id;
     }
 
-    public String getReasoon() {
-        return reasoon;
-    }
-
-    public void setReasoon(String reasoon) {
-        this.reasoon = reasoon;
-    }
-
     public LocalDateTime getDateTime() {
         return dateTime;
     }
@@ -41,15 +32,22 @@ public class RejectionLetter {
         this.dateTime = dateTime;
     }
 
-    @NonNull
-    @Override
-    public String toString() {
-        return "RejectionLetter{" +
-                "id='" + id + '\'' +
-                ", reasoon='" + reasoon + '\'' +
-                ", dateTime=" + dateTime +
-                '}';
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "Payment{" +
+                "id='" + id + '\'' +
+                ", dateTime=" + dateTime +
+                ", totalPrice=" + totalPrice +
+                '}';
+    }
 }
