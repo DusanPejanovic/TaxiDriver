@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">TaxiDriver</string>
+    <string name="change_picture">Change picture</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="name">Name:</string>
+    <string name="surname">Surname:</string>
+    <string name="address">Address:</string>
+    <string name="phoneNumber">Phone Number:</string>
+    <string name="password">Password:</string>
+    <string name="profile">Profile:</string>
+
 </resources>
