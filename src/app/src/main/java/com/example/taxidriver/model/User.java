@@ -29,6 +29,9 @@ public class User {
         this.rejectionLetters = rejectionLetters;
     }
 
+    public User(String id, String name, String lastname, String profil_picture, String phone_number, String adress, String password) {
+    }
+
     public String getId() {
         return id;
     }

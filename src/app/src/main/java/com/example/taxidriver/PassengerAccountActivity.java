@@ -1,8 +1,13 @@
 package com.example.taxidriver;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.Toast;
+
+import com.example.taxidriver.tools.FragmentTransition;
 
 //6. PassengerAccountActivity - omogućiti prikaz menija sa sledećim stavkama:
 //        6.1. Nalog: pregled informacija o nalogu putnika i njihovo ažuriranje:
@@ -22,5 +27,10 @@ public class PassengerAccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passenger_account);
+        FragmentTransition.to(PassengerAccountProfile.newInstance(), this, false, R.id.mainContent);
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }
