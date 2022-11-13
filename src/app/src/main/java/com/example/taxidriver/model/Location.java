@@ -27,6 +27,11 @@ public class Location {
         this.favouriteRoutesEndHere = favouriteRoutesEndHere;
     }
 
+    public Location(String id, Integer longitude, Integer latitude) {
+        this.id = id;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
 
     public String getId() {
         return id;

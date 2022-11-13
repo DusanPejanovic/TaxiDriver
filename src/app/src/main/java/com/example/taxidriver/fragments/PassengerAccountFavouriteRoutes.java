@@ -16,10 +16,10 @@ import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link PassengerAccountFavouriteRides#newInstance} factory method to
+ * Use the {@link PassengerAccountFavouriteRoutes#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PassengerAccountFavouriteRides extends Fragment {
+public class PassengerAccountFavouriteRoutes extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,7 +32,7 @@ public class PassengerAccountFavouriteRides extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public PassengerAccountFavouriteRides() {
+    public PassengerAccountFavouriteRoutes() {
         // Required empty public constructor
     }
 
@@ -45,8 +45,8 @@ public class PassengerAccountFavouriteRides extends Fragment {
      * @return A new instance of fragment PAssangerAccountFavouriteRides.
      */
     // TODO: Rename and change types and number of parameters
-    public static PassengerAccountFavouriteRides newInstance(String param1, String param2) {
-        PassengerAccountFavouriteRides fragment = new PassengerAccountFavouriteRides();
+    public static PassengerAccountFavouriteRoutes newInstance(String param1, String param2) {
+        PassengerAccountFavouriteRoutes fragment = new PassengerAccountFavouriteRoutes();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -54,8 +54,8 @@ public class PassengerAccountFavouriteRides extends Fragment {
         return fragment;
     }
 
-    public static PassengerAccountFavouriteRides newInstance(){
-        return new PassengerAccountFavouriteRides();
+    public static PassengerAccountFavouriteRoutes newInstance(){
+        return new PassengerAccountFavouriteRoutes();
     }
 
 
@@ -72,7 +72,7 @@ public class PassengerAccountFavouriteRides extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_passenger_account_favourite_rides, container, false);
+        View view = inflater.inflate(R.layout.fragment_passenger_account_favourite_routes, container, false);
         return view;
     }
 }

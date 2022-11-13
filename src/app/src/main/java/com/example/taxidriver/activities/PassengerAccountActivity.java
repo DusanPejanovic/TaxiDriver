@@ -1,17 +1,11 @@
 package com.example.taxidriver.activities;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.RelativeLayout;
 
 import com.example.taxidriver.R;
-import com.example.taxidriver.fragments.PassengerAccountFavouriteRides;
 import com.example.taxidriver.fragments.PassengerAccountProfile;
 import com.example.taxidriver.tools.FragmentTransition;
 
@@ -35,7 +29,7 @@ public class PassengerAccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passenger_account);
-        FragmentTransition.to(PassengerAccountFavouriteRides.newInstance(), this, false, R.id.mainContent);
+        FragmentTransition.to(PassengerAccountProfile.newInstance(), this, false, R.id.mainContent);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
