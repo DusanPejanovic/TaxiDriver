@@ -6,7 +6,7 @@
     tools:context=".fragments.PassengerAccountProfile">
 
     <LinearLayout
-        android:id="@+id/mainContent"
+        android:id="@+id/mainFragmentContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">

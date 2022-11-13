@@ -71,7 +71,6 @@ public class PassengerAccountProfile extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_passenger_account_profile, container, false);
         mockupPassenger(view);
-        Toast.makeText(getActivity(), "Kreiran fragment", Toast.LENGTH_SHORT ).show();
         return view;
     }
     public static void mockupPassenger(View view){
