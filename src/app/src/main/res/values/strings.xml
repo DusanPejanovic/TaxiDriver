@@ -8,5 +8,17 @@
     <string name="phoneNumber">Phone Number:</string>
     <string name="password">Password:</string>
     <string name="profile">Profile:</string>
+    <string name="changeName">change name</string>
+    <string name="changeSurname">change surname</string>
+    <string name="changeAddress">change address</string>
+    <string name="changePhoneNumber">change phone number</string>
+    <string name="changePassword">change password</string>
+    <string name="current_password">Current password:</string>
+    <string name="new_password">New password:</string>
+    <string name="new_password_input">new password</string>
+    <string name="confirm_password">Confirm password:</string>
+    <string name="confirm_password_input">confirm password</string>
+    <string name="confirm_changes">confirm changes</string>
+
 
 </resources>
