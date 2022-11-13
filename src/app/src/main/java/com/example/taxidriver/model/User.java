@@ -7,6 +7,7 @@ public class User {
     String id;
     String name;
     String lastname;
+    String email;
     String profilPicture;
     String phoneNumber;
     String adress;
@@ -16,11 +17,12 @@ public class User {
     List<RejectionLetter> rejectionLetters;
     boolean is_blocked = false;
 
-    public User(String id, String name, String lastname, String profilPicture, String phoneNumber, String adress, String password, List<Message> messagesSent, List<Message> messagesRecived, List<RejectionLetter> rejectionLetters) {
+    public User(String id, String name, String lastname, String email, String profilePicture, String phoneNumber, String adress, String password, List<Message> messagesSent, List<Message> messagesRecived, List<RejectionLetter> rejectionLetters) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
-        this.profilPicture = profilPicture;
+        this.email = email;
+        this.profilPicture = profilePicture;
         this.phoneNumber = phoneNumber;
         this.adress = adress;
         this.password = password;
@@ -29,7 +31,18 @@ public class User {
         this.rejectionLetters = rejectionLetters;
     }
 
-    public User(String id, String name, String lastname, String profil_picture, String phone_number, String adress, String password) {
+    public User(String id, String name, String lastname, String profilePicture, String email, String phoneNumber, String adress, String password) {
+        this.id = id;
+        this.name = name;
+        this.lastname = lastname;
+        this.email = email;
+        this.profilPicture = profilePicture;
+        this.phoneNumber = phoneNumber;
+        this.adress = adress;
+        this.password = password;
+        this.messagesSent = messagesSent;
+        this.messagesRecived = messagesRecived;
+        this.rejectionLetters = rejectionLetters;
     }
 
     public String getId() {

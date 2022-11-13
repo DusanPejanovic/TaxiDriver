@@ -7,8 +7,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.taxidriver.R;
+import com.example.taxidriver.model.Passenger;
+import com.example.taxidriver.tools.Mockup;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,6 +69,23 @@ public class PassengerAccountProfile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_passenger_account_profile, container, false);
+        View view =  inflater.inflate(R.layout.fragment_passenger_account_profile, container, false);
+        mockupPassenger(view);
+        Toast.makeText(getActivity(), "Kreiran fragment", Toast.LENGTH_SHORT ).show();
+        return view;
+    }
+    public static void mockupPassenger(View view){
+        Passenger passenger = Mockup.getPassenger();
+        EditText name = (EditText) view.findViewById(R.id.nameInput);
+        name.setText(passenger.getName());
+        EditText surname = (EditText)view.findViewById(R.id.surnameInput);
+        surname.setText(passenger.getLastname());
+        EditText address = (EditText) view.findViewById(R.id.addressInput);
+        address.setText(passenger.getAdress());
+        EditText phoneNum = (EditText)view.findViewById(R.id.phoneNumberInput);
+        phoneNum.setText(passenger.getPhoneNumber());
+
+
+
     }
 }
