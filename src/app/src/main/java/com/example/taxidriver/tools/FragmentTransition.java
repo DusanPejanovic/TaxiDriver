@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 public class FragmentTransition {
+
     public static void to(Fragment newFragment, FragmentActivity activity, boolean addToBackstack, int layoutViewID)
     {
         FragmentTransaction transaction = activity.getSupportFragmentManager()
