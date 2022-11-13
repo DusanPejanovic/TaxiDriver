@@ -1,12 +1,11 @@
-package com.example.taxidriver;
-
-import static android.widget.Toast.LENGTH_SHORT;
+package com.example.taxidriver.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
+import com.example.taxidriver.R;
+import com.example.taxidriver.fragments.PassengerAccountProfile;
 import com.example.taxidriver.tools.FragmentTransition;
 
 //6. PassengerAccountActivity - omogućiti prikaz menija sa sledećim stavkama:
