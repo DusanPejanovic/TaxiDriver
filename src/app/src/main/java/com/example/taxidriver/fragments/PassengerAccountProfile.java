@@ -84,8 +84,5 @@ public class PassengerAccountProfile extends Fragment {
         address.setText(passenger.getAdress());
         EditText phoneNum = (EditText)view.findViewById(R.id.phoneNumberInput);
         phoneNum.setText(passenger.getPhoneNumber());
-
-
-
     }
 }
