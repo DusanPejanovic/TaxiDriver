@@ -63,8 +63,8 @@ public class FavouriteRouteAdapter extends BaseAdapter {
         }
         TextView from = (TextView) view.findViewById(R.id.from);
         TextView to = (TextView) view.findViewById(R.id.to);
-        from.setText(String.format("%d; %d", fr.getStartingPoint().getLatitude(), fr.getStartingPoint().getLongitude()));
-        to.setText(String.format("%d; %d", fr.getDestination().getLatitude(), fr.getDestination().getLongitude()));
+        from.setText(String.format("Address: %d; %d", fr.getStartingPoint().getLatitude(), fr.getStartingPoint().getLongitude()));
+        to.setText(String.format("Address: %d; %d", fr.getDestination().getLatitude(), fr.getDestination().getLongitude()));
 
 
         return view;
