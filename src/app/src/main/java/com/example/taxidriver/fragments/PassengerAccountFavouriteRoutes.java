@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.taxidriver.R;
 import com.example.taxidriver.activities.DriverMainActivity;
@@ -64,7 +66,7 @@ public class PassengerAccountFavouriteRoutes extends Fragment {
         return fragment;
     }
 
-    public static PassengerAccountFavouriteRoutes newInstance(){
+    public static PassengerAccountFavouriteRoutes newInstance() {
         return new PassengerAccountFavouriteRoutes();
     }
 
@@ -86,12 +88,41 @@ public class PassengerAccountFavouriteRoutes extends Fragment {
         FavouriteRouteAdapter adapter = new FavouriteRouteAdapter(getActivity(), routes);
         routesListView.setOnItemClickListener(new RoutesItemsClickListener());
         routesListView.setAdapter(adapter);
+        routesListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setMessage("Delete the chosen route?" + i);
+                builder.setCancelable(true);
+                builder.setPositiveButton(
+                        "Yes",
+                        (dialog, id1) -> {
+                            adapter.removeItem(i);
+                            dialog.cancel();
+                        });
 
+                builder.setNegativeButton(
+                        "No",
+                        (dialog, id2) -> dialog.cancel());
+
+                AlertDialog alert = builder.create();
+                alert.show();
+                return true;
+            }
+        });
         return view;
     }
+
     private class RoutesItemsClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            ImageView delete = view.findViewById(R.id.delete_fav_route);
+//            delete.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Toast.makeText(getContext(), position, Toast.LENGTH_SHORT).show();
+//                }
+//            });
             AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
             builder.setMessage("Order an uber for the chosen route?");
             builder.setCancelable(true);
@@ -110,10 +141,12 @@ public class PassengerAccountFavouriteRoutes extends Fragment {
             AlertDialog alert = builder.create();
             alert.show();
         }
+
+
     }
 
-    public void prepareList(){
-        for (FavoriteRoute fr: Mockup.getFavoriteRoutes()) {
+    private void prepareList() {
+        for (FavoriteRoute fr : Mockup.getFavoriteRoutes()) {
             routes.add(fr);
         }
     }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taxidriver.R;
 import com.example.taxidriver.activities.PassengerMainActivity;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 
 public class FavouriteRouteAdapter extends BaseAdapter {
     private Context context;
-    ArrayList<FavoriteRoute> items;
+    public  ArrayList<FavoriteRoute> items;
 
     public FavouriteRouteAdapter(Context context, ArrayList<FavoriteRoute> items) {
         this.context = context;
@@ -45,12 +46,16 @@ public class FavouriteRouteAdapter extends BaseAdapter {
     public long getItemId(int i) {
         return 0;
     }
-
+    public void removeItem(int index){
+        items.remove(index);
+        notifyDataSetChanged();
+    }
     @Override
     public View getView(int i, View convertView, ViewGroup parent) {
         View view;
         FavoriteRoute fr = Mockup.getFavoriteRoutes().get(i);
         if (convertView == null) {
+
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.favorite_route_list, null);
         } else {
@@ -61,26 +66,6 @@ public class FavouriteRouteAdapter extends BaseAdapter {
         from.setText(String.format("%d; %d", fr.getStartingPoint().getLatitude(), fr.getStartingPoint().getLongitude()));
         to.setText(String.format("%d; %d", fr.getDestination().getLatitude(), fr.getDestination().getLongitude()));
 
-//        from.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
-//        to.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
-        ImageView delete = view.findViewById(R.id.delete_fav_route);
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                items.remove(2);
-                notifyDataSetChanged();
-            }
-        });
 
         return view;
     }
