@@ -97,6 +97,7 @@ public class PassengerAccountFavouriteRoutes extends Fragment {
                 builder.setPositiveButton(
                         "Yes",
                         (dialog, id1) -> {
+                            // TODO fix deletion
                             adapter.removeItem(i);
                             dialog.cancel();
                         });

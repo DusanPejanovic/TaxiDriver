@@ -28,6 +28,18 @@
 
     <string name="reports">Reports</string>
     <string name="favorites">Favorites</string>
-
+    <string name="starting_date">starting date</string>
+    <string name="ending_date">ending date</string>
+    <string name="total_number_of_rides">Total number of rides:</string>
+    <string name="total_kilometers">Total kilometers:</string>
+    <string name="total_spent">Total spent:</string>
+    <string name="daily_averages">Daily average:</string>
+    <string name="car">car</string>
+    <string name="location">location</string>
+    <string name="money">money</string>
+    <string name="date">Date:</string>
+    <string name="rides">Rides:</string>
+    <string name="distance">Distance:</string>
+    <string name="spent">Spent:</string>
 
 </resources>

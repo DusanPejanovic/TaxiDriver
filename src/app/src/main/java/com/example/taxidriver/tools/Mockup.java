@@ -1,10 +1,12 @@
 package com.example.taxidriver.tools;
 
+import com.example.taxidriver.model.Drive;
 import com.example.taxidriver.model.FavoriteRoute;
 import com.example.taxidriver.model.Location;
 import com.example.taxidriver.model.Passenger;
 import com.example.taxidriver.model.Route;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +28,17 @@ public class Mockup {
         list.add(fr4);
         list.add(fr5);
         list.add(fr6);
-
-
-
-
         return list;
+    }
+    public static ArrayList<Drive> getRides(){
+        ArrayList<Drive> rides = new ArrayList<Drive>();
+        rides.add(new Drive("1", LocalDateTime.of(2022, 11, 14, 0, 0), LocalDateTime.of(2022, 11, 14, 1, 0), 1500, 10, new ArrayList<>()));
+        rides.add(new Drive("2", LocalDateTime.of(2022, 11, 14, 1, 15), LocalDateTime.of(2022, 11, 14, 1, 45), 500, 2,new ArrayList<>()));
+        rides.add(new Drive("3", LocalDateTime.of(2022, 11, 15, 0, 0), LocalDateTime.of(2022, 11, 15, 1, 0), 2000, 15,new ArrayList<>()));
+        rides.add(new Drive("4", LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 30, 3,new ArrayList<>()));
+        rides.add(new Drive("5", LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 1500, 10,new ArrayList<>()));
+        rides.add(new Drive("6", LocalDateTime.of(2022, 11, 18, 0, 0), LocalDateTime.of(2022, 11, 18, 1, 0), 1500, 10,new ArrayList<>()));
+
+        return rides;
     }
 }

@@ -1,19 +1,25 @@
 package com.example.taxidriver.adapters;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
+import com.example.taxidriver.R;
 import com.example.taxidriver.model.Drive;
+import com.example.taxidriver.model.DriveReport;
+import com.example.taxidriver.model.FavoriteRoute;
+import com.example.taxidriver.tools.Mockup;
 
 import java.util.ArrayList;
 
-public class DriveAdapter  extends BaseAdapter {
+public class DriveReportAdapter extends BaseAdapter {
     private Context context;
-    public ArrayList<Drive> items;
+    public ArrayList<DriveReport> items;
 
-    public DriveAdapter(Context context, ArrayList<Drive> items) {
+    public DriveReportAdapter(Context context, ArrayList<DriveReport> items) {
         this.context = context;
         this.items = items;
     }
@@ -34,7 +40,24 @@ public class DriveAdapter  extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        return null;
+    public View getView(int i, View convertView, ViewGroup viewGroup) {
+        View view;
+        DriveReport dr = items.get(i);
+        if (convertView == null) {
+
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.reports_list_item, null);
+        } else {
+            view = convertView;
+        }
+        TextView date = view.findViewById(R.id.reportItemDate);
+        date.setText(dr.date.toString());
+        TextView rides = view.findViewById(R.id.reportItemRides);
+        rides.setText(String.valueOf(dr.rides));
+        TextView mileage = view.findViewById(R.id.reportItemKm);
+        mileage.setText(String.valueOf(dr.mileage));
+        TextView money = view.findViewById(R.id.reportItemSpent);
+        money.setText(String.valueOf(dr.spent));
+        return convertView;
     }
 }
