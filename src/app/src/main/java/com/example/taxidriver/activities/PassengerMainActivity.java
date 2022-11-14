@@ -35,12 +35,13 @@ public class PassengerMainActivity extends AppCompatActivity {
 //            }
 //        });
 
-//        history.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 //                startActivity(new Intent(PassengerMainActivity.this, PassengerHistoryFragment.class));
-//            }
-//        });
+                Toast.makeText(PassengerMainActivity.this, "TODO: Add passenger ride history", Toast.LENGTH_SHORT).show();
+            }
+        });
         inbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

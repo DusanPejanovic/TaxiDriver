@@ -9,23 +9,27 @@
         android:id="@+id/reportItemDate"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_weight="3" />
+        android:layout_weight="3"
+        android:gravity="center"/>
 
     <TextView
         android:id="@+id/reportItemRides"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:gravity="center"/>
     <TextView
         android:id="@+id/reportItemKm"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:gravity="center"/>
     <TextView
         android:id="@+id/reportItemSpent"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:gravity="center"/>
 
 
 </LinearLayout>

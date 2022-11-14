@@ -2,6 +2,7 @@ package com.example.taxidriver.fragments;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -74,13 +75,27 @@ public class PassengerAccountProfile extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_passenger_account_profile, container, false);
         mockupPassenger(view);
-//        Button b  = view.findViewById(R.id.change_pfp);
-//        b.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                FragmentTransition.to(PassengerAccountFavouriteRides.newInstance(), getActivity(), false, R.id.mainContent);
-//            }
-//        });
+        Button confirm_changes  = view.findViewById(R.id.confirm_button);
+        confirm_changes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setMessage("Confirm changes?");
+                builder.setCancelable(true);
+                builder.setPositiveButton(
+                        "Yes",
+                        (dialog, id1) -> {
+                            dialog.cancel();
+                        });
+
+                builder.setNegativeButton(
+                        "No",
+                        (dialog, id2) -> dialog.cancel());
+
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
         return view;
     }
     public static void mockupPassenger(View view){

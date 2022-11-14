@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class InboxActivityPassenger extends AppCompatActivity {
 
@@ -29,12 +30,13 @@ public class InboxActivityPassenger extends AppCompatActivity {
             }
         });
 
-//        history.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 //                startActivity(new Intent(PassengerMainActivity.this, PassengerHistoryFragment.class));
-//            }
-//        });
+                Toast.makeText(InboxActivityPassenger.this, "TODO: Add passenger ride history", Toast.LENGTH_SHORT).show();
+            }
+        });
 //        inbox.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {

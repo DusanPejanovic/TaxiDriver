@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.taxidriver.R;
 import com.example.taxidriver.fragments.PassengerAccountFavouriteRoutes;
@@ -96,12 +97,13 @@ public class PassengerAccountActivity extends AppCompatActivity {
             }
         });
 
-//        history.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 //                startActivity(new Intent(PassengerMainActivity.this, PassengerHistoryFragment.class));
-//            }
-//        });
+                Toast.makeText(PassengerAccountActivity.this, "TODO: Add passenger ride history", Toast.LENGTH_SHORT).show();
+            }
+        });
         inbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
