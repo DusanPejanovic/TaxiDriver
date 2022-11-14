@@ -10,15 +10,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.taxidriver.R;
 import com.example.taxidriver.fragments.PassengerAccountFavouriteRoutes;
 import com.example.taxidriver.fragments.PassengerAccountProfile;
 import com.example.taxidriver.fragments.PassengerAccountReports;
 import com.example.taxidriver.tools.FragmentTransition;
-
-import org.w3c.dom.Text;
 
 //6. PassengerAccountActivity - omogućiti prikaz menija sa sledećim stavkama:
 //        6.1. Nalog: pregled informacija o nalogu putnika i njihovo ažuriranje:
