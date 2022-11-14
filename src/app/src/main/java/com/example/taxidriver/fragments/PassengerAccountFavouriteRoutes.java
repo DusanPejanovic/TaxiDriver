@@ -92,12 +92,11 @@ public class PassengerAccountFavouriteRoutes extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                builder.setMessage("Delete the chosen route?" + i);
+                builder.setMessage("Delete the chosen route?");
                 builder.setCancelable(true);
                 builder.setPositiveButton(
                         "Yes",
                         (dialog, id1) -> {
-                            // TODO fix deletion
                             adapter.removeItem(i);
                             dialog.cancel();
                         });

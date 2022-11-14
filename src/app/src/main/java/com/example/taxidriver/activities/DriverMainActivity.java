@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.taxidriver.R;
 
@@ -37,12 +38,13 @@ public class DriverMainActivity extends AppCompatActivity {
 //            }
 //        });
 
-//        history.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 //                startActivity(new Intent(DriverMainActivity.this, PassengerHistoryFragment.class));
-//            }
-//        });
+                Toast.makeText(DriverMainActivity.this, "TODO: Add driver history", Toast.LENGTH_SHORT).show();
+            }
+        });
         inbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,7 +54,8 @@ public class DriverMainActivity extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(DriverMainActivity.this, PassengerAccountActivity.class));
+//                startActivity(new Intent(DriverMainActivity.this, PassengerAccountActivity.class));
+                Toast.makeText(DriverMainActivity.this, "TODO: Add driver account", Toast.LENGTH_SHORT).show();
             }
         });
 
