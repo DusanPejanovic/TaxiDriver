@@ -4,8 +4,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taxidriver.R;
 import com.example.taxidriver.model.Drive;
@@ -41,6 +45,7 @@ public class DriveReportAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
+        // TODO Fix adapter
         View view;
         DriveReport dr = items.get(i);
         if (convertView == null) {
@@ -51,13 +56,13 @@ public class DriveReportAdapter extends BaseAdapter {
             view = convertView;
         }
         TextView date = view.findViewById(R.id.reportItemDate);
-        date.setText(dr.date.toString());
+        date.setText(dr.date.toLocalDate().toString());
         TextView rides = view.findViewById(R.id.reportItemRides);
         rides.setText(String.valueOf(dr.rides));
         TextView mileage = view.findViewById(R.id.reportItemKm);
         mileage.setText(String.valueOf(dr.mileage));
         TextView money = view.findViewById(R.id.reportItemSpent);
         money.setText(String.valueOf(dr.spent));
-        return convertView;
+        return view;
     }
 }

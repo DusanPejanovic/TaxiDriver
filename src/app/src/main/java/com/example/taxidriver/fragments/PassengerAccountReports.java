@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +41,7 @@ public class PassengerAccountReports extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private ArrayList<DriveReport> items = new ArrayList<DriveReport>();
+    private ArrayList<DriveReport> items;
     private ListView driveReportsListView;
     int ridesSum = 0;
     int kmSum = 0;
@@ -98,6 +99,8 @@ public class PassengerAccountReports extends Fragment {
 //        ArrayList<DriveReport> items = getReportRides(LocalDateTime.of(2022, 11, 14, 0, 0), LocalDateTime.of(2022, 11, 19, 0, 0));
         View view = inflater.inflate(R.layout.fragment_passenger_account_reports, container, false);
         driveReportsListView = view.findViewById(R.id.listViewReport);
+//        items = getReportRides(LocalDateTime.now(), LocalDateTime.now().plusWeeks(1));
+        items = new ArrayList<DriveReport>();
         DriveReportAdapter adapter = new DriveReportAdapter(getActivity(), items);
         driveReportsListView.setAdapter(adapter);
         CalendarView from = view.findViewById(R.id.dateStarting);
@@ -117,7 +120,8 @@ public class PassengerAccountReports extends Fragment {
                         TextView averageMoneyText = view.findViewById(R.id.averageSpent);
 
                         items = getReportRides(fromDate, toDate);
-
+                        adapter.items = items;
+                        adapter.notifyDataSetChanged();
                         totalRides.setText(String.valueOf(ridesSum));
                         totalKm.setText(String.valueOf(kmSum));
                         totalMoney.setText(String.valueOf(moneySum));
@@ -125,7 +129,8 @@ public class PassengerAccountReports extends Fragment {
                         averageKmText.setText(String.valueOf(averageKm));
                         averageMoneyText.setText(String.valueOf(averageMoney));
 
-                        adapter.notifyDataSetChanged();
+
+
                     }
                 }
 
@@ -145,7 +150,8 @@ public class PassengerAccountReports extends Fragment {
                         TextView averageMoneyText = view.findViewById(R.id.averageSpent);
 
                         items = getReportRides(fromDate, toDate);
-
+                        adapter.items = items;
+                        adapter.notifyDataSetChanged();
                         totalRides.setText(String.valueOf(ridesSum));
                         totalKm.setText(String.valueOf(kmSum));
                         totalMoney.setText(String.valueOf(moneySum));
@@ -159,7 +165,7 @@ public class PassengerAccountReports extends Fragment {
                 }
 
         });
-
+        adapter.notifyDataSetChanged();
         return view;
     }
     public class dateChangeListener implements  CalendarView.OnDateChangeListener{
@@ -209,7 +215,13 @@ public class PassengerAccountReports extends Fragment {
         averageMoney =  Double.parseDouble(format.format((double) moneySum / reports.size()));
 
 
+        items = reports;
 
         return reports;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 }

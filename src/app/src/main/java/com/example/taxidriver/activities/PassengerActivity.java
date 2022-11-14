@@ -20,31 +20,32 @@ public class PassengerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        binding = ActivityMainBinding.inflate(getLayoutInflater());
+//        setContentView(binding.getRoot());
+//        replaceFragment(new PassengerHomeFragment());
+//
+//        binding.bottomNavigationView_passenger.setOnItemSelectedListener(item -> {
+//            switch (item.getItemId()){
+//
+//                case R.id.home:
+//                    replaceFragment(new PassengerHomeFragment());
+//                    break;
+//                case R.id.settings:
+//                    replaceFragment(new PassengerSettingsFragment());
+//                    break;
+//                case R.id.history:
+//                    replaceFragment(new PassengerHistoryFragment());
+//                    break;
+//
+//            }
+//
+//            return true;
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        replaceFragment(new PassengerHomeFragment());
-
-        binding.bottomNavigationView_passenger.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()){
-
-                case R.id.home:
-                    replaceFragment(new PassengerHomeFragment());
-                    break;
-                case R.id.settings:
-                    replaceFragment(new PassengerSettingsFragment());
-                    break;
-                case R.id.history:
-                    replaceFragment(new PassengerHistoryFragment());
-                    break;
-
-            }
-
-            return true;
-        });
+    }
 
         
-    }
+
     private void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmenTransaction = fragmentManager.beginTransaction();
