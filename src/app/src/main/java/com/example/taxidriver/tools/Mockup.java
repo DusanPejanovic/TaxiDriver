@@ -3,6 +3,7 @@ package com.example.taxidriver.tools;
 import com.example.taxidriver.model.Drive;
 import com.example.taxidriver.model.FavoriteRoute;
 import com.example.taxidriver.model.Location;
+import com.example.taxidriver.model.Message;
 import com.example.taxidriver.model.Passenger;
 import com.example.taxidriver.model.Route;
 
@@ -13,7 +14,7 @@ import java.util.List;
 public class Mockup {
 
     public static Passenger getPassenger(){
-        return new Passenger("1", "Pera", "Peric", "pera@email.com", "z", "+381957291", "Novi Sad, Narodnog Fronta 15", "sifra123");
+        return new Passenger("1", "Pera", "Peric", "pera@email.com", "z", "+381957291", "Novi Sad, Narodnog Fronta 15", "sifra123", null, null, null, null, null, null, null);
     }
 
     public static ArrayList<FavoriteRoute> getFavoriteRoutes(){
