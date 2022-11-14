@@ -34,6 +34,13 @@ public class Route {
         this.destination = destination;
     }
 
+    public Route(LocalDateTime startTime, LocalDateTime endTime, Integer mileage, Integer price) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.mileage = mileage;
+        this.price = price;
+    }
+
     public String getId() {
         return id;
     }
