@@ -15,24 +15,20 @@
 
     </com.google.android.material.appbar.AppBarLayout>
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="271dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="1dp">
 
-        <Button
+        <TextView
             android:id="@+id/account_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Account" />
+            android:text="TODO: add map" />
 
-        <Button
-            android:id="@+id/inbox_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Inbox" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,27 +22,6 @@ public class PassengerMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_passenger_main);
 
 
-        Button inbox_button, account_button;
-
-        inbox_button = findViewById(R.id.inbox_button);
-        account_button = findViewById(R.id.account_button);
-
-        inbox_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-
-                startActivity(new Intent(PassengerMainActivity.this, PassengerInboxActivity.class));
-            }
-        });
-
-        account_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                startActivity(new Intent(PassengerMainActivity.this, PassengerAccountActivity.class));
-            }
-        });
 
         ImageView home = findViewById(R.id.home);
         ImageView history = findViewById(R.id.history);
