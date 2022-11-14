@@ -42,7 +42,31 @@ public class PassengerActivity extends AppCompatActivity {
 //
 //            return true;
         super.onCreate(savedInstanceState);
+
     }
+/*
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        replaceFragment(new PassengerHomeFragment());
+
+        binding.bottomNavigationView_passenger.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+
+                case R.id.home:
+                    replaceFragment(new PassengerHomeFragment());
+                    break;
+                case R.id.settings:
+                    replaceFragment(new PassengerSettingsFragment());
+                    break;
+                case R.id.history:
+                    replaceFragment(new PassengerHistoryFragment());
+                    break;
+
+            }
+
+            return true;
+        });*/
+
 
         
 

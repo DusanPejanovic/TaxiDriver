@@ -7,33 +7,43 @@
     android:backgroundTint="#000000"
     tools:context=".activities.InboxActivityPassenger">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        tools:ignore="MissingConstraints">
+
+        <include layout="@layout/toolbar" />
+
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <ListView
+        android:id="@+id/history_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="246dp"
+        android:layout_marginTop="300dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/button" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="88dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="18dp"
         android:fontFamily="@font/ubuntu_light"
         android:text="Your messages:"
         android:textColor="@color/black"
         android:textSize="34dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/appbar" />
 
     <RadioButton
         android:id="@+id/radioButton"
@@ -83,8 +93,8 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="157dp"
-        android:layout_marginTop="26dp"
+        android:layout_marginStart="148dp"
+        android:layout_marginTop="21dp"
         android:backgroundTint="@android:color/black"
         android:text="SELECT"
         android:textColorHighlight="#FFFFFF"

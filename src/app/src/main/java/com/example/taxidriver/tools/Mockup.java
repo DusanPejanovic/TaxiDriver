@@ -3,8 +3,11 @@ package com.example.taxidriver.tools;
 import com.example.taxidriver.model.Drive;
 import com.example.taxidriver.model.FavoriteRoute;
 import com.example.taxidriver.model.Location;
+import com.example.taxidriver.model.Driver;
 import com.example.taxidriver.model.Message;
+import com.example.taxidriver.model.MessageType;
 import com.example.taxidriver.model.Passenger;
+import com.example.taxidriver.model.RejectionLetter;
 import com.example.taxidriver.model.Route;
 
 import java.time.LocalDateTime;
@@ -15,6 +18,11 @@ public class Mockup {
 
     public static Passenger getPassenger(){
         return new Passenger("1", "Pera", "Peric", "pera@email.com", "z", "+381957291", "Novi Sad, Narodnog Fronta 15", "sifra123", null, null, null, null, null, null, null);
+    }
+
+    public static Driver getDriver(){
+        return new Driver("1", "Vozac", "Najbrzi", "vozac@gmail.com", "sga", "+381999999999", "Novi Sad, Bulevar Oslobodjenja 15", "sifra", getMessages(), null, null, "A","Saobracajna", true, null, null);
+
     }
 
     public static ArrayList<FavoriteRoute> getFavoriteRoutes(){
@@ -44,5 +52,18 @@ public class Mockup {
         rides.add(new Drive("6", LocalDateTime.of(2022, 11, 18, 0, 0), LocalDateTime.of(2022, 11, 18, 1, 0), 1500, 10,new ArrayList<>()));
 
         return rides;
+    }
+
+    public static Drive getDrive(){
+        return new Drive("1", LocalDateTime.of(2022, 11, 14, 0, 0), LocalDateTime.of(2022, 11, 14, 1, 0), 1500, 10, new ArrayList<>());
+    }
+
+    public static ArrayList<Message> getMessages(){
+        ArrayList<Message> messages = new ArrayList<>();
+        messages.add(new Message("1", "Sve je uredu.",LocalDateTime.of(2022, 11, 14, 0, 0), MessageType.Drive,getPassenger(), getDriver(), getDrive()));
+        messages.add(new Message("1", "Sve je uredu.",LocalDateTime.of(2022, 11, 15, 0, 0),  MessageType.Drive,getPassenger(), getDriver(), getDrive()));
+        messages.add(new Message("1", "VOZILO KASNI.",LocalDateTime.of(2022, 11, 13, 0, 0),  MessageType.Support,getPassenger(), getDriver(), getDrive()));
+        messages.add(new Message("1", "PANIKA.",LocalDateTime.of(2022, 11, 12, 0, 0),  MessageType.Panic,getPassenger(), getDriver(), getDrive()));
+        return messages;
     }
 }

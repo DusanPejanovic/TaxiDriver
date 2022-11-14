@@ -65,7 +65,7 @@ public class PassengerMainActivity extends AppCompatActivity {
         inbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(PassengerMainActivity.this, PassengerInboxActivity.class));
+                startActivity(new Intent(PassengerMainActivity.this, InboxActivityPassenger.class));
             }
         });
         profile.setOnClickListener(new View.OnClickListener() {
