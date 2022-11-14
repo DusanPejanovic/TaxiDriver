@@ -16,8 +16,5 @@ public class DriverRideHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_ride_history);
 
-        FragmentTransition.to(MyFragment.newInstance(), DriverRideHistoryActivity.this, false, R.id.main);
-
-
     }
 }
