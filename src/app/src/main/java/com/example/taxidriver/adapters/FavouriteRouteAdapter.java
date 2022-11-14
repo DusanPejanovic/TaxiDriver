@@ -53,7 +53,7 @@ public class FavouriteRouteAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View convertView, ViewGroup parent) {
         View view;
-        FavoriteRoute fr = Mockup.getFavoriteRoutes().get(i);
+        FavoriteRoute fr = items.get(i);
         if (convertView == null) {
 
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
