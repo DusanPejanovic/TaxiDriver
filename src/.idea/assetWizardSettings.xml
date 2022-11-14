@@ -24,8 +24,8 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\Ilija\AppData\Local\Temp\baseline_location_on_24.xml" />
-                                                <entry key="opacityPercent" value="60" />
+                                                <entry key="imagePath" value="C:\Users\Ilija\AppData\Local\Temp\baseline_home_24.xml" />
+                                                <entry key="opacityPercent" value="80" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -36,7 +36,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="file:/$PROJECT_DIR$/../../../../androidSdk/icons/material/materialicons/location_on/baseline_location_on_24.xml" />
+                                                <entry key="url" value="file:/$PROJECT_DIR$/../../../../androidSdk/icons/material/materialicons/home/baseline_home_24.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -82,7 +82,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="imageAsset" value="C:\Users\Ilija\Downloads\e.png" />
-                                      <entry key="outputName" value="location" />
+                                      <entry key="outputName" value="home" />
+                                      <entry key="theme" value="HOLO_DARK" />
                                     </map>
                                   </option>
                                 </PersistentState>

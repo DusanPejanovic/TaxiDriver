@@ -3,9 +3,11 @@ package com.example.taxidriver.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,6 +87,36 @@ public class PassengerAccountActivity extends AppCompatActivity {
 
             }
         });
+        ImageView home = findViewById(R.id.home);
+        ImageView history = findViewById(R.id.history);
+        ImageView inbox = findViewById(R.id.inbox);
+        ImageView profileT = findViewById(R.id.profile);
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(PassengerAccountActivity.this, PassengerMainActivity.class));
+            }
+        });
+
+//        history.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(PassengerMainActivity.this, PassengerHistoryFragment.class));
+//            }
+//        });
+        inbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(PassengerAccountActivity.this, PassengerInboxActivity.class));
+            }
+        });
+//        profileT.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(PassengerAccountActivity.this, PassengerAccountActivity.class));
+//            }
+//        });
 
     }
 

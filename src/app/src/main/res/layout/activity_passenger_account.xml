@@ -15,53 +15,51 @@
 
 
     </com.google.android.material.appbar.AppBarLayout>
-            <LinearLayout
-                android:id="@+id/passengerToolbar"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:orientation="horizontal"
-                android:weightSum="3">
 
-                <TextView
-                    android:id="@+id/profile_toolbar"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
+    <LinearLayout
+        android:id="@+id/passengerToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:weightSum="3">
 
-                    android:text="@string/profile" />
-                <TextView
-                    android:id="@+id/reports_toolbar"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/reports"
-                    android:gravity="center"/>
-                <TextView
-                    android:id="@+id/fav_routes_toolbar"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/favorites"
-                    android:gravity="center"/>
-            </LinearLayout>
+        <TextView
+            android:id="@+id/profile_toolbar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
 
+            android:text="@string/profile" />
 
+        <TextView
+            android:id="@+id/reports_toolbar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/reports" />
 
-
-
-            <LinearLayout
-                android:id="@+id/mainContent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-            </LinearLayout>
+        <TextView
+            android:id="@+id/fav_routes_toolbar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/favorites" />
+    </LinearLayout>
 
 
-<!--        </ScrollView>-->
+    <LinearLayout
+        android:id="@+id/mainContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    </LinearLayout>
 
 
+    <!--        </ScrollView>-->
 
 
 </LinearLayout>
