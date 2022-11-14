@@ -3,11 +3,20 @@ package com.example.taxidriver.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.taxidriver.R;
+import com.example.taxidriver.fragments.PassengerAccountFavouriteRoutes;
 import com.example.taxidriver.fragments.PassengerAccountProfile;
+import com.example.taxidriver.fragments.PassengerAccountReports;
 import com.example.taxidriver.tools.FragmentTransition;
+
+import org.w3c.dom.Text;
 
 //6. PassengerAccountActivity - omogućiti prikaz menija sa sledećim stavkama:
 //        6.1. Nalog: pregled informacija o nalogu putnika i njihovo ažuriranje:
@@ -22,7 +31,7 @@ import com.example.taxidriver.tools.FragmentTransition;
 //        kilometara, količinu potrošenog novca za sopstvene vožnje. Uz te p
 
 public class PassengerAccountActivity extends AppCompatActivity {
-
+    private String currentTab;
 
 
     @Override
@@ -30,10 +39,64 @@ public class PassengerAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passenger_account);
         FragmentTransition.to(PassengerAccountProfile.newInstance(), this, false, R.id.mainContent);
-
+        currentTab = "profile";
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        LinearLayout accountToolbar = findViewById(R.id.passengerToolbar);
+        TextView profile = findViewById(R.id.profile_toolbar);
+        profile.setBackgroundColor(getResources().getColor(R.color.gray));
+        TextView reports = findViewById(R.id.reports_toolbar);
+        TextView favRoutes = findViewById(R.id.fav_routes_toolbar);
+
+        favRoutes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!currentTab.equals("favorites")){
+                    FragmentTransition.to(PassengerAccountFavouriteRoutes.newInstance(), PassengerAccountActivity.this, false, R.id.mainContent);
+                    resetToolbar();
+                    favRoutes.setBackgroundColor(getResources().getColor(R.color.gray));
+                    currentTab="favorites";                }
+
+            }
+        });
+        reports.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!currentTab.equals("reports")){
+                    FragmentTransition.to(PassengerAccountReports.newInstance(), PassengerAccountActivity.this, false, R.id.mainContent);
+                    resetToolbar();
+                    reports.setBackgroundColor(getResources().getColor(R.color.gray));
+                    currentTab="reports";
+                }
+
+            }
+        });
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!currentTab.equals("profile")){
+                    FragmentTransition.to(PassengerAccountProfile.newInstance(), PassengerAccountActivity.this, false, R.id.mainContent);
+                    resetToolbar();
+                    profile.setBackgroundColor(getResources().getColor(R.color.gray));
+                    currentTab="profile";
+                }
+
+            }
+        });
+
     }
+
+    private void resetToolbar() {
+        TextView profile = findViewById(R.id.profile_toolbar);
+        profile.setBackgroundColor(Color.WHITE);
+        TextView reports = findViewById(R.id.reports_toolbar);
+        reports.setBackgroundColor(Color.WHITE);
+        TextView favRoutes = findViewById(R.id.fav_routes_toolbar);
+        favRoutes.setBackgroundColor(Color.WHITE);
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

@@ -7,12 +7,13 @@
     <string name="address">Address:</string>
     <string name="phoneNumber">Phone Number:</string>
     <string name="password">Password:</string>
-    <string name="profile">Profile:</string>
+    <string name="profile">Profile</string>
     <string name="changeName">change name</string>
     <string name="changeSurname">change surname</string>
     <string name="changeAddress">change address</string>
     <string name="changePhoneNumber">change phone number</string>
     <string name="changePassword">change password</string>
+    <string name="changeEmail">change email</string>
     <string name="current_password">Current password:</string>
     <string name="new_password">New password:</string>
     <string name="new_password_input">new password</string>
@@ -22,6 +23,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="drawer_open">Drawer open </string>>
     <string name="drawer_close">Drawer closed </string>
+    <string name="favorite_routes">Favorite routes</string>
+    <string name="email">Email:</string>
+
+    <string name="reports">Reports</string>
+    <string name="favorites">Favorites</string>
 
 
 </resources>

@@ -1,16 +1,29 @@
 package com.example.taxidriver.fragments;
 
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.taxidriver.R;
+import com.example.taxidriver.activities.DriverMainActivity;
+import com.example.taxidriver.activities.LoginActivity;
+import com.example.taxidriver.activities.PassengerMainActivity;
+import com.example.taxidriver.adapters.FavouriteRouteAdapter;
 import com.example.taxidriver.model.FavoriteRoute;
+import com.example.taxidriver.tools.Mockup;
 
 import java.util.ArrayList;
 
@@ -25,12 +38,9 @@ public class PassengerAccountFavouriteRoutes extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private ArrayList<FavoriteRoute> rides = new ArrayList<FavoriteRoute>();
-    private ListView ridesList;
+    private ArrayList<FavoriteRoute> routes = new ArrayList<FavoriteRoute>();
+    private ListView routesListView;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public PassengerAccountFavouriteRoutes() {
         // Required empty public constructor
@@ -62,17 +72,49 @@ public class PassengerAccountFavouriteRoutes extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_passenger_account_favourite_routes, container, false);
+        prepareList();
+        routesListView = view.findViewById(R.id.fav_routes_listview);
+        FavouriteRouteAdapter adapter = new FavouriteRouteAdapter(getActivity(), routes);
+        routesListView.setOnItemClickListener(new RoutesItemsClickListener());
+        routesListView.setAdapter(adapter);
+
         return view;
+    }
+    private class RoutesItemsClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+            builder.setMessage("Order an uber for the chosen route?");
+            builder.setCancelable(true);
+            builder.setPositiveButton(
+                    "Yes",
+                    (dialog, id1) -> {
+                        Intent intent = new Intent(view.getContext(), PassengerMainActivity.class);
+                        startActivity(intent);
+                        dialog.cancel();
+                    });
+
+            builder.setNegativeButton(
+                    "No",
+                    (dialog, id2) -> dialog.cancel());
+
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+    }
+
+    public void prepareList(){
+        for (FavoriteRoute fr: Mockup.getFavoriteRoutes()) {
+            routes.add(fr);
+        }
     }
 }

@@ -31,7 +31,7 @@ public class User {
         this.rejectionLetters = rejectionLetters;
     }
 
-    public User(String id, String name, String lastname, String profilePicture, String email, String phoneNumber, String adress, String password) {
+    public User(String id, String name, String lastname, String email, String profilePicture, String phoneNumber, String adress, String password) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
@@ -43,6 +43,14 @@ public class User {
         this.messagesSent = messagesSent;
         this.messagesRecived = messagesRecived;
         this.rejectionLetters = rejectionLetters;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getId() {
