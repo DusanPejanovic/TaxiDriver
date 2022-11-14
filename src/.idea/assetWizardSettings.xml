@@ -24,7 +24,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\Ilija\AppData\Local\Temp\baseline_face_24.xml" />
+                                                <entry key="imagePath" value="C:\Users\Ilija\AppData\Local\Temp\baseline_location_on_24.xml" />
                                                 <entry key="opacityPercent" value="60" />
                                               </map>
                                             </option>
@@ -36,7 +36,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="file:/$PROJECT_DIR$/../../../../androidSdk/icons/material/materialicons/face/baseline_face_24.xml" />
+                                                <entry key="url" value="file:/$PROJECT_DIR$/../../../../androidSdk/icons/material/materialicons/location_on/baseline_location_on_24.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -82,7 +82,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="imageAsset" value="C:\Users\Ilija\Downloads\e.png" />
-                                      <entry key="outputName" value="pfp_test" />
+                                      <entry key="outputName" value="location" />
                                     </map>
                                   </option>
                                 </PersistentState>
