@@ -11,9 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Mockup {
+
     public static Passenger getPassenger(){
         return new Passenger("1", "Pera", "Peric", "pera@email.com", "z", "+381957291", "Novi Sad, Narodnog Fronta 15", "sifra123");
     }
+
     public static ArrayList<FavoriteRoute> getFavoriteRoutes(){
         ArrayList<FavoriteRoute> list = new ArrayList<FavoriteRoute>();
         FavoriteRoute fr1 = new FavoriteRoute("1", getPassenger(), new Location("1", 1, 1), new Location("2", 2, 2));
@@ -30,6 +32,7 @@ public class Mockup {
         list.add(fr6);
         return list;
     }
+
     public static ArrayList<Drive> getRides(){
         ArrayList<Drive> rides = new ArrayList<Drive>();
         rides.add(new Drive("1", LocalDateTime.of(2022, 11, 14, 0, 0), LocalDateTime.of(2022, 11, 14, 1, 0), 1500, 10, new ArrayList<>()));
