@@ -19,7 +19,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <ListView
-        android:id="@+id/history_list"
+        android:id="@+id/inbox_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="20dp"
