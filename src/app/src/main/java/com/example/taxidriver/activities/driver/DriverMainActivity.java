@@ -1,8 +1,7 @@
-package com.example.taxidriver.activities;
+package com.example.taxidriver.activities.driver;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -48,7 +47,7 @@ public class DriverMainActivity extends AppCompatActivity {
         inbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(DriverMainActivity.this, InboxActivityDriver.class));
+                startActivity(new Intent(DriverMainActivity.this, DriverInboxActivity.class));
             }
         });
         profile.setOnClickListener(new View.OnClickListener() {

@@ -1,4 +1,4 @@
-package com.example.taxidriver.activities;
+package com.example.taxidriver.activities.passenger;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -107,7 +107,7 @@ public class PassengerAccountActivity extends AppCompatActivity {
         inbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(PassengerAccountActivity.this, InboxActivityPassenger.class));
+                startActivity(new Intent(PassengerAccountActivity.this, PassengerInboxActivity.class));
             }
         });
 //        profileT.setOnClickListener(new View.OnClickListener() {

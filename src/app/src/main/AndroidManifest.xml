@@ -14,7 +14,7 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".activities.InboxActivityDriver"
+            android:name=".activities.driver.DriverInboxActivity"
             android:exported="false"
             android:label="@string/title_activity_inbox_driver"
             android:theme="@style/Theme.TaxiDriver.NoActionBar">
@@ -23,14 +23,14 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activities.InboxActivityPassenger"
+            android:name=".activities.passenger.PassengerInboxActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".activities.DriverMainActivity"
+            android:name=".activities.driver.DriverMainActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
@@ -44,21 +44,14 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activities.PassengerAccountActivity"
+            android:name=".activities.passenger.PassengerAccountActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".activities.PassengerInboxActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".activities.PassengerMainActivity"
+            android:name=".activities.passenger.PassengerMainActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"

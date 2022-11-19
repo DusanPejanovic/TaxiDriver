@@ -1,4 +1,4 @@
-package com.example.taxidriver.activities;
+package com.example.taxidriver.activities.driver;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,7 +9,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.taxidriver.R;
-public class InboxActivityDriver extends AppCompatActivity {
+
+public class DriverInboxActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,7 @@ public class InboxActivityDriver extends AppCompatActivity {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(InboxActivityDriver.this, DriverMainActivity.class));
+                startActivity(new Intent(DriverInboxActivity.this, DriverMainActivity.class));
             }
         });
 
@@ -32,20 +33,20 @@ public class InboxActivityDriver extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 //                startActivity(new Intent(DriverMainActivity.this, PassengerHistoryFragment.class));
-                Toast.makeText(InboxActivityDriver.this, "TODO: Add driver history", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DriverInboxActivity.this, "TODO: Add driver history", Toast.LENGTH_SHORT).show();
             }
         });
         inbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(InboxActivityDriver.this, InboxActivityDriver.class));
+                startActivity(new Intent(DriverInboxActivity.this, DriverInboxActivity.class));
             }
         });
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                startActivity(new Intent(DriverMainActivity.this, PassengerAccountActivity.class));
-                Toast.makeText(InboxActivityDriver.this, "TODO: Add driver account", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DriverInboxActivity.this, "TODO: Add driver account", Toast.LENGTH_SHORT).show();
             }
         });
 

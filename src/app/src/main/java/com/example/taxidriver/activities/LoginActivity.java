@@ -7,10 +7,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EdgeEffect;
 import android.widget.EditText;
 
 import com.example.taxidriver.R;
+import com.example.taxidriver.activities.driver.DriverMainActivity;
+import com.example.taxidriver.activities.passenger.PassengerMainActivity;
 import com.example.taxidriver.model.Driver;
 import com.example.taxidriver.model.Passenger;
 import com.example.taxidriver.tools.Mockup;

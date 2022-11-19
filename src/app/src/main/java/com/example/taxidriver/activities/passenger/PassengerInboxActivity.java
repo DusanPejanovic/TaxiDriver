@@ -1,4 +1,4 @@
-package com.example.taxidriver.activities;
+package com.example.taxidriver.activities.passenger;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.taxidriver.R;
@@ -6,11 +6,10 @@ import com.example.taxidriver.R;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class InboxActivityPassenger extends AppCompatActivity {
+public class PassengerInboxActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +25,7 @@ public class InboxActivityPassenger extends AppCompatActivity {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(InboxActivityPassenger.this, PassengerMainActivity.class));
+                startActivity(new Intent(PassengerInboxActivity.this, PassengerMainActivity.class));
             }
         });
 
@@ -34,7 +33,7 @@ public class InboxActivityPassenger extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 //                startActivity(new Intent(PassengerMainActivity.this, PassengerHistoryFragment.class));
-                Toast.makeText(InboxActivityPassenger.this, "TODO: Add passenger ride history", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PassengerInboxActivity.this, "TODO: Add passenger ride history", Toast.LENGTH_SHORT).show();
             }
         });
 //        inbox.setOnClickListener(new View.OnClickListener() {
@@ -46,7 +45,7 @@ public class InboxActivityPassenger extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(InboxActivityPassenger.this, PassengerAccountActivity.class));
+                startActivity(new Intent(PassengerInboxActivity.this, PassengerAccountActivity.class));
             }
         });
     }

@@ -1,9 +1,7 @@
 package com.example.taxidriver.fragments;
 
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -14,15 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.taxidriver.R;
-import com.example.taxidriver.activities.DriverMainActivity;
-import com.example.taxidriver.activities.LoginActivity;
-import com.example.taxidriver.activities.PassengerMainActivity;
+import com.example.taxidriver.activities.passenger.PassengerMainActivity;
 import com.example.taxidriver.adapters.FavouriteRouteAdapter;
 import com.example.taxidriver.model.FavoriteRoute;
 import com.example.taxidriver.tools.Mockup;
