@@ -1,5 +1,7 @@
 package com.example.taxidriver.tools;
 
+import android.os.strictmode.DiskReadViolation;
+
 import com.example.taxidriver.model.Drive;
 import com.example.taxidriver.model.FavoriteRoute;
 import com.example.taxidriver.model.Location;
@@ -12,9 +14,33 @@ import com.example.taxidriver.model.Route;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Mockup {
+
+
+    public static List<Passenger> getPassengers(){
+        List<Passenger> passengers = new ArrayList<Passenger>();
+
+        Passenger p1 = new Passenger("1", "Pera", "Peric", "pera", "z", "+381957291", "Novi Sad, Narodnog Fronta 15", "admin", null, null, null, null, null, null, null);
+
+        passengers.add(p1);
+
+        return passengers;
+
+    }
+
+    public static List<Driver> getDrivers(){
+        List<Driver> drivers = new ArrayList<Driver>();
+
+        Driver d1 = new Driver("1", "Vozac", "Najbrzi", "jova", "sga", "+381999999999", "Novi Sad, Bulevar Oslobodjenja 15", "admin", null, null, null, "A","Saobracajna", true, null, null);
+
+        drivers.add(d1);
+
+        return drivers;
+
+    }
 
     public static Passenger getPassenger(){
         return new Passenger("1", "Pera", "Peric", "pera@email.com", "z", "+381957291", "Novi Sad, Narodnog Fronta 15", "sifra123", null, null, null, null, null, null, null);
