@@ -15,7 +15,7 @@ public class DriverInboxActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inbox_driver);
+        setContentView(R.layout.activity_driver_inbox);
 
         ImageView home = findViewById(R.id.home);
         ImageView history = findViewById(R.id.history);

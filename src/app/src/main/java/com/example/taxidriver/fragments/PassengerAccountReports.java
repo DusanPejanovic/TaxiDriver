@@ -4,30 +4,22 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.taxidriver.R;
 import com.example.taxidriver.adapters.DriveReportAdapter;
-import com.example.taxidriver.adapters.FavouriteRouteAdapter;
 import com.example.taxidriver.model.Drive;
 import com.example.taxidriver.model.DriveReport;
-import com.example.taxidriver.model.FavoriteRoute;
 import com.example.taxidriver.tools.Mockup;
 
-import org.w3c.dom.Text;
-
 import java.text.DecimalFormat;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 
 /**
@@ -177,7 +169,7 @@ public class PassengerAccountReports extends Fragment {
 
     public ArrayList<DriveReport> getReportRides(LocalDateTime from, LocalDateTime to) {
         ArrayList<DriveReport> reports = new ArrayList<DriveReport>();
-        ArrayList<Drive> drives = Mockup.getRides();
+        ArrayList<Drive> drives = Mockup.getDrives();
         ridesSum = 0;
         kmSum = 0;
         moneySum = 0;
@@ -185,7 +177,7 @@ public class PassengerAccountReports extends Fragment {
         for (LocalDateTime date = from; date.isBefore(to); date = date.plusDays(1)) {
             DriveReport dr = new DriveReport(date, 0, 0, 0);
             while (i < drives.size()) {
-                if (date.toLocalDate().equals(drives.get(i).getBeginTime().toLocalDate())) {
+                if (date.toLocalDate().equals(drives.get(i).getStartTime().toLocalDate())) {
                     dr.rides += 1;
                     ridesSum += 1;
                     dr.mileage += drives.get(i).getMileage();

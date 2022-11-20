@@ -1,21 +1,22 @@
 package com.example.taxidriver.tools;
 
-import android.os.strictmode.DiskReadViolation;
-
 import com.example.taxidriver.model.Drive;
+import com.example.taxidriver.model.DrivingStatus;
 import com.example.taxidriver.model.FavoriteRoute;
 import com.example.taxidriver.model.Location;
 import com.example.taxidriver.model.Driver;
 import com.example.taxidriver.model.Message;
 import com.example.taxidriver.model.MessageType;
 import com.example.taxidriver.model.Passenger;
-import com.example.taxidriver.model.RejectionLetter;
-import com.example.taxidriver.model.Route;
+import com.example.taxidriver.model.Review;
+
+import org.xml.sax.DTDHandler;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+
+import javax.xml.datatype.Duration;
 
 public class Mockup {
 
@@ -31,7 +32,8 @@ public class Mockup {
 
     }
 
-    public static List<Driver> getDrivers(){
+    public static List<Driver> getDrivers()
+    {
         List<Driver> drivers = new ArrayList<Driver>();
 
         Driver d1 = new Driver("1", "Vozac", "Najbrzi", "jova", "sga", "+381999999999", "Novi Sad, Bulevar Oslobodjenja 15", "admin", null, null, null, "A","Saobracajna", true, null, null);
@@ -39,14 +41,55 @@ public class Mockup {
         drivers.add(d1);
 
         return drivers;
-
     }
 
-    public static Passenger getPassenger(){
+
+    public static List<Drive> getDrives2() {
+
+
+        Drive d1 = new Drive("1",  LocalDateTime.of(2022, 11, 14, 0, 0), LocalDateTime.of(2022, 11, 14, 1, 0), 1500, 10, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),null,getReviews(),getPassengers(),null,null, getDriver());
+        Drive d2 = new Drive("2", LocalDateTime.of(2022, 11, 14, 1, 15), LocalDateTime.of(2022, 11, 14, 1, 45), 500, 2, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),null,getReviews(),getPassengers(),null,null, getDriver());
+        Drive d3 = new Drive("3", LocalDateTime.of(2022, 11, 15, 0, 0), LocalDateTime.of(2022, 11, 15, 1, 0), 2000, 15, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),null,getReviews(),getPassengers(),null,null, getDriver());
+        Drive d4 = new Drive("4",LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 30, 3, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),null,getReviews(),getPassengers(),null,null, getDriver());
+        Drive d5 = new Drive("5",LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 1500, 10, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),null,getReviews(),getPassengers(),null,null, getDriver());
+
+        List<Drive> drives = new ArrayList<>();
+
+        drives.add(d1);
+        drives.add(d2);
+        drives.add(d3);
+        drives.add(d4);
+        drives.add(d5);
+
+        return drives;
+    }
+
+        public static Passenger getPassenger(){
         return new Passenger("1", "Pera", "Peric", "pera@email.com", "z", "+381957291", "Novi Sad, Narodnog Fronta 15", "sifra123", null, null, null, null, null, null, null);
     }
 
-    public static Driver getDriver(){
+    public static List<Review> getReviews(){
+        Review r1 = new Review("1", 130, "Super vozac!", getPassenger(),getDrive());
+        Review r2 = new Review("2", 120, "Los vozac!", getPassenger(),getDrive());
+        Review r3 = new Review("3", 150, "Srednje vozac!", getPassenger(),getDrive());
+        Review r4 = new Review("4", 200, "Bas los vozac!", getPassenger(),getDrive());
+        Review r5 = new Review("5", 600, "Prejak vozac!", getPassenger(),getDrive());
+
+        List<Review> reviews = new ArrayList<>();
+
+        reviews.add(r1);
+        reviews.add(r2);
+        reviews.add(r3);
+        reviews.add(r4);
+        reviews.add(r5);
+
+        return reviews;
+
+    }
+
+
+
+        public static Driver getDriver(){
         return new Driver("1", "Vozac", "Najbrzi", "vozac@gmail.com", "sga", "+381999999999", "Novi Sad, Bulevar Oslobodjenja 15", "sifra", getMessages(), null, null, "A","Saobracajna", true, null, null);
 
     }
@@ -68,7 +111,7 @@ public class Mockup {
         return list;
     }
 
-    public static ArrayList<Drive> getRides(){
+    public static ArrayList<Drive> getDrives(){
         ArrayList<Drive> rides = new ArrayList<Drive>();
         rides.add(new Drive("1", LocalDateTime.of(2022, 11, 14, 0, 0), LocalDateTime.of(2022, 11, 14, 1, 0), 1500, 10, new ArrayList<>()));
         rides.add(new Drive("2", LocalDateTime.of(2022, 11, 14, 1, 15), LocalDateTime.of(2022, 11, 14, 1, 45), 500, 2,new ArrayList<>()));

@@ -2,27 +2,38 @@ package com.example.taxidriver.model;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Drive {
-    String id;
-    LocalDateTime beginTime;
-    LocalDateTime endTime;
-    Integer cost;
-    Integer mileage;
-    Duration estimatedTime;
-    boolean panicButton;
-    boolean babyDroven;
-    boolean petDroven;
-    boolean splitFare;
-    DrivingStatus drivingStatus;
-    List<Message> messages;
-    List<Route> routes;
-    List<Review> reviews;
-    List<Passenger> passengers;
-    List<RejectionLetter> rejectionLetters;
-    VehicleType vehicleType;
-    Driver driver;
+
+    private String id;
+
+    private Integer cost; //
+    private Integer mileage; //
+    private DrivingStatus status;
+
+    private LocalDateTime startTime; //
+    private LocalDateTime endTime; // vt
+    private Duration estimatedTime;
+
+
+    private Driver driver;
+    private VehicleType vehicleType;
+
+    private List<Message> messages; // referenca ka inboxu
+    private List<Route> routes; // putanju
+    private List<Review> reviews; // ocena i komentar
+    private List<Passenger> passengers; // broj putinka i profili putnika
+    private List<RejectionLetter> rejectionLetters;
+
+
+    private boolean panicFlag;
+    private boolean babyFlag;
+    private boolean petFlag;
+    private boolean splitFlag;
+
+
 
     public Integer getMileage() {
         return mileage;
@@ -34,16 +45,16 @@ public class Drive {
 
     public Drive(String id, LocalDateTime beginTime, LocalDateTime endTime, Integer cost, Integer mileage, Duration estimatedTime, boolean panicButton, boolean babyDroven, boolean petDroven, boolean splitFare, DrivingStatus drivingStatus, List<Message> messages, List<Route> routes, List<Review> reviews, List<Passenger> passengers, List<RejectionLetter> rejectionLetters, VehicleType vehicleType, Driver driver) {
         this.id = id;
-        this.beginTime = beginTime;
+        this.startTime = beginTime;
         this.endTime = endTime;
         this.cost = cost;
         this.mileage = mileage;
         this.estimatedTime = estimatedTime;
-        this.panicButton = panicButton;
-        this.babyDroven = babyDroven;
-        this.petDroven = petDroven;
-        this.splitFare = splitFare;
-        this.drivingStatus = drivingStatus;
+        this.panicFlag = panicButton;
+        this.babyFlag = babyDroven;
+        this.petFlag = petDroven;
+        this.splitFlag = splitFare;
+        this.status = drivingStatus;
         this.messages = messages;
         this.routes = routes;
         this.reviews = reviews;
@@ -55,7 +66,7 @@ public class Drive {
 
     public Drive(String id, LocalDateTime beginTime, LocalDateTime endTime, Integer cost, Integer mileage, List<Route> routes) {
         this.id = id;
-        this.beginTime = beginTime;
+        this.startTime = beginTime;
         this.endTime = endTime;
         this.cost = cost;
         this.mileage = mileage;
@@ -70,12 +81,12 @@ public class Drive {
         this.id = id;
     }
 
-    public LocalDateTime getBeginTime() {
-        return beginTime;
+    public LocalDateTime getStartTime() {
+        return startTime;
     }
 
-    public void setBeginTime(LocalDateTime beginTime) {
-        this.beginTime = beginTime;
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
     }
 
     public LocalDateTime getEndTime() {
@@ -102,44 +113,44 @@ public class Drive {
         this.estimatedTime = estimatedTime;
     }
 
-    public boolean isPanicButton() {
-        return panicButton;
+    public boolean isPanicFlag() {
+        return panicFlag;
     }
 
-    public void setPanicButton(boolean panicButton) {
-        this.panicButton = panicButton;
+    public void setPanicFlag(boolean panicFlag) {
+        this.panicFlag = panicFlag;
     }
 
-    public boolean isBabyDroven() {
-        return babyDroven;
+    public boolean isBabyFlag() {
+        return babyFlag;
     }
 
-    public void setBabyDroven(boolean babyDroven) {
-        this.babyDroven = babyDroven;
+    public void setBabyFlag(boolean babyFlag) {
+        this.babyFlag = babyFlag;
     }
 
-    public boolean isPetDroven() {
-        return petDroven;
+    public boolean isPetFlag() {
+        return petFlag;
     }
 
-    public void setPetDroven(boolean petDroven) {
-        this.petDroven = petDroven;
+    public void setPetFlag(boolean petFlag) {
+        this.petFlag = petFlag;
     }
 
-    public boolean isSplitFare() {
-        return splitFare;
+    public boolean isSplitFlag() {
+        return splitFlag;
     }
 
-    public void setSplitFare(boolean splitFare) {
-        this.splitFare = splitFare;
+    public void setSplitFlag(boolean splitFlag) {
+        this.splitFlag = splitFlag;
     }
 
-    public DrivingStatus getDrivingStatus() {
-        return drivingStatus;
+    public DrivingStatus getStatus() {
+        return status;
     }
 
-    public void setDrivingStatus(DrivingStatus drivingStatus) {
-        this.drivingStatus = drivingStatus;
+    public void setStatus(DrivingStatus status) {
+        this.status = status;
     }
 
     public List<Message> getMessages() {

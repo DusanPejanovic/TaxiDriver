@@ -3,17 +3,17 @@ package com.example.taxidriver.model;
 public class Review {
 
     private String id;
-    private Integer price;
+    private Integer grade;
     private String comment;
 
-    private User user;
+    private Passenger passenger;
     private Drive drive;
 
-    public Review(String id, Integer price, String comment, User user, Drive drive) {
+    public Review(String id, Integer grade, String comment, Passenger passenger, Drive drive) {
         this.id = id;
-        this.price = price;
+        this.grade = grade;
         this.comment = comment;
-        this.user = user;
+        this.passenger = passenger;
         this.drive = drive;
     }
 
@@ -26,12 +26,12 @@ public class Review {
         this.id = id;
     }
 
-    public Integer getPrice() {
-        return price;
+    public Integer getGrade() {
+        return grade;
     }
 
-    public void setPrice(Integer price) {
-        this.price = price;
+    public void setGrade(Integer grade) {
+        this.grade = grade;
     }
 
     public String getComment() {
@@ -42,12 +42,12 @@ public class Review {
         this.comment = comment;
     }
 
-    public User getUser() {
-        return user;
+    public User getPassenger() {
+        return passenger;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setPassenger(Passenger passenger) {
+        this.passenger = passenger;
     }
 
     public Drive getDrive() {
