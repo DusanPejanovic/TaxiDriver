@@ -9,14 +9,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
-<<<<<<< HEAD:src/app/src/main/java/com/example/taxidriver/activities/passenger/PassengerInboxActivity.java
-=======
 import java.util.ArrayList;
 import com.example.taxidriver.R;
 import com.example.taxidriver.adapters.PassengerInboxAdapter;
 import com.example.taxidriver.model.Message;
 import com.example.taxidriver.tools.Mockup;
->>>>>>> inboxAdapter:src/app/src/main/java/com/example/taxidriver/activities/PassengerInboxActivity.java
 
 public class PassengerInboxActivity extends AppCompatActivity {
 
