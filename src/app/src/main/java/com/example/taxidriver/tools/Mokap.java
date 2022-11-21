@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Mokap {
 
-    public static List<Cinema> getCinemas(){
+    public static ArrayList<Cinema> getCinemas(){
         ArrayList<Cinema> cinemas = new ArrayList<Cinema>();
         Cinema u1 = new Cinema("Arena", "Cineplexx 3D", -1);
         Cinema u2 = new Cinema("Cinestar", "Najnoviji 5D", -1);

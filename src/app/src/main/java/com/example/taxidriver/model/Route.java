@@ -17,11 +17,15 @@ public class Route {
 
     private Drive drive;
 
-    private Location startPoint;
-    private Location destination;
+    private String startPoint;
+    private String endPoint;
 
+    public Route(String startPoint, String endPoint) {
+        this.startPoint = startPoint;
+        this.endPoint = endPoint;
+    }
 
-    public Route(String id, LocalDateTime startTime, LocalDateTime endTime, Integer mileage, Integer estimatedTime, Integer price, Integer serialNumber, Drive drive, Location startPoint, Location destination) {
+    public Route(String id, LocalDateTime startTime, LocalDateTime endTime, Integer mileage, Integer estimatedTime, Integer price, Integer serialNumber, Drive drive, String startPoint, String destination) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -31,7 +35,7 @@ public class Route {
         this.serialNumber = serialNumber;
         this.drive = drive;
         this.startPoint = startPoint;
-        this.destination = destination;
+        this.endPoint = destination;
     }
 
     public Route(LocalDateTime startTime, LocalDateTime endTime, Integer mileage, Integer price) {
@@ -105,20 +109,20 @@ public class Route {
         this.drive = drive;
     }
 
-    public Location getStartPoint() {
+    public String getStartPoint() {
         return startPoint;
     }
 
-    public void setStartPoint(Location startPoint) {
+    public void setStartPoint(String startPoint) {
         this.startPoint = startPoint;
     }
 
-    public Location getDestination() {
-        return destination;
+    public String getEndPoint() {
+        return endPoint;
     }
 
-    public void setDestination(Location destination) {
-        this.destination = destination;
+    public void setEndPoint(String endPoint) {
+        this.endPoint = endPoint;
     }
 
     @NonNull
@@ -134,7 +138,7 @@ public class Route {
                 ", serialNumber=" + serialNumber +
                 ", drive=" + drive +
                 ", startPoint=" + startPoint +
-                ", destination=" + destination +
+                ", destination=" + endPoint +
                 '}';
     }
 }

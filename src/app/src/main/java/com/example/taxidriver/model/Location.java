@@ -33,6 +33,9 @@ public class Location {
         this.latitude = latitude;
     }
 
+
+
+
     public String getId() {
         return id;
     }

@@ -40,8 +40,7 @@ public class DriverMainActivity extends AppCompatActivity {
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                startActivity(new Intent(DriverMainActivity.this, PassengerHistoryFragment.class));
-                Toast.makeText(DriverMainActivity.this, "TODO: Add driver history", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(DriverMainActivity.this, DriverHistoryActivity.class));
             }
         });
         inbox.setOnClickListener(new View.OnClickListener() {

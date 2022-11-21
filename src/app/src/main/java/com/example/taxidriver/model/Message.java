@@ -6,17 +6,13 @@ public class Message {
     String body;
     LocalDateTime timeSent;
     MessageType messageType;
-    User sentBy;
-    User sentTo;
     Drive drive;
 
-    public Message(String id, String body, LocalDateTime timeSent, MessageType messageType, User sentBy, User sentTo, Drive drive) {
+    public Message(String id, String body, LocalDateTime timeSent, MessageType messageType, Drive drive) {
         this.id = id;
         this.body = body;
         this.timeSent = timeSent;
         this.messageType = messageType;
-        this.sentBy = sentBy;
-        this.sentTo = sentTo;
         this.drive = drive;
     }
 
@@ -50,22 +46,6 @@ public class Message {
 
     public void setMessageType(MessageType messageType) {
         this.messageType = messageType;
-    }
-
-    public User getSentBy() {
-        return sentBy;
-    }
-
-    public void setSentBy(User sentBy) {
-        this.sentBy = sentBy;
-    }
-
-    public User getSentTo() {
-        return sentTo;
-    }
-
-    public void setSentTo(User sentTo) {
-        this.sentTo = sentTo;
     }
 
     public Drive getDrive() {
