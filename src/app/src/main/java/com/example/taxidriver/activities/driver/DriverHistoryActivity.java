@@ -25,7 +25,6 @@ public class DriverHistoryActivity extends AppCompatActivity {
 
 
         ImageView home = findViewById(R.id.home);
-        ImageView history = findViewById(R.id.history);
         ImageView inbox = findViewById(R.id.inbox);
         ImageView profile = findViewById(R.id.profile);
 

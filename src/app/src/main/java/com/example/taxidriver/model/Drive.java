@@ -14,7 +14,7 @@ public class Drive {
     private DrivingStatus status;
 
     private LocalDateTime startTime; //
-    private LocalDateTime endTime; // vt
+    private LocalDateTime endTime; //
     private Duration estimatedTime;
 
 
@@ -25,8 +25,8 @@ public class Drive {
 
     private List<Message> messages; // referenca ka inboxu
     private Route route; // putanju
-    private List<Review> reviews; // ocena i komentar
-    private List<Passenger> passengers; // broj putinka i profili putnika
+    private Review review; // ocena i komentar
+    private Passenger passenger; //profili putnika
     private List<RejectionLetter> rejectionLetters;
 
 
@@ -37,18 +37,18 @@ public class Drive {
 
 
 
-    public Drive(String id, Integer cost, Integer mileage, LocalDateTime startTime, LocalDateTime endTime, List<Message> messages, List<Review> reviews, List<Passenger> passengers) {
+    public Drive(String id, Integer cost, Integer mileage, LocalDateTime startTime, LocalDateTime endTime, List<Message> messages, Review reviews, Passenger passengers) {
         this.id = id;
         this.cost = cost;
         this.mileage = mileage;
         this.startTime = startTime;
         this.endTime = endTime;
         this.messages = messages;
-        this.reviews = reviews;
-        this.passengers = passengers;
+        this.review = reviews;
+        this.passenger = passengers;
     }
 
-    public Drive(String id, LocalDateTime beginTime, LocalDateTime endTime, Integer cost, Integer mileage, Duration estimatedTime, boolean panicButton, boolean babyDroven, boolean petDroven, boolean splitFare, DrivingStatus drivingStatus, List<Message> messages, Route route, List<Review> reviews, List<Passenger> passengers, List<RejectionLetter> rejectionLetters, VehicleType vehicleType, Driver driver) {
+    public Drive(String id, LocalDateTime beginTime, LocalDateTime endTime, Integer cost, Integer mileage, Duration estimatedTime, boolean panicButton, boolean babyDroven, boolean petDroven, boolean splitFare, DrivingStatus drivingStatus, List<Message> messages, Route route, Review review, Passenger passenger, List<RejectionLetter> rejectionLetters, VehicleType vehicleType, Driver driver) {
         this.id = id;
         this.startTime = beginTime;
         this.endTime = endTime;
@@ -62,8 +62,8 @@ public class Drive {
         this.status = drivingStatus;
         this.messages = messages;
         this.route = route;
-        this.reviews = reviews;
-        this.passengers = passengers;
+        this.review = review;
+        this.passenger = passenger;
         this.rejectionLetters = rejectionLetters;
         this.vehicleType = vehicleType;
         this.driver = driver;
@@ -182,20 +182,28 @@ public class Drive {
         this.route = route;
     }
 
-    public List<Review> getReviews() {
-        return reviews;
+    public Route getRoute() {
+        return route;
     }
 
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
+    public void setRoute(Route route) {
+        this.route = route;
     }
 
-    public List<Passenger> getPassengers() {
-        return passengers;
+    public Review getReview() {
+        return review;
     }
 
-    public void setPassengers(List<Passenger> passengers) {
-        this.passengers = passengers;
+    public void setReview(Review review) {
+        this.review = review;
+    }
+
+    public Passenger getPassenger() {
+        return passenger;
+    }
+
+    public void setPassenger(Passenger passenger) {
+        this.passenger = passenger;
     }
 
     public List<RejectionLetter> getRejectionLetters() {

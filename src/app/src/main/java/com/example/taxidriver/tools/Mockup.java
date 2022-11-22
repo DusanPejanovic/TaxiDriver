@@ -8,16 +8,17 @@ import com.example.taxidriver.model.Driver;
 import com.example.taxidriver.model.Message;
 import com.example.taxidriver.model.MessageType;
 import com.example.taxidriver.model.Passenger;
+import com.example.taxidriver.model.RejectionLetter;
 import com.example.taxidriver.model.Review;
 import com.example.taxidriver.model.Route;
+import com.example.taxidriver.model.VehicleType;
 
 import org.xml.sax.DTDHandler;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.datatype.Duration;
 
 public class Mockup {
 
@@ -50,33 +51,42 @@ public class Mockup {
 
         public static List<Drive> getDrives2() {
 
-        List<Drive> drives = new ArrayList<>();
-
-        drives.add(new Drive("1",  LocalDateTime.of(2022, 11, 14, 0, 0), LocalDateTime.of(2022, 11, 14, 1, 0), 1500, 10, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Bul. Kralja Petra 1", "Gagarinova 10/V"),getReviews(),getPassengers(),null,null, getDriver()));
-        drives.add(new Drive("2", LocalDateTime.of(2022, 11, 14, 1, 15), LocalDateTime.of(2022, 11, 14, 1, 45), 500, 2, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Cara Dusana 12", "Cara Urosa 4"),getReviews(),getPassengers(),null,null, getDriver()));
-        drives.add(new Drive("3", LocalDateTime.of(2022, 11, 15, 0, 0), LocalDateTime.of(2022, 11, 15, 1, 0), 2000, 15, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Cetinjska 3", "Dalmatinska 4"),getReviews(),getPassengers(),null,null, getDriver()));
-        drives.add(new Drive("4",LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 30, 3, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Dinarska 12", "Dositejeva 4"),getReviews(),getPassengers(),null,null, getDriver()));
-        drives.add(new Drive("5",LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 1500, 10, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Futoska 2", "Igmanska 8"),getReviews(),getPassengers(),null,null, getDriver()));
+        //  Drive(String id, Integer cost, Integer mileage, DrivingStatus status, LocalDateTime startTime, LocalDateTime endTime, Duration estimatedTime, Driver driver, VehicleType vehicleType, List<Message> messages, Route route, Review review, Passenger passenger, RejectionLetter rejectionLetter, boolean panicFlag, boolean babyFlag, boolean petFlag, boolean splitFlag) {
 
 
-            drives.add(new Drive("1",  LocalDateTime.of(2022, 11, 14, 0, 0), LocalDateTime.of(2022, 11, 14, 1, 0), 1500, 10, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Bul. Kralja Petra 1", "Gagarinova 10/V"),getReviews(),getPassengers(),null,null, getDriver()));
-            drives.add(new Drive("2", LocalDateTime.of(2022, 11, 14, 1, 15), LocalDateTime.of(2022, 11, 14, 1, 45), 500, 2, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Cara Dusana 12", "Cara Urosa 4"),getReviews(),getPassengers(),null,null, getDriver()));
-            drives.add(new Drive("3", LocalDateTime.of(2022, 11, 15, 0, 0), LocalDateTime.of(2022, 11, 15, 1, 0), 2000, 15, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Cetinjska 3", "Dalmatinska 4"),getReviews(),getPassengers(),null,null, getDriver()));
-            drives.add(new Drive("4",LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 30, 3, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Dinarska 12", "Dositejeva 4"),getReviews(),getPassengers(),null,null, getDriver()));
-            drives.add(new Drive("5",LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 1500, 10, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Futoska 2", "Igmanska 8"),getReviews(),getPassengers(),null,null, getDriver()));
+                List<Drive> drives = new ArrayList<>();
 
-            drives.add(new Drive("1",  LocalDateTime.of(2022, 11, 14, 0, 0), LocalDateTime.of(2022, 11, 14, 1, 0), 1500, 10, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Bul. Kralja Petra 1", "Gagarinova 10/V"),getReviews(),getPassengers(),null,null, getDriver()));
-            drives.add(new Drive("2", LocalDateTime.of(2022, 11, 14, 1, 15), LocalDateTime.of(2022, 11, 14, 1, 45), 500, 2, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Cara Dusana 12", "Cara Urosa 4"),getReviews(),getPassengers(),null,null, getDriver()));
-            drives.add(new Drive("3", LocalDateTime.of(2022, 11, 15, 0, 0), LocalDateTime.of(2022, 11, 15, 1, 0), 2000, 15, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Cetinjska 3", "Dalmatinska 4"),getReviews(),getPassengers(),null,null, getDriver()));
-            drives.add(new Drive("4",LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 30, 3, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Dinarska 12", "Dositejeva 4"),getReviews(),getPassengers(),null,null, getDriver()));
-            drives.add(new Drive("5",LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 1500, 10, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Futoska 2", "Igmanska 8"),getReviews(),getPassengers(),null,null, getDriver()));
+        drives.add(new Drive("1",  LocalDateTime.of(2022, 11, 14, 0, 0), LocalDateTime.of(2022, 11, 14, 1, 0), 1500, 10, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Bul. Kralja Petra 1", "Gagarinova 10/V"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+        drives.add(new Drive("2", LocalDateTime.of(2022, 11, 14, 1, 15), LocalDateTime.of(2022, 11, 14, 1, 45), 500, 2, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Cara Dusana 12", "Cara Urosa 4"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+        drives.add(new Drive("3", LocalDateTime.of(2022, 11, 15, 0, 0), LocalDateTime.of(2022, 11, 15, 1, 0), 2000, 15, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Cetinjska 3", "Dalmatinska 4"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+        drives.add(new Drive("4",LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 30, 3, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Dinarska 12", "Dositejeva 4"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+        drives.add(new Drive("5",LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 1500, 10, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Futoska 2", "Igmanska 8"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+
+            drives.add(new Drive("1",  LocalDateTime.of(2022, 11, 14, 0, 0), LocalDateTime.of(2022, 11, 14, 1, 0), 1500, 10, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Bul. Kralja Petra 1", "Gagarinova 10/V"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+            drives.add(new Drive("2", LocalDateTime.of(2022, 11, 14, 1, 15), LocalDateTime.of(2022, 11, 14, 1, 45), 500, 2, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Cara Dusana 12", "Cara Urosa 4"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+            drives.add(new Drive("3", LocalDateTime.of(2022, 11, 15, 0, 0), LocalDateTime.of(2022, 11, 15, 1, 0), 2000, 15, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Cetinjska 3", "Dalmatinska 4"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+            drives.add(new Drive("4",LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 30, 3, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Dinarska 12", "Dositejeva 4"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+            drives.add(new Drive("5",LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 1500, 10, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Futoska 2", "Igmanska 8"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+
+            drives.add(new Drive("1",  LocalDateTime.of(2022, 11, 14, 0, 0), LocalDateTime.of(2022, 11, 14, 1, 0), 1500, 10, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Bul. Kralja Petra 1", "Gagarinova 10/V"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+            drives.add(new Drive("2", LocalDateTime.of(2022, 11, 14, 1, 15), LocalDateTime.of(2022, 11, 14, 1, 45), 500, 2, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Cara Dusana 12", "Cara Urosa 4"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+            drives.add(new Drive("3", LocalDateTime.of(2022, 11, 15, 0, 0), LocalDateTime.of(2022, 11, 15, 1, 0), 2000, 15, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Cetinjska 3", "Dalmatinska 4"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+            drives.add(new Drive("4",LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 30, 3, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Dinarska 12", "Dositejeva 4"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+            drives.add(new Drive("5",LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 1500, 10, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Futoska 2", "Igmanska 8"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+
+            drives.add(new Drive("1",  LocalDateTime.of(2022, 11, 14, 0, 0), LocalDateTime.of(2022, 11, 14, 1, 0), 1500, 10, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Bul. Kralja Petra 1", "Gagarinova 10/V"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+            drives.add(new Drive("2", LocalDateTime.of(2022, 11, 14, 1, 15), LocalDateTime.of(2022, 11, 14, 1, 45), 500, 2, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Cara Dusana 12", "Cara Urosa 4"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+            drives.add(new Drive("3", LocalDateTime.of(2022, 11, 15, 0, 0), LocalDateTime.of(2022, 11, 15, 1, 0), 2000, 15, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Cetinjska 3", "Dalmatinska 4"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+            drives.add(new Drive("4",LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 30, 3, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Dinarska 12", "Dositejeva 4"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+            drives.add(new Drive("5",LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 1500, 10, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Futoska 2", "Igmanska 8"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+
+            drives.add(new Drive("1",  LocalDateTime.of(2022, 11, 14, 0, 0), LocalDateTime.of(2022, 11, 14, 1, 0), 1500, 10, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Bul. Kralja Petra 1", "Gagarinova 10/V"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+            drives.add(new Drive("2", LocalDateTime.of(2022, 11, 14, 1, 15), LocalDateTime.of(2022, 11, 14, 1, 45), 500, 2, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Cara Dusana 12", "Cara Urosa 4"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+            drives.add(new Drive("3", LocalDateTime.of(2022, 11, 15, 0, 0), LocalDateTime.of(2022, 11, 15, 1, 0), 2000, 15, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Cetinjska 3", "Dalmatinska 4"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+            drives.add(new Drive("4",LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 30, 3, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Dinarska 12", "Dositejeva 4"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
+            drives.add(new Drive("5",LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 1500, 10, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Futoska 2", "Igmanska 8"),getReviews().get(0),getPassengers().get(0),null,null, getDriver()));
 
 
-            drives.add(new Drive("1",  LocalDateTime.of(2022, 11, 14, 0, 0), LocalDateTime.of(2022, 11, 14, 1, 0), 1500, 10, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Bul. Kralja Petra 1", "Gagarinova 10/V"),getReviews(),getPassengers(),null,null, getDriver()));
-            drives.add(new Drive("2", LocalDateTime.of(2022, 11, 14, 1, 15), LocalDateTime.of(2022, 11, 14, 1, 45), 500, 2, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Cara Dusana 12", "Cara Urosa 4"),getReviews(),getPassengers(),null,null, getDriver()));
-            drives.add(new Drive("3", LocalDateTime.of(2022, 11, 15, 0, 0), LocalDateTime.of(2022, 11, 15, 1, 0), 2000, 15, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Cetinjska 3", "Dalmatinska 4"),getReviews(),getPassengers(),null,null, getDriver()));
-            drives.add(new Drive("4",LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 30, 3, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Dinarska 12", "Dositejeva 4"),getReviews(),getPassengers(),null,null, getDriver()));
-            drives.add(new Drive("5",LocalDateTime.of(2022, 11, 16, 7, 0), LocalDateTime.of(2022, 11, 16, 9, 0), 1500, 10, null, false, false, false, false, DrivingStatus.COMPLETED, getMessages(),new Route("Futoska 2", "Igmanska 8"),getReviews(),getPassengers(),null,null, getDriver()));
 
 
 
@@ -94,11 +104,11 @@ public class Mockup {
     }
 
     public static List<Review> getReviews(){
-        Review r1 = new Review("1", 130, "Super vozac!", getPassenger(),getDrive());
-        Review r2 = new Review("2", 120, "Los vozac!", getPassenger(),getDrive());
-        Review r3 = new Review("3", 150, "Srednje vozac!", getPassenger(),getDrive());
-        Review r4 = new Review("4", 200, "Bas los vozac!", getPassenger(),getDrive());
-        Review r5 = new Review("5", 600, "Prejak vozac!", getPassenger(),getDrive());
+        Review r1 = new Review("1", 130, "Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! Bas me vozi.", getPassenger(),getDrive());
+        Review r2 = new Review("2", 120, "Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! Bas me vozi.", getPassenger(),getDrive());
+        Review r3 = new Review("3", 150, "Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! ", getPassenger(),getDrive());
+        Review r4 = new Review("4", 200, "Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! ", getPassenger(),getDrive());
+        Review r5 = new Review("5", 600, "Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! Bas me vozi. Super vozac! ", getPassenger(),getDrive());
 
         List<Review> reviews = new ArrayList<>();
 
@@ -154,7 +164,7 @@ public class Mockup {
 
     public static ArrayList<Message> getMessages(){
         ArrayList<Message> messages = new ArrayList<>();
-        messages.add(new Message("1", "Sve je uredu.",LocalDateTime.of(2022, 11, 14, 0, 0), MessageType.Drive, getDrive()));
+        messages.add(new Message("1", "Sve je uredu. ",LocalDateTime.of(2022, 11, 14, 0, 0), MessageType.Drive, getDrive()));
         messages.add(new Message("1", "Sve je uredu.",LocalDateTime.of(2022, 11, 15, 0, 0),  MessageType.Drive, getDrive()));
         messages.add(new Message("1", "VOZILO KASNI.",LocalDateTime.of(2022, 11, 13, 0, 0),  MessageType.Support, getDrive()));
         messages.add(new Message("1", "PANIKA.",LocalDateTime.of(2022, 11, 12, 0, 0),  MessageType.Panic, getDrive()));

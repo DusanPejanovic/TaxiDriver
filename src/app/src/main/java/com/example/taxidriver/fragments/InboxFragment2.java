@@ -1,15 +1,21 @@
 package com.example.taxidriver.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.ListFragment;
 
 import com.example.taxidriver.R;
+import com.example.taxidriver.activities.driver.DriverHistoryDetailActivity;
 import com.example.taxidriver.adapters.HistoryAdapter;
 import com.example.taxidriver.adapters.InboxAdapter2;
+import com.example.taxidriver.model.Drive;
+import com.example.taxidriver.tools.Mockup;
 
 public class InboxFragment2 extends ListFragment {
 
