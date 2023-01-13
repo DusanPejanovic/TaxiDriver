@@ -2,24 +2,52 @@ package com.example.taxidriver.activities.driver;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.taxidriver.R;
 
+import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.CustomZoomButtonsController;
+import org.osmdroid.views.MapView;
+
+import java.io.File;
+
 
 public class DriverMainActivity extends AppCompatActivity {
     private boolean togleValue = false;
-
+    private MapView mMapView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Context ctx = getApplicationContext();
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+
+
         setContentView(R.layout.activity_driver_main);
+        final LinearLayout mapContainer = findViewById(R.id.map_container);
+
+        //Mapa mora da se doda nakon onCreate aktivitija i onda ubaci u neki container
+        mMapView = new MapView(this);
+        mMapView.setTileSource(TileSourceFactory.MAPNIK);
+        mapContainer.addView(this.mMapView);
+        //TODO fix zoom
+        mMapView.getController().setZoom(15);
+        //Center novi sad
+        mMapView.getController().setCenter(new GeoPoint(45.2396, 19.8227));
 
 
         Button login_button = findViewById(R.id.online_ofline_button);
