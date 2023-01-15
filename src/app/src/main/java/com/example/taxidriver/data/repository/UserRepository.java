@@ -1,14 +1,12 @@
 package com.example.taxidriver.data.repository;
 
 import com.example.taxidriver.data.RetrofitClient;
-import com.example.taxidriver.data.UserApi;
+import com.example.taxidriver.data.api.UserApi;
 import com.example.taxidriver.domain.model.User;
 
 import java.util.List;
 
 import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class UserRepository {

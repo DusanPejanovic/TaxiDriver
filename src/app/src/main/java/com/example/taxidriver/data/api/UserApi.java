@@ -1,4 +1,4 @@
-package com.example.taxidriver.data;
+package com.example.taxidriver.data.api;
 
 import com.example.taxidriver.domain.model.User;
 
