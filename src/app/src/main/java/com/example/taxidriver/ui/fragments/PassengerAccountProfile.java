@@ -100,11 +100,11 @@ public class PassengerAccountProfile extends Fragment {
         EditText name = (EditText) view.findViewById(R.id.nameInput);
         name.setText(passenger.getName());
         EditText surname = (EditText)view.findViewById(R.id.surnameInput);
-        surname.setText(passenger.getLastname());
+        surname.setText(passenger.getSurname());
         EditText address = (EditText) view.findViewById(R.id.addressInput);
-        address.setText(passenger.getAdress());
+        address.setText(passenger.getAddress());
         EditText phoneNum = (EditText)view.findViewById(R.id.phoneNumberInput);
-        phoneNum.setText(passenger.getPhoneNumber());
+        phoneNum.setText(passenger.getTelephoneNumber());
         EditText email = (EditText)view.findViewById(R.id.emailInput);
         email.setText(passenger.getEmail());
 

@@ -4,25 +4,26 @@ import java.util.List;
 public class User {
     String id;
     String name;
-    String lastname;
+    String surname;
     String email;
-    String profilPicture;
-    String phoneNumber;
-    String adress;
+    String profilePicture;
+    String telephoneNumber;
+    String address;
     String password;
     List<Message> messagesSent;
     List<Message> messagesRecived;
     List<RejectionLetter> rejectionLetters;
     boolean is_blocked = false;
 
+
     public User(String id, String name, String lastname, String email, String profilePicture, String phoneNumber, String adress, String password, List<Message> messagesSent, List<Message> messagesRecived, List<RejectionLetter> rejectionLetters) {
         this.id = id;
         this.name = name;
-        this.lastname = lastname;
+        this.surname = lastname;
         this.email = email;
-        this.profilPicture = profilePicture;
-        this.phoneNumber = phoneNumber;
-        this.adress = adress;
+        this.profilePicture = profilePicture;
+        this.telephoneNumber = phoneNumber;
+        this.address = adress;
         this.password = password;
         this.messagesSent = messagesSent;
         this.messagesRecived = messagesRecived;
@@ -32,11 +33,11 @@ public class User {
     public User(String id, String name, String lastname, String email, String profilePicture, String phoneNumber, String adress, String password) {
         this.id = id;
         this.name = name;
-        this.lastname = lastname;
+        this.surname = lastname;
         this.email = email;
-        this.profilPicture = profilePicture;
-        this.phoneNumber = phoneNumber;
-        this.adress = adress;
+        this.profilePicture = profilePicture;
+        this.telephoneNumber = phoneNumber;
+        this.address = adress;
         this.password = password;
         this.messagesSent = messagesSent;
         this.messagesRecived = messagesRecived;
@@ -67,36 +68,36 @@ public class User {
         this.name = name;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
-    public String getProfilPicture() {
-        return profilPicture;
+    public String getProfilePicture() {
+        return profilePicture;
     }
 
-    public void setProfilPicture(String profilPicture) {
-        this.profilPicture = profilPicture;
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getTelephoneNumber() {
+        return telephoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getPassword() {
