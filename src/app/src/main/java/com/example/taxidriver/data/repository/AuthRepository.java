@@ -2,18 +2,29 @@ package com.example.taxidriver.data.repository;
 
 import com.example.taxidriver.data.api.AuthApi;
 import com.example.taxidriver.data.RetrofitClient;
+import com.example.taxidriver.data.token.TokenInterceptor;
 import com.google.gson.JsonObject;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AuthRepository {
     private AuthApi authApi;
     private String access_token = "";
 
     public AuthRepository() {
-        authApi = RetrofitClient.getInstance().create(AuthApi.class);
+        String BASE_URL = "http://10.0.2.2:8080/";
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        authApi = retrofit.create(AuthApi.class);
     }
 
     public void login(String email, String password, final AuthCallback authCallback) {
