@@ -1,5 +1,6 @@
 package com.example.taxidriver.data.repository;
 
+import com.example.taxidriver.data.RetrofitClient;
 import com.example.taxidriver.data.UserApi;
 import com.example.taxidriver.domain.model.User;
 
@@ -11,16 +12,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class UserRepository {
-    private static final String BASE_URL = "http://10.0.2.2:8080/";
     final private UserApi userApi;
 
     public UserRepository() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        userApi = retrofit.create(UserApi.class);
+        userApi = RetrofitClient.getInstance().create(UserApi.class);
     }
 
     public void getUsers(Callback<List<User>> callback) {
