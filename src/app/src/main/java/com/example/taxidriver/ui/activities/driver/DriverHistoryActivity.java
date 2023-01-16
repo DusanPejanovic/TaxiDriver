@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.taxidriver.R;
+import com.example.taxidriver.domain.viewmodel.RideHistoryViewModel;
 import com.example.taxidriver.ui.fragments.HistoryFragment;
 
 public class DriverHistoryActivity extends AppCompatActivity {
@@ -49,6 +50,11 @@ public class DriverHistoryActivity extends AppCompatActivity {
                 Toast.makeText(DriverHistoryActivity.this, "TODO: Add driver account", Toast.LENGTH_SHORT).show();
             }
         });
+
+        RideHistoryViewModel rideHistoryViewModel = new RideHistoryViewModel();
+
+        rideHistoryViewModel.fetchRideHistory("1");
+
 
 
 
