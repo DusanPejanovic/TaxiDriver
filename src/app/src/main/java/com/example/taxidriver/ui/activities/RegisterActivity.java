@@ -8,7 +8,15 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.taxidriver.R;
+import com.example.taxidriver.data.repository.UserRepository;
+import com.example.taxidriver.domain.model.User;
 import com.example.taxidriver.ui.activities.passenger.PassengerMainActivity;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -25,6 +33,31 @@ public class RegisterActivity extends AppCompatActivity {
             {
                 Intent intent = new Intent(RegisterActivity.this, PassengerMainActivity.class);
                 startActivity(intent);
+            }
+        });
+
+
+        UserRepository repository = new UserRepository();
+
+        repository.getUsers( new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                if (response.isSuccessful()) {
+                    List<User> users = response.body();
+                    // Do something with the user data
+
+                    int z =3;
+                } else {
+                    // Handle error response
+                    int w =2;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+
+                int a= 2;
+                // Handle failure
             }
         });
 

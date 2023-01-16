@@ -1,11 +1,14 @@
 package com.example.taxidriver.data.repository;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import com.example.taxidriver.TaxiDriver;
 import com.example.taxidriver.data.api.AuthApi;
-import com.example.taxidriver.data.RetrofitClient;
-import com.example.taxidriver.data.token.TokenInterceptor;
+import com.example.taxidriver.domain.model.User;
 import com.google.gson.JsonObject;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -13,8 +16,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AuthRepository {
-    private AuthApi authApi;
-    private String access_token = "";
+    private final AuthApi authApi;
+    SharedPreferences pref = TaxiDriver.getAppContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
+
 
     public AuthRepository() {
         String BASE_URL = "http://10.0.2.2:8080/";
@@ -27,9 +31,9 @@ public class AuthRepository {
         authApi = retrofit.create(AuthApi.class);
     }
 
-    public void login(String email, String password, final AuthCallback authCallback) {
+    public void login(String username, String password) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("email", email);
+        jsonObject.addProperty("username", username);
         jsonObject.addProperty("password", password);
 
         Call<JsonObject> call = authApi.login(jsonObject);
@@ -37,26 +41,27 @@ public class AuthRepository {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()) {
-                    access_token = response.body().get("access_token").getAsString();
-                    authCallback.onSuccess();
+
+                    String token = response.body().get("accessToken").getAsString();
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("token", token);
+                    editor.apply();
+
                 } else {
-                    authCallback.onFailure(response.message());
+                    int x =2;
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                authCallback.onFailure(t.getMessage());
+              int x = 2;
             }
         });
     }
 
-    public void signup(String email, String password, final AuthCallback authCallback) {
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("email", email);
-        jsonObject.addProperty("password", password);
+    public void signup(User user, final AuthCallback authCallback) {
 
-        Call<Void> call = authApi.signup(jsonObject);
+        Call<Void> call = authApi.signup(user);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -75,16 +80,13 @@ public class AuthRepository {
     }
 
     public void logout() {
-        access_token = "";
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("token", null);
+        editor.apply();
     }
 
-    public boolean tokenIsPresent() {
-        return access_token.isEmpty();
-    }
 
-    public String getToken() {
-        return access_token;
-    }
+
 
     public interface AuthCallback {
         void onSuccess();

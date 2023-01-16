@@ -1,5 +1,9 @@
 package com.example.taxidriver.data.token;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.example.taxidriver.TaxiDriver;
 import com.example.taxidriver.data.repository.AuthRepository;
 
 import java.io.IOException;
@@ -18,8 +22,13 @@ public class TokenInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        if (auth.tokenIsPresent()) {
-            request = request.newBuilder().addHeader("Authorization", "Bearer " + auth.getToken()).build();
+
+        SharedPreferences prefs = TaxiDriver.getAppContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
+
+        String token = prefs.getString("token", null);
+
+        if (token != null) {
+            request = request.newBuilder().addHeader("Authorization", "Bearer " + token).build();
         }
         return chain.proceed(request);
     }

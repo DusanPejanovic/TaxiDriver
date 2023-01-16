@@ -12,11 +12,11 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface AuthApi {
-    @POST("/login")
+    @POST("auth/login")
     Call<JsonObject> login(@Body JsonObject jsonObject);
 
-    @POST("/signup")
-    Call<Void> signup(@Body JsonObject jsonObject);
+    @POST("auth/signup")
+    Call<Void> signup(@Body User user);
 
     @GET("/user")
     Call<JsonObject> getUser(@Header("Authorization") String access_token);
