@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.example.taxidriver.R;
 import com.example.taxidriver.data.dto.RideDTO;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -53,11 +55,30 @@ public class HistoryAdapter extends BaseAdapter{
         TextView rightLocation = view.findViewById(R.id.rightLocation);
         TextView rightTime = view.findViewById(R.id.rightTime);
 
-        leftLocation.setText(ride.getLocations().getDeparture().getAddress());
-        rightLocation.setText(ride.getLocations().getDestination().getAddress());
+        String leftLocationString = ride.getLocations().getDeparture().getAddress();
+        String rightLocationString = ride.getLocations().getDestination().getAddress();
 
-        leftTime.setText(ride.getStartTime());
-        rightTime.setText(ride.getEndTime());
+        if (leftLocationString.length() > 15) {
+            leftLocationString = leftLocationString.subSequence(0, 15).toString();
+            leftLocationString += "...";
+
+        }
+
+        if (rightLocationString.length() > 15) {
+            rightLocationString = rightLocationString.subSequence(0, 15).toString();
+            rightLocationString += "...";
+        }
+
+        leftLocation.setText(leftLocationString);
+        rightLocation.setText(rightLocationString);
+
+        LocalDateTime startTime = LocalDateTime.parse(ride.getStartTime());
+        LocalDateTime endTime = LocalDateTime.parse(ride.getEndTime());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        leftTime.setText(startTime.format(formatter));
+        rightTime.setText(endTime.format(formatter));
 
         return view;
     }

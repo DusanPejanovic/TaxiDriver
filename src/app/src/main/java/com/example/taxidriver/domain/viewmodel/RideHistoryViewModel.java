@@ -24,7 +24,7 @@ public class RideHistoryViewModel extends ViewModel {
 
     private final DriverRepository driverRepository;
 
-    private final MutableLiveData<List<RideDTO>> rideHistory;
+    private MutableLiveData<List<RideDTO>> rideHistory;
 
     public RideHistoryViewModel() {
         driverRepository = new DriverRepository();
@@ -44,8 +44,8 @@ public class RideHistoryViewModel extends ViewModel {
                     assert paginatedResponse != null;
                     Toast.makeText(TaxiDriver.getAppContext(), "Ride History, success", Toast.LENGTH_SHORT).show();
                     List<RideDTO> ridesDTO = paginatedResponse.getResults();
-
                     rideHistory.postValue(ridesDTO);
+
 
                 } else {
                     Toast.makeText(TaxiDriver.getAppContext(), "Ride History, response body wrong", Toast.LENGTH_SHORT).show();
@@ -54,9 +54,7 @@ public class RideHistoryViewModel extends ViewModel {
 
             @Override
             public void onFailure(@NonNull Call<PaginatedResponse<RideDTO>> call, Throwable t) {
-
-              Toast.makeText(TaxiDriver.getAppContext(), "Ride History, on faliure.", Toast.LENGTH_SHORT).show();
-
+              Toast.makeText(TaxiDriver.getAppContext(), "Ride History, on failure.", Toast.LENGTH_SHORT).show();
             }
         }, id);
     }

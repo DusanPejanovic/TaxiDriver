@@ -2,6 +2,8 @@ package com.example.taxidriver.ui.activities.driver;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -13,8 +15,10 @@ import android.widget.Toast;
 import com.example.taxidriver.R;
 import com.example.taxidriver.data.dto.RideDTO;
 import com.example.taxidriver.data.repository.DriverRepository;
+import com.example.taxidriver.domain.model.Ride;
 import com.example.taxidriver.domain.viewmodel.RideHistoryViewModel;
 import com.example.taxidriver.ui.fragments.HistoryFragment;
+import com.example.taxidriver.util.Mockup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,23 +32,21 @@ public class DriverHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_history);
 
+        String id = "1";
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
         viewModel = new ViewModelProvider(this).get(RideHistoryViewModel.class);
 
-        viewModel.getRideHistory().observe(this, rideHistory -> {
+        viewModel.fetchRideHistory(id);
 
-                FragmentManager fragmentManager = getSupportFragmentManager();
+        viewModel.getRideHistory().observe(this, historyList -> {
 
-                HistoryFragment historyFragment = HistoryFragment.newInstance(rideHistory);
+            if(historyList != null)
+                fragmentManager.beginTransaction().add(R.id.mainContent, HistoryFragment.newInstance(historyList)).commit();
 
-
-                fragmentManager.beginTransaction().add(R.id.mainContent, historyFragment).commit();
-
-        });
-
-        DriverRepository driverRepository = new DriverRepository();
-
-
-
+            }
+        );
 
         ImageView home = findViewById(R.id.home);
         ImageView inbox = findViewById(R.id.inbox);
@@ -72,15 +74,6 @@ public class DriverHistoryActivity extends AppCompatActivity {
                 Toast.makeText(DriverHistoryActivity.this, "TODO: Add driver account", Toast.LENGTH_SHORT).show();
             }
         });
-
-        RideHistoryViewModel rideHistoryViewModel = new RideHistoryViewModel();
-
-        rideHistoryViewModel.fetchRideHistory("1");
-
-
-
-
-
 
     }
 }

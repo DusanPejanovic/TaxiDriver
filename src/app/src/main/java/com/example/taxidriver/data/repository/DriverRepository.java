@@ -22,8 +22,5 @@ public class DriverRepository {
         driverApi.getRideHistory(id).enqueue(callback);
     }
 
-    public Response<PaginatedResponse<RideDTO>> getRideHistory2(String id) throws IOException {
-        return  driverApi.getRideHistory(id).execute();
-    }
 }
 
