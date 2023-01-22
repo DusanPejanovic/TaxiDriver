@@ -1,13 +1,19 @@
 package com.example.taxidriver.domain.viewmodel;
 
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.taxidriver.TaxiDriver;
 import com.example.taxidriver.data.dto.PaginatedResponse;
+import com.example.taxidriver.data.dto.RideDTO;
 import com.example.taxidriver.data.repository.DriverRepository;
 import com.example.taxidriver.domain.model.Ride;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -18,37 +24,39 @@ public class RideHistoryViewModel extends ViewModel {
 
     private final DriverRepository driverRepository;
 
-    private final MutableLiveData<List<Ride>> rideHistory;
+    private final MutableLiveData<List<RideDTO>> rideHistory;
 
     public RideHistoryViewModel() {
         driverRepository = new DriverRepository();
         rideHistory = new MutableLiveData<>();
     }
 
-    public LiveData<List<Ride>> getRideHistory() {
+    public LiveData<List<RideDTO>> getRideHistory() {
         return rideHistory;
     }
 
     public void fetchRideHistory(String id) {
-        driverRepository.getRideHistory(new Callback<PaginatedResponse<Ride>>() {
+        driverRepository.getRideHistory(new Callback<PaginatedResponse<RideDTO>>() {
             @Override
-            public void onResponse(Call<PaginatedResponse<Ride>> call, Response<PaginatedResponse<Ride>> response) {
+            public void onResponse(@NonNull Call<PaginatedResponse<RideDTO>> call, @NonNull Response<PaginatedResponse<RideDTO>> response) {
                 if (response.isSuccessful()) {
-                    PaginatedResponse<Ride> rides = response.body();
-                    // Do something with the user data
+                    PaginatedResponse<RideDTO> paginatedResponse = response.body();
+                    assert paginatedResponse != null;
+                    Toast.makeText(TaxiDriver.getAppContext(), "Ride History, success", Toast.LENGTH_SHORT).show();
+                    List<RideDTO> ridesDTO = paginatedResponse.getResults();
 
-                    int z =3;
+                    rideHistory.postValue(ridesDTO);
+
                 } else {
-                    // Handle error response
-                    int w =2;
+                    Toast.makeText(TaxiDriver.getAppContext(), "Ride History, response body wrong", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<PaginatedResponse<Ride>> call, Throwable t) {
+            public void onFailure(@NonNull Call<PaginatedResponse<RideDTO>> call, Throwable t) {
 
-                int a = 2;
-                // Handle failure
+              Toast.makeText(TaxiDriver.getAppContext(), "Ride History, on faliure.", Toast.LENGTH_SHORT).show();
+
             }
         }, id);
     }

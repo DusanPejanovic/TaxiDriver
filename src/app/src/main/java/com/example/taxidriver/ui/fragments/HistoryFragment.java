@@ -11,23 +11,30 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.ListFragment;
 
 import com.example.taxidriver.R;
+import com.example.taxidriver.data.dto.RideDTO;
 import com.example.taxidriver.ui.activities.driver.DriverHistoryDetailActivity;
 import com.example.taxidriver.ui.adapters.HistoryAdapter;
 import com.example.taxidriver.domain.model.Drive;
 import com.example.taxidriver.util.Mockup;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class HistoryFragment extends ListFragment {
 
-	public static HistoryFragment newInstance() {
-        return new HistoryFragment();
+	private List<RideDTO> rideDTOList;
+
+	public static HistoryFragment newInstance(List<RideDTO> rideDTOList) {
+
+		HistoryFragment historyFragment = new HistoryFragment();
+		historyFragment.setRideDTOList(rideDTOList);
+		return historyFragment;
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle data) {
-		this.setListAdapter(new HistoryAdapter(this.getActivity()));
 
+		this.setListAdapter(new HistoryAdapter(this.getActivity(), rideDTOList));
 
         View view = inflater.inflate(R.layout.history_list, viewGroup, false);
 
@@ -60,9 +67,11 @@ public class HistoryFragment extends ListFragment {
 		startActivity(intent);
 	}
 
+	public List<RideDTO> getRideDTOList() {
+		return rideDTOList;
+	}
 
-
-
-
-
+	public void setRideDTOList(List<RideDTO> rideDTOList) {
+		this.rideDTOList = rideDTOList;
+	}
 }

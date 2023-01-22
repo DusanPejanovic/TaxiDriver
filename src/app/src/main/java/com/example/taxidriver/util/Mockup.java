@@ -21,7 +21,7 @@ public class Mockup {
     public static List<Passenger> getPassengers(){
         List<Passenger> passengers = new ArrayList<Passenger>();
 
-        Passenger p1 = new Passenger("1", "Pera", "Peric", "pera", "z", "+381957291", "Novi Sad, Narodnog Fronta 15", "admin", null, null, null, null, null, null, null);
+        Passenger p1 = new Passenger("1", "Pera", "Peric", "passe", "z", "+381957291", "Novi Sad, Narodnog Fronta 15", "123", null, null, null, null, null, null, null);
 
         passengers.add(p1);
 
@@ -33,7 +33,7 @@ public class Mockup {
     {
         List<Driver> drivers = new ArrayList<Driver>();
 
-        Driver d1 = new Driver("1", "Vozac", "Najbrzi", "jova", "sga", "+381999999999", "Novi Sad, Bulevar Oslobodjenja 15", "admin", null, null, null, "A","Saobracajna", true, null, null);
+        Driver d1 = new Driver("1", "Vozac", "Najbrzi", "drive", "sga", "+381999999999", "Novi Sad, Bulevar Oslobodjenja 15", "123", null, null, null, "A","Saobracajna", true, null, null);
 
         drivers.add(d1);
 

@@ -1,5 +1,6 @@
 package com.example.taxidriver.ui.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,11 +9,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.taxidriver.R;
+import com.example.taxidriver.data.dto.PaginatedResponse;
 import com.example.taxidriver.data.repository.UserRepository;
 import com.example.taxidriver.domain.model.User;
 import com.example.taxidriver.ui.activities.passenger.PassengerMainActivity;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,24 +39,24 @@ public class RegisterActivity extends AppCompatActivity {
 
         UserRepository repository = new UserRepository();
 
-        repository.getUsers( new Callback<List<User>>() {
+        repository.getUsers( new Callback<PaginatedResponse<User>>() {
             @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+            public void onResponse(@NonNull Call<PaginatedResponse<User>> call, @NonNull Response<PaginatedResponse<User>> response) {
                 if (response.isSuccessful()) {
-                    List<User> users = response.body();
+                    PaginatedResponse<User> usersPaginated = response.body();
                     // Do something with the user data
 
-                    int z =3;
+                    int z = 3;
                 } else {
                     // Handle error response
-                    int w =2;
+                    int w = 2;
                 }
             }
 
             @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
+            public void onFailure(@NonNull Call<PaginatedResponse<User>> call, Throwable t) {
 
-                int a= 2;
+                int a = 2;
                 // Handle failure
             }
         });

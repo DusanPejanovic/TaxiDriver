@@ -1,6 +1,8 @@
 package com.example.taxidriver.domain.model;
 
 
+import com.example.taxidriver.data.dto.RideDTO;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -47,6 +49,9 @@ public class Ride {
         this.departure = departure;
         this.destination = destination;
     }
+
+
+
 
     public Ride() {
     }

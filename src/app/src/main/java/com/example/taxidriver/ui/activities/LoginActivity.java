@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
         AuthRepository authRepository = new AuthRepository();
 
 
-        authRepository.login("admin", "123");
+        authRepository.login("john.doe3@example.com", "123");
 
 
 

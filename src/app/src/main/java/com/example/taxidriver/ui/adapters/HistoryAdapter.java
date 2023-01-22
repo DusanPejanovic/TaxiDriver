@@ -8,28 +8,31 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.taxidriver.R;
-import com.example.taxidriver.domain.model.Drive;
-import com.example.taxidriver.domain.model.Route;
-import com.example.taxidriver.util.Mockup;
+import com.example.taxidriver.data.dto.RideDTO;
 
-import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 
 public class HistoryAdapter extends BaseAdapter{
 
     private final Activity activity;
+    private final List<RideDTO> rideDTOList;
 
-    public HistoryAdapter(Activity activity) {
+
+    public HistoryAdapter(Activity activity, List<RideDTO> rideDTOList) {
+        this.rideDTOList = rideDTOList;
         this.activity = activity;
     }
 
+
+
     @Override
     public int getCount() {
-        return Mockup.getDrives2().size();
+        return rideDTOList.size();
     }
     @Override
     public Object getItem(int position) {
-        return Mockup.getDrives2().get(position);
+        return rideDTOList.get(position);
     }
     @Override
     public long getItemId(int position) {
@@ -39,7 +42,7 @@ public class HistoryAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Drive drive = Mockup.getDrives2().get(position);
+        RideDTO ride = rideDTOList.get(position);
 
 
         @SuppressLint("ViewHolder")
@@ -50,15 +53,11 @@ public class HistoryAdapter extends BaseAdapter{
         TextView rightLocation = view.findViewById(R.id.rightLocation);
         TextView rightTime = view.findViewById(R.id.rightTime);
 
-        Route route =  drive.getRoutes();
+        leftLocation.setText(ride.getLocations().getDeparture().getAddress());
+        rightLocation.setText(ride.getLocations().getDestination().getAddress());
 
-
-        leftLocation.setText(route.getStartPoint());
-        rightLocation.setText(route.getEndPoint());
-
-        leftTime.setText(drive.getStartTime().format(DateTimeFormatter.ofPattern("hh:mm")));
-        rightTime.setText(drive.getEndTime().format(DateTimeFormatter.ofPattern("hh:mm")));
-
+        leftTime.setText(ride.getStartTime());
+        rightTime.setText(ride.getEndTime());
 
         return view;
     }

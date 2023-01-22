@@ -31,9 +31,9 @@ public class AuthRepository {
         authApi = retrofit.create(AuthApi.class);
     }
 
-    public void login(String username, String password) {
+    public void login(String email, String password) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("username", username);
+        jsonObject.addProperty("email", email);
         jsonObject.addProperty("password", password);
 
         Call<JsonObject> call = authApi.login(jsonObject);

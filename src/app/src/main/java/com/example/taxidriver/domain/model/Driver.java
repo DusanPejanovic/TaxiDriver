@@ -1,5 +1,7 @@
 package com.example.taxidriver.domain.model;
 
+import com.example.taxidriver.data.dto.DriverDTO;
+
 import java.util.List;
 
 public class Driver extends User{
@@ -17,6 +19,15 @@ public class Driver extends User{
         this.isActive = is_active;
         this.vehicle = vehicle;
         this.drives = drives;
+    }
+
+    public Driver(DriverDTO driverDTO) {
+        super(String.valueOf(driverDTO.getId()), null, null, driverDTO.getEmail(), null, null, null, null, null, null, null);
+        this.drivingLicense = null;
+        this.trafficLicense = null;
+        this.isActive = false;
+        this.vehicle = null;
+        this.drives = null;
     }
 
     public String getDrivingLicense() {

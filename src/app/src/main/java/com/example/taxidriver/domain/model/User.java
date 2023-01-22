@@ -2,7 +2,7 @@ package com.example.taxidriver.domain.model;
 import java.util.List;
 
 public class User {
-    String id;
+    Long id;
     String name;
     String surname;
     String email;
@@ -17,7 +17,7 @@ public class User {
 
 
     public User(String id, String name, String lastname, String email, String profilePicture, String phoneNumber, String adress, String password, List<Message> messagesSent, List<Message> messagesRecived, List<RejectionLetter> rejectionLetters) {
-        this.id = id;
+        this.id = Long.valueOf(id);
         this.name = name;
         this.surname = lastname;
         this.email = email;
@@ -31,7 +31,7 @@ public class User {
     }
 
     public User(String id, String name, String lastname, String email, String profilePicture, String phoneNumber, String adress, String password) {
-        this.id = id;
+        this.id = Long.valueOf(id);
         this.name = name;
         this.surname = lastname;
         this.email = email;
@@ -52,11 +52,11 @@ public class User {
         this.email = email;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

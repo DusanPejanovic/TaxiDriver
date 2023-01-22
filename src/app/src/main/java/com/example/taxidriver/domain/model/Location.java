@@ -7,8 +7,9 @@ import java.util.List;
 public class Location {
 
     private String id;
-    private Integer longitude;
-    private Integer latitude;
+    private Double longitude;
+    private Double latitude;
+    private String address;
 
     private List<Route> routesStartHere;
     private List<Route> routesEndHere;
@@ -19,8 +20,8 @@ public class Location {
 
     public Location(String id, Integer longitude, Integer latitude, List<Route> routesStartHere, List<Route> routesEndHere, List<Route> favouriteRoutesStartHere, List<Route> favouriteRoutesEndHere) {
         this.id = id;
-        this.longitude = longitude;
-        this.latitude = latitude;
+        this.longitude = Double.valueOf(longitude);
+        this.latitude = Double.valueOf(latitude);
         this.routesStartHere = routesStartHere;
         this.routesEndHere = routesEndHere;
         this.favouriteRoutesStartHere = favouriteRoutesStartHere;
@@ -29,8 +30,8 @@ public class Location {
 
     public Location(String id, Integer longitude, Integer latitude) {
         this.id = id;
-        this.longitude = longitude;
-        this.latitude = latitude;
+        this.longitude = Double.valueOf(longitude);
+        this.latitude = Double.valueOf(latitude);
     }
 
 
@@ -44,19 +45,19 @@ public class Location {
         this.id = id;
     }
 
-    public Integer getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Integer longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
-    public Integer getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Integer latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
@@ -92,6 +93,13 @@ public class Location {
         this.favouriteRoutesEndHere = favouriteRoutesEndHere;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     @NonNull
     @Override
