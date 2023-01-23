@@ -1,5 +1,6 @@
 package com.example.taxidriver.ui.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -25,6 +26,7 @@ import com.example.taxidriver.util.Mockup;
 import com.google.gson.JsonObject;
 
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,6 +35,7 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     AuthRepository authRepository = new AuthRepository();
+    SharedPreferences pref = TaxiDriver.getAppContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
 
 
 
@@ -49,37 +52,40 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                Intent intent;
-
                 Editable emailEditable = editTextEmail.getText();
                 Editable passwordEditable = editTextPassword.getText();
 
                 if(emailEditable == null || passwordEditable == null)
                     return;
 
-
                 String email = emailEditable.toString();
                 String password = passwordEditable.toString();
 
-                SharedPreferences pref = TaxiDriver.getAppContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
-
-
-                authRepository.login("john.doe3@example.com", "123",new Callback<JsonObject>() {
+                authRepository.login(email, password,new Callback<JsonObject>() {
                     @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
                         if (response.isSuccessful()) {
 
+                            assert response.body() != null;
+
                             String token = response.body().get("accessToken").getAsString();
+                            String role = response.body().get("role").getAsString();
                             SharedPreferences.Editor editor = pref.edit();
                             editor.putString("token", token);
                             editor.apply();
 
-
+                            if(Objects.equals(role, "ROLE_DRIVER"))
+                            {
+                                startActivity(new Intent(LoginActivity.this, DriverMainActivity.class));
+                            }
+                            else if(role.equals("ROLE_PASSENGER"))
+                            {
+                                startActivity(new Intent(LoginActivity.this, PassengerMainActivity.class));
+                            }
 
                         } else {
                             Toast.makeText(TaxiDriver.getAppContext(), "Email or password is incorrect.", Toast.LENGTH_SHORT).show();
@@ -87,36 +93,10 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                    public void onFailure(@NonNull Call<JsonObject> call, Throwable t) {
                         Toast.makeText(TaxiDriver.getAppContext(), "Email or password is incorrect.", Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
-
-                intent = new Intent(LoginActivity.this, PassengerMainActivity.class);
-
-                List<Passenger> passengers = Mockup.getPassengers();
-
-                for (Passenger passenger : passengers)
-                {
-                    if(email.equals(passenger.getEmail()) && password.equals(passenger.getPassword()))
-                    {
-                        startActivity(intent);
-                    }
-                }
-
-                intent = new Intent(LoginActivity.this, DriverMainActivity.class);
-
-                List<Driver> drivers = Mockup.getDrivers();
-
-                for (Driver driver : drivers)
-                {
-                    if(email.equals(driver.getEmail()) && password.equals(driver.getPassword()))
-                    {
-                        startActivity(intent);
-                    }
-                }
             }
         });
 
