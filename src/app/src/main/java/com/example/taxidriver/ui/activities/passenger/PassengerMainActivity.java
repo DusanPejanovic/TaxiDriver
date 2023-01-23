@@ -1,35 +1,114 @@
 package com.example.taxidriver.ui.activities.passenger;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.taxidriver.R;
+import com.example.taxidriver.data.dto.LocationDTO3;
+import com.example.taxidriver.domain.viewmodel.PassengerMainViewModel;
+import com.example.taxidriver.domain.viewmodel.RideHistoryViewModel;
+import com.example.taxidriver.ui.fragments.HistoryFragment;
+
+import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
 
 public class PassengerMainActivity extends AppCompatActivity {
+
+
+    private MapView mapView;
+    private EditText destinationEditText;
+    private EditText departureEditText;
+    private EditText timeEditText;
+    private RadioGroup vehicleTypeRadioGroup;
+    private CheckBox petCheckBox;
+    private CheckBox kidCheckBox;
+    private Button submitRideRequestButton;
+    private PassengerMainViewModel viewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passenger_main);
+        Context ctx = getApplicationContext();
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+
+        viewModel = new ViewModelProvider(this).get(PassengerMainViewModel.class);
+
+
+        // Find the elements in the layout by their ID
+        destinationEditText = findViewById(R.id.destination);
+        departureEditText = findViewById(R.id.departure);
+        timeEditText = findViewById(R.id.time);
+        vehicleTypeRadioGroup = findViewById(R.id.vehicle_type);
+        petCheckBox = findViewById(R.id.pet);
+        kidCheckBox = findViewById(R.id.kid);
+        submitRideRequestButton = findViewById(R.id.submit_ride_request);
+        mapView = findViewById(R.id.map_view);
 
 
 
-        ImageView home = findViewById(R.id.home);
+        mapView.setTileSource(TileSourceFactory.MAPNIK);
+        mapView.setBuiltInZoomControls(true);
+        mapView.setMultiTouchControls(true);
+        mapView.getController().setZoom(16);
+        mapView.getController().setCenter(new GeoPoint(45.2396, 19.8227));
+
+
+
+
+        submitRideRequestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                submitRideRequest();
+            }
+        });
+
+
+
+
+        viewModel.getAllActiveVehicles().observe(this, list -> {
+
+                    if(list != null)
+                    {
+                        for(LocationDTO3 location: list) {
+                            GeoPoint driverLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
+                            Marker driverMarker = new Marker(mapView);
+                            driverMarker.setPosition(driverLocation);
+                            driverMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                            driverMarker.setTitle("Driver");
+                            driverMarker.setSubDescription("Standard");
+                            mapView.getOverlays().add(driverMarker);
+                            mapView.invalidate();
+                        }
+                    }
+
+                }
+        );
+
+
+        viewModel.fetchActiveVehiclesLocation();
+
+
         ImageView history = findViewById(R.id.history);
         ImageView inbox = findViewById(R.id.inbox);
         ImageView profile = findViewById(R.id.profile);
-
-//        home.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(PassengerMainActivity.this, PassengerMainActivity.class));
-//            }
-//        });
 
         history.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,30 +129,24 @@ public class PassengerMainActivity extends AppCompatActivity {
                 startActivity(new Intent(PassengerMainActivity.this, PassengerAccountActivity.class));
             }
         });
-
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-//        Toast.makeText(this, "onStart()", Toast.LENGTH_SHORT).show();
+    private void submitRideRequest() {
+        String destination = destinationEditText.getText().toString();
+        String departure = departureEditText.getText().toString();
+        String time = timeEditText.getText().toString();
+        String vehicleType = getSelectedVehicleType();
+        boolean hasPet = petCheckBox.isChecked();
+        boolean hasKid = kidCheckBox.isChecked();
+
+        //TODO: Use the provided information to match the user with an available vehicle and driver.
+        //TODO: Add Marker on Map with the driver's current location.
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        Toast.makeText(this, "onResume()",Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-//        Toast.makeText(this, "onPause()",Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-//        Toast.makeText(this, "onStop()",Toast.LENGTH_SHORT).show();
+    private String getSelectedVehicleType() {
+        int selectedId = vehicleTypeRadioGroup.getCheckedRadioButtonId();
+        RadioButton selectedRadioButton = findViewById(selectedId);
+        return selectedRadioButton.getText().toString();
     }
 }
+

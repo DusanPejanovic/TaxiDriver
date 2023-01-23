@@ -38,7 +38,6 @@ public class DriverHistoryActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(RideHistoryViewModel.class);
 
-        viewModel.fetchRideHistory(id);
 
         viewModel.getRideHistory().observe(this, historyList -> {
 
@@ -47,6 +46,8 @@ public class DriverHistoryActivity extends AppCompatActivity {
 
             }
         );
+        viewModel.fetchRideHistory(id);
+
 
         ImageView home = findViewById(R.id.home);
         ImageView inbox = findViewById(R.id.inbox);
