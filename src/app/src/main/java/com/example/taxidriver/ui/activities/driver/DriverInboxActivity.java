@@ -26,6 +26,8 @@ public class DriverInboxActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(DriverInboxActivity.this, DriverMainActivity.class));
+                finish();
+
             }
         });
 
@@ -33,12 +35,16 @@ public class DriverInboxActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(DriverInboxActivity.this, DriverHistoryActivity.class));
+                finish();
+
             }
         });
         inbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(DriverInboxActivity.this, DriverInboxActivity.class));
+                finish();
+
             }
         });
         profile.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +52,8 @@ public class DriverInboxActivity extends AppCompatActivity {
             public void onClick(View view) {
 //                startActivity(new Intent(DriverMainActivity.this, PassengerAccountActivity.class));
                 Toast.makeText(DriverInboxActivity.this, "TODO: Add driver account", Toast.LENGTH_SHORT).show();
+                finish();
+
             }
         });
 

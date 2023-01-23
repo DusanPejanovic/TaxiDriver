@@ -57,6 +57,7 @@ public class DriverHistoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(DriverHistoryActivity.this, DriverMainActivity.class));
+                finish();
             }
         });
 
@@ -65,6 +66,8 @@ public class DriverHistoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(DriverHistoryActivity.this, DriverInboxActivity.class));
+                finish();
+
             }
         });
 
@@ -73,6 +76,8 @@ public class DriverHistoryActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //startActivity(new Intent(DriverHistoryActivity.this, PassengerAccountActivity.class));
                 Toast.makeText(DriverHistoryActivity.this, "TODO: Add driver account", Toast.LENGTH_SHORT).show();
+                finish();
+
             }
         });
 

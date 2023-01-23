@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.taxidriver.R;
+import com.example.taxidriver.TaxiDriver;
+import com.example.taxidriver.util.Tools;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,37 +21,23 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         int SPLASH_TIME_OUT = 1500;
-        new Timer().schedule(new TimerTask()
-        {
+
+        if (Tools.getConnectivityStatus(getApplicationContext()) == 0) {
+            Toast.makeText(TaxiDriver.getAppContext(), "Turn on wifi or mobile data.", Toast.LENGTH_SHORT).show();
+            SPLASH_TIME_OUT = 10000;
+        }
+
+        new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-                finish(); // da nebi mogao da ode back na splash
+                int status = Tools.getConnectivityStatus(getApplicationContext());
+                if (Tools.getConnectivityStatus(getApplicationContext())  != 0) {
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                }
+                finish();
             }
         }, SPLASH_TIME_OUT);
-    }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        Toast.makeText(this, "onStart()", Toast.LENGTH_SHORT).show();
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        Toast.makeText(this, "onResume()",Toast.LENGTH_SHORT).show();
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        Toast.makeText(this, "onPause()",Toast.LENGTH_SHORT).show();
-//    }
-//
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        Toast.makeText(this, "onStop()",Toast.LENGTH_SHORT).show();
-//    }
+
+    }
 }

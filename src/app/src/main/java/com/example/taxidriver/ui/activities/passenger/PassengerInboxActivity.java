@@ -42,6 +42,8 @@ public class PassengerInboxActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(PassengerInboxActivity.this, PassengerMainActivity.class));
+                finish();
+
             }
         });
 
@@ -50,6 +52,8 @@ public class PassengerInboxActivity extends AppCompatActivity {
             public void onClick(View view) {
 //                startActivity(new Intent(PassengerMainActivity.this, PassengerHistoryFragment.class));
                 Toast.makeText(PassengerInboxActivity.this, "TODO: Add passenger ride history", Toast.LENGTH_SHORT).show();
+                finish();
+
             }
         });
 //        inbox.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +66,7 @@ public class PassengerInboxActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(PassengerInboxActivity.this, PassengerAccountActivity.class));
+                finish();
             }
         });
     }
