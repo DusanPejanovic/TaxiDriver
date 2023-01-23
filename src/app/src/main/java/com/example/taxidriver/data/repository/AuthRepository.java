@@ -3,6 +3,7 @@ package com.example.taxidriver.data.repository;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import com.example.taxidriver.TaxiDriver;
 import com.example.taxidriver.data.api.AuthApi;
@@ -31,32 +32,13 @@ public class AuthRepository {
         authApi = retrofit.create(AuthApi.class);
     }
 
-    public void login(String email, String password) {
+    public void login(String email, String password, Callback<JsonObject> callback) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("email", email);
         jsonObject.addProperty("password", password);
 
         Call<JsonObject> call = authApi.login(jsonObject);
-        call.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.isSuccessful()) {
-
-                    String token = response.body().get("accessToken").getAsString();
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.putString("token", token);
-                    editor.apply();
-
-                } else {
-                    int x =2;
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-              int x = 2;
-            }
-        });
+        call.enqueue(callback);
     }
 
     public void signup(User user, final AuthCallback authCallback) {
