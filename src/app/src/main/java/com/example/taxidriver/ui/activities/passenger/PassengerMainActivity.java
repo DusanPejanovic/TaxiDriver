@@ -144,9 +144,6 @@ public class PassengerMainActivity extends AppCompatActivity {
         String vehicleType = getSelectedVehicleType();
         boolean hasPet = petCheckBox.isChecked();
         boolean hasKid = kidCheckBox.isChecked();
-
-        //TODO: Use the provided information to match the user with an available vehicle and driver.
-        //TODO: Add Marker on Map with the driver's current location.
     }
 
     private String getSelectedVehicleType() {
