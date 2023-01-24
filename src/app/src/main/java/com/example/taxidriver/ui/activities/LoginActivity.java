@@ -51,12 +51,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         Button login_button = findViewById(R.id.login_button);
-
         EditText editTextEmail = findViewById(R.id.editTextEmail);
         EditText editTextPassword = findViewById(R.id.editTextPassword);
-
-
-
 
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,8 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                             String newPassword = passwordEditText.getText().toString();
 
                             userRepository.resetPassword(new ChangePasswordCodeDTO(email, newPassword, code));
-                            // Verify the code and update the user's password
-                            // Show message to user that password was reset
+
                             resetDialog.dismiss();
                         }
                     });
@@ -159,7 +154,8 @@ public class LoginActivity extends AppCompatActivity {
                     forgotPasswordDialogView.dismiss();
 
                 } else {
-                    // Show message to user that email is empty
+                    Toast.makeText(TaxiDriver.getAppContext(), "Email field is empty.", Toast.LENGTH_SHORT).show();
+
                 }
         }
         });
