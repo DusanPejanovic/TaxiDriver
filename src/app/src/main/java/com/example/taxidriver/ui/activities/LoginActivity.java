@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.example.taxidriver.R;
 import com.example.taxidriver.TaxiDriver;
+import com.example.taxidriver.data.dto.ChangePasswordCodeDTO;
+import com.example.taxidriver.data.dto.ResetPasswordDTO;
 import com.example.taxidriver.data.repository.AuthRepository;
 import com.example.taxidriver.data.repository.UserRepository;
 import com.example.taxidriver.domain.model.User;
@@ -39,8 +41,8 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     AuthRepository authRepository = new AuthRepository();
+    UserRepository userRepository = new UserRepository();
     SharedPreferences pref = TaxiDriver.getAppContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
-
 
 
     @Override
@@ -123,10 +125,15 @@ public class LoginActivity extends AppCompatActivity {
         Button sendButton = forgotPasswordDialogView.findViewById(R.id.send_button);
 
         sendButton.setOnClickListener( new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 String email = emailEditText.getText().toString();
+
                 if (!TextUtils.isEmpty(email)) {
+
+                    userRepository.sendCode(new ResetPasswordDTO(email));
+
                     // Send password reset link to email
                     // Show message to user that link was sent
                     final Dialog resetDialog = new Dialog(LoginActivity.this);
@@ -140,6 +147,8 @@ public class LoginActivity extends AppCompatActivity {
                         public void onClick(View v) {
                             String code = codeEditText.getText().toString();
                             String newPassword = passwordEditText.getText().toString();
+
+                            userRepository.resetPassword(new ChangePasswordCodeDTO(email, newPassword, code));
                             // Verify the code and update the user's password
                             // Show message to user that password was reset
                             resetDialog.dismiss();
