@@ -98,7 +98,6 @@ public class PassengerMainActivity extends AppCompatActivity {
                             driverMarker.setPosition(driverLocation);
                             driverMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                             driverMarker.setFlat(true);
-                            driverMarker.s
                             driverMarker.setTitle("Driver");
                             driverMarker.setSubDescription("Standard");
                             mapView.getOverlays().add(driverMarker);
