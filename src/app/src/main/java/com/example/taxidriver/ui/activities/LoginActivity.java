@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +30,7 @@ import com.example.taxidriver.ui.activities.passenger.PassengerMainActivity;
 import com.example.taxidriver.domain.model.Driver;
 import com.example.taxidriver.domain.model.Passenger;
 import com.example.taxidriver.util.Mockup;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.JsonObject;
 
 import java.util.List;
@@ -114,55 +116,57 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
     public void forgotPassword(View view) {
-        // inflate the layout
-        final Dialog forgotPasswordDialogView = new Dialog(LoginActivity.this);
-        forgotPasswordDialogView.setContentView(R.layout.forgot_password_dialog);
-        final EditText emailEditText = forgotPasswordDialogView.findViewById(R.id.email_edit_text);
-        Button sendButton = forgotPasswordDialogView.findViewById(R.id.send_button);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.forgot_password_dialog, null);
+        builder.setView(dialogView);
+        builder.setBackground(getResources().getDrawable(R.drawable.rounded_dialog));
+        final AlertDialog forgotPasswordDialog = builder.create();
 
-        sendButton.setOnClickListener( new View.OnClickListener() {
+        final EditText emailEditText = dialogView.findViewById(R.id.email_edit_text);
+        Button sendButton = dialogView.findViewById(R.id.send_button);
 
+        sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 String email = emailEditText.getText().toString();
-
                 if (!TextUtils.isEmpty(email)) {
-
                     userRepository.sendCode(new ResetPasswordDTO(email));
-
-                    // Send password reset link to email
-                    // Show message to user that link was sent
-                    final Dialog resetDialog = new Dialog(LoginActivity.this);
-                    resetDialog.setContentView(R.layout.reset_password_dialog);
-                    resetDialog.setTitle("Reset Password");
-                    final EditText codeEditText = resetDialog.findViewById(R.id.reset_code_edit_text);
-                    final EditText passwordEditText = resetDialog.findViewById(R.id.new_password_edit_text);
-                    Button submitButton = resetDialog.findViewById(R.id.submit_button);
-                    submitButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String code = codeEditText.getText().toString();
-                            String newPassword = passwordEditText.getText().toString();
-
-                            userRepository.resetPassword(new ChangePasswordCodeDTO(email, newPassword, code));
-
-                            resetDialog.dismiss();
-                        }
-                    });
-
-                    resetDialog.show();
-                    forgotPasswordDialogView.dismiss();
-
+                    showResetPasswordDialog(email);
+                    forgotPasswordDialog.dismiss();
                 } else {
                     Toast.makeText(TaxiDriver.getAppContext(), "Email field is empty.", Toast.LENGTH_SHORT).show();
-
                 }
-        }
+            }
         });
 
-        forgotPasswordDialogView.show();
+        forgotPasswordDialog.show();
+    }
 
+    private void showResetPasswordDialog(final String email) {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.reset_password_dialog, null);
+        builder.setView(dialogView);
+        builder.setBackground(getResources().getDrawable(R.drawable.rounded_dialog));
+        final AlertDialog resetPasswordDialog = builder.create();
 
+        final EditText codeEditText = dialogView.findViewById(R.id.reset_code_edit_text);
+        final EditText passwordEditText = dialogView.findViewById(R.id.new_password_edit_text);
+        Button submitButton = dialogView.findViewById(R.id.submit_button);
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String code = codeEditText.getText().toString();
+                String newPassword = passwordEditText.getText().toString();
+
+                userRepository.resetPassword(new ChangePasswordCodeDTO(email, newPassword, code));
+                resetPasswordDialog.dismiss();
+            }
+        });
+
+        resetPasswordDialog.show();
     }
 
 

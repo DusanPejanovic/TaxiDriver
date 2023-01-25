@@ -1,10 +1,12 @@
 package com.example.taxidriver.ui.activities.passenger;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -17,12 +19,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import com.example.taxidriver.R;
 import com.example.taxidriver.data.dto.LocationDTO3;
 import com.example.taxidriver.domain.viewmodel.PassengerMainViewModel;
 import com.example.taxidriver.domain.viewmodel.RideHistoryViewModel;
 import com.example.taxidriver.ui.fragments.HistoryFragment;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -36,8 +40,6 @@ public class PassengerMainActivity extends AppCompatActivity {
     private MapView mapView;
     private EditText destinationEditText;
     private EditText departureEditText;
-    private EditText timeEditText;
-    private RadioGroup vehicleTypeRadioGroup;
     private CheckBox petCheckBox;
     private CheckBox kidCheckBox;
     private Button submitRideRequestButton;
@@ -62,11 +64,10 @@ public class PassengerMainActivity extends AppCompatActivity {
         int hour = timePicker.getHour();
         int minute = timePicker.getMinute();
 
-        //petCheckBox = findViewById(R.id.pet);
-        //kidCheckBox = findViewById(R.id.kid);
+        petCheckBox = findViewById(R.id.pet);
+        kidCheckBox = findViewById(R.id.kid);
         submitRideRequestButton = findViewById(R.id.submit_ride_request);
         mapView = findViewById(R.id.map_view);
-
 
 
         mapView.setTileSource(TileSourceFactory.MAPNIK);
@@ -76,23 +77,31 @@ public class PassengerMainActivity extends AppCompatActivity {
         mapView.getController().setCenter(new GeoPoint(45.2396, 19.8227));
 
 
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this)
+                .setView(R.layout.forgot_password_dialog);
+
+        builder.setBackground(getResources().getDrawable(R.drawable.rounded_dialog));
+        ;
+
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
 
 
         submitRideRequestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                submitRideRequest();
+
+                Toast.makeText(PassengerMainActivity.this, "TODO: Add passenger ride history", Toast.LENGTH_SHORT).show();
+
+
             }
         });
 
-
-
-
         viewModel.getAllActiveVehicles().observe(this, list -> {
 
-                    if(list != null)
-                    {
-                        for(LocationDTO3 location: list) {
+                    if (list != null) {
+                        for (LocationDTO3 location : list) {
                             GeoPoint driverLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
                             Marker driverMarker = new Marker(mapView);
                             driverMarker.setPosition(driverLocation);
@@ -141,21 +150,6 @@ public class PassengerMainActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void submitRideRequest() {
-        String destination = destinationEditText.getText().toString();
-        String departure = departureEditText.getText().toString();
-        String time = timeEditText.getText().toString();
-        String vehicleType = getSelectedVehicleType();
-        boolean hasPet = petCheckBox.isChecked();
-        boolean hasKid = kidCheckBox.isChecked();
-    }
-
-    private String getSelectedVehicleType() {
-        int selectedId = vehicleTypeRadioGroup.getCheckedRadioButtonId();
-        RadioButton selectedRadioButton = findViewById(selectedId);
-        return selectedRadioButton.getText().toString();
     }
 }
 
