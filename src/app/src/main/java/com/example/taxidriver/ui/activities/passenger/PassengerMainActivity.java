@@ -1,6 +1,7 @@
 package com.example.taxidriver.ui.activities.passenger;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.taxidriver.R;
@@ -55,10 +57,13 @@ public class PassengerMainActivity extends AppCompatActivity {
         // Find the elements in the layout by their ID
         destinationEditText = findViewById(R.id.destination);
         departureEditText = findViewById(R.id.departure);
-        timeEditText = findViewById(R.id.time);
-        vehicleTypeRadioGroup = findViewById(R.id.vehicle_type);
-        petCheckBox = findViewById(R.id.pet);
-        kidCheckBox = findViewById(R.id.kid);
+        //timeEditText = findViewById(R.id.time);
+        TimePicker timePicker = findViewById(R.id.time_picker);
+        int hour = timePicker.getHour();
+        int minute = timePicker.getMinute();
+
+        //petCheckBox = findViewById(R.id.pet);
+        //kidCheckBox = findViewById(R.id.kid);
         submitRideRequestButton = findViewById(R.id.submit_ride_request);
         mapView = findViewById(R.id.map_view);
 
@@ -92,6 +97,8 @@ public class PassengerMainActivity extends AppCompatActivity {
                             Marker driverMarker = new Marker(mapView);
                             driverMarker.setPosition(driverLocation);
                             driverMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                            driverMarker.setFlat(true);
+                            driverMarker.s
                             driverMarker.setTitle("Driver");
                             driverMarker.setSubDescription("Standard");
                             mapView.getOverlays().add(driverMarker);
