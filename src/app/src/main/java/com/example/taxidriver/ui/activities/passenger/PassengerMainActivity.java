@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -76,23 +77,25 @@ public class PassengerMainActivity extends AppCompatActivity {
         mapView.getController().setZoom(16);
         mapView.getController().setCenter(new GeoPoint(45.2396, 19.8227));
 
-
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this)
-                .setView(R.layout.forgot_password_dialog);
-
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(PassengerMainActivity.this);
+        LayoutInflater inflater = PassengerMainActivity.this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.wait_driver_accept_ride_dialog, null);
+        builder.setView(dialogView);
         builder.setBackground(getResources().getDrawable(R.drawable.rounded_dialog));
-        ;
+        final AlertDialog waitDriverDialog = builder.create();
 
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
+
 
 
         submitRideRequestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(PassengerMainActivity.this, "TODO: Add passenger ride history", Toast.LENGTH_SHORT).show();
+                waitDriverDialog.show();
+                //final EditText emailEditText = dialogView.findViewById(R.id.email_edit_text);
+                //Button sendButton = dialogView.findViewById(R.id.send_button);
+
 
 
             }
