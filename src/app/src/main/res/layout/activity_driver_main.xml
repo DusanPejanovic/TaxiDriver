@@ -1,61 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.driver.DriverMainActivity">
-
+    android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        tools:ignore="MissingConstraints">
+        android:layout_height="50dp">
 
         <include layout="@layout/toolbar" />
-
-
     </com.google.android.material.appbar.AppBarLayout>
 
-
-    <RelativeLayout
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/appbar"
-        tools:layout_editor_absoluteX="0dp">
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:fontFamily="@font/ubuntu_light"
+        android:text="Ride Ordering"
+        android:textColor="@color/black"
+        android:textSize="34dp" />
 
-        <LinearLayout
-            android:id="@+id/map_container"
+
+    <androidx.cardview.widget.CardView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:padding="5dp"
+        app:cardElevation="10dp"
+
+        app:cardCornerRadius="15dp">
+
+        <org.osmdroid.views.MapView
+            android:id="@+id/map_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/online_ofline_button"
-            android:orientation="horizontal" />
-
-        <ToggleButton
-            android:id="@+id/online_ofline_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ToggleButton"
-            tools:layout_editor_absoluteX="148dp"
-            tools:layout_editor_absoluteY="134dp" />
-
-        <TextView
-            android:id="@+id/online_ofline_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/online_ofline_button"
-            android:layout_weight="1"
-            android:text="offline"
-            android:textAlignment="center"
-
-            android:textSize="30dp" />
+            android:layout_height="600dp"
+            android:layout_weight="1" />
 
 
-    </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
+

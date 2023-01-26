@@ -11,14 +11,6 @@
         <include layout="@layout/toolbar" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:fontFamily="@font/ubuntu_light"
-        android:text="Ride Ordering"
-        android:textColor="@color/black"
-        android:textSize="34dp" />
 
 
     <androidx.cardview.widget.CardView
@@ -40,12 +32,24 @@
 
     </androidx.cardview.widget.CardView>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:fontFamily="@font/ubuntu_light"
+        android:text="Ride Ordering"
+        android:textColor="@color/black"
+        android:textSize="34dp" />
+
     <androidx.cardview.widget.CardView
+
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:padding="5dp"
+        app:cardElevation="5dp"
         app:cardCornerRadius="15dp">
 
         <LinearLayout
@@ -59,7 +63,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal">
-
 
                 <EditText
                     android:id="@+id/departure"

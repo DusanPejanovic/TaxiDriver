@@ -21,9 +21,13 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 
+
+
 public class DriverMainActivity extends AppCompatActivity {
-    private boolean togleValue = false;
-    private MapView mMapView;
+
+    private MapView mapView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,20 +36,19 @@ public class DriverMainActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_driver_main);
-        final LinearLayout mapContainer = findViewById(R.id.map_container);
-
-        //Mapa mora da se doda nakon onCreate aktivitija i onda ubaci u neki container
-        mMapView = new MapView(this);
-        mMapView.setTileSource(TileSourceFactory.MAPNIK);
-        mapContainer.addView(this.mMapView);
-        //TODO fix zoom
-        mMapView.getController().setZoom(15);
-        //Center novi sad
-        mMapView.getController().setCenter(new GeoPoint(45.2396, 19.8227));
 
 
-        Button login_button = findViewById(R.id.online_ofline_button);
-        TextView online_ofline_text_view = findViewById(R.id.online_ofline_text_view);
+
+
+        mapView = findViewById(R.id.map_view);
+
+
+        mapView.setTileSource(TileSourceFactory.MAPNIK);
+        mapView.setBuiltInZoomControls(true);
+        mapView.setMultiTouchControls(true);
+        mapView.getController().setZoom(16);
+        mapView.getController().setCenter(new GeoPoint(45.2396, 19.8227));
+
 
         ImageView home = findViewById(R.id.home);
         ImageView history = findViewById(R.id.history);
@@ -85,24 +88,6 @@ public class DriverMainActivity extends AppCompatActivity {
             }
         });
 
-        login_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if(togleValue == false)
-                {
-                  online_ofline_text_view.setText("online");
-                  togleValue = true;
-                }
-                else
-                {
-                    online_ofline_text_view.setText("offline");
-                    togleValue = false;
-                }
-
-
-            }
-        });
 
 
 
