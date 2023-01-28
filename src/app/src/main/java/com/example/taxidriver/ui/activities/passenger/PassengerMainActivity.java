@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -29,11 +32,20 @@ import com.example.taxidriver.domain.viewmodel.RideHistoryViewModel;
 import com.example.taxidriver.ui.fragments.HistoryFragment;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import org.mapsforge.core.model.Point;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.ItemizedOverlay;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.OverlayItem;
+
+// putnik u bazi pravi -> pennding ride
+
+//
+
 
 public class PassengerMainActivity extends AppCompatActivity {
 
@@ -47,6 +59,7 @@ public class PassengerMainActivity extends AppCompatActivity {
     private PassengerMainViewModel viewModel;
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +97,18 @@ public class PassengerMainActivity extends AppCompatActivity {
         builder.setBackground(getResources().getDrawable(R.drawable.rounded_dialog));
         final AlertDialog waitDriverDialog = builder.create();
 
-
+        mapView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Projection pj = mapView.getProjection();
+                    GeoPoint geoPoint = (GeoPoint) pj.fromPixels((int) event.getX(), (int) event.getY());
+                    OverlayItem marker = new OverlayItem("Title", "Description", geoPoint);
+                    int x =3;
+                }
+                return false;
+            }
+        });
 
 
 
