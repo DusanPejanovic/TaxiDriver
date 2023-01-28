@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,12 +22,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import com.example.taxidriver.R;
+import com.example.taxidriver.TaxiDriver;
 import com.example.taxidriver.data.dto.LocationDTO3;
+import com.example.taxidriver.data.dto.ResetPasswordDTO;
 import com.example.taxidriver.domain.viewmodel.PassengerMainViewModel;
 import com.example.taxidriver.domain.viewmodel.RideHistoryViewModel;
 import com.example.taxidriver.ui.fragments.HistoryFragment;
@@ -90,25 +94,13 @@ public class PassengerMainActivity extends AppCompatActivity {
         mapView.getController().setZoom(16);
         mapView.getController().setCenter(new GeoPoint(45.2396, 19.8227));
 
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(PassengerMainActivity.this);
+        MaterialAlertDialogBuilder builder1 = new MaterialAlertDialogBuilder(PassengerMainActivity.this);
         LayoutInflater inflater = PassengerMainActivity.this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.wait_driver_accept_ride_dialog, null);
-        builder.setView(dialogView);
-        builder.setBackground(getResources().getDrawable(R.drawable.rounded_dialog));
-        final AlertDialog waitDriverDialog = builder.create();
+        builder1.setView(dialogView);
+        builder1.setBackground(getResources().getDrawable(R.drawable.rounded_dialog));
+        final AlertDialog waitDriverDialog = builder1.create();
 
-        mapView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Projection pj = mapView.getProjection();
-                    GeoPoint geoPoint = (GeoPoint) pj.fromPixels((int) event.getX(), (int) event.getY());
-                    OverlayItem marker = new OverlayItem("Title", "Description", geoPoint);
-                    int x =3;
-                }
-                return false;
-            }
-        });
 
 
 
@@ -116,11 +108,39 @@ public class PassengerMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                waitDriverDialog.show();
-                //final EditText emailEditText = dialogView.findViewById(R.id.email_edit_text);
-                //Button sendButton = dialogView.findViewById(R.id.send_button);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(PassengerMainActivity.this);
+                LayoutInflater inflater = PassengerMainActivity.this.getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.estimation_accept, null);
+                builder.setView(dialogView);
+                builder.setBackground(getResources().getDrawable(R.drawable.rounded_dialog));
+                final AlertDialog forgotPasswordDialog = builder.create();
+                TextView estimatedTime = dialogView.findViewById(R.id.estimated_time);
+                TextView estimatedCost = dialogView.findViewById(R.id.estimated_cost);
 
+                estimatedTime.setText("Estimated time: 30 minutes");
+                estimatedCost.setText("Estimated cost: $15");
+                Button sendButton = dialogView.findViewById(R.id.accept_estimation_button);
 
+                sendButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Toast.makeText(TaxiDriver.getAppContext(), "Button clicked", Toast.LENGTH_SHORT).show();
+
+                        /*
+                        String email = emailEditText.getText().toString();
+                        if (!TextUtils.isEmpty(email)) {
+                            userRepository.sendCode(new ResetPasswordDTO(email));
+                            showResetPasswordDialog(email);
+                            forgotPasswordDialog.dismiss();
+                        } else {
+                            Toast.makeText(TaxiDriver.getAppContext(), "Email field is empty.", Toast.LENGTH_SHORT).show();
+                        }
+                         */
+                    }
+                });
+
+                forgotPasswordDialog.show();
 
             }
         });
