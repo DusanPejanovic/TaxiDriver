@@ -1,5 +1,6 @@
 package com.example.taxidriver.ui.activities.passenger;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -9,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -22,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -29,12 +32,18 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import com.example.taxidriver.R;
 import com.example.taxidriver.TaxiDriver;
+import com.example.taxidriver.data.dto.EstimationDTO;
+import com.example.taxidriver.data.dto.EstimationRequestDTO2;
 import com.example.taxidriver.data.dto.LocationDTO3;
 import com.example.taxidriver.data.dto.ResetPasswordDTO;
+import com.example.taxidriver.data.repository.UnregisteredUserRepository;
 import com.example.taxidriver.domain.viewmodel.PassengerMainViewModel;
 import com.example.taxidriver.domain.viewmodel.RideHistoryViewModel;
+import com.example.taxidriver.ui.activities.LoginActivity;
+import com.example.taxidriver.ui.activities.driver.DriverMainActivity;
 import com.example.taxidriver.ui.fragments.HistoryFragment;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.gson.JsonObject;
 
 import org.mapsforge.core.model.Point;
 import org.osmdroid.config.Configuration;
@@ -45,6 +54,14 @@ import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.ItemizedOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.OverlayItem;
+
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 // putnik u bazi pravi -> pennding ride
 
@@ -59,7 +76,9 @@ public class PassengerMainActivity extends AppCompatActivity {
     private EditText departureEditText;
     private CheckBox petCheckBox;
     private CheckBox kidCheckBox;
+    private Spinner vehicleTypeSpinner;
     private Button submitRideRequestButton;
+    private UnregisteredUserRepository unregisteredUserRepository;
     private PassengerMainViewModel viewModel;
 
 
@@ -73,6 +92,7 @@ public class PassengerMainActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(PassengerMainViewModel.class);
 
+        unregisteredUserRepository = new UnregisteredUserRepository();
 
         // Find the elements in the layout by their ID
         destinationEditText = findViewById(R.id.destination);
@@ -83,6 +103,7 @@ public class PassengerMainActivity extends AppCompatActivity {
         int minute = timePicker.getMinute();
 
         petCheckBox = findViewById(R.id.pet);
+        vehicleTypeSpinner = findViewById(R.id.vehicle_type);
         kidCheckBox = findViewById(R.id.kid);
         submitRideRequestButton = findViewById(R.id.submit_ride_request);
         mapView = findViewById(R.id.map_view);
@@ -107,25 +128,49 @@ public class PassengerMainActivity extends AppCompatActivity {
         submitRideRequestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Integer hour = timePicker.getHour();
+                Integer minute = timePicker.getMinute();
+                String departure  = departureEditText.getText().toString();
+                String destination = destinationEditText.getText().toString();
+                boolean isKid = kidCheckBox.isChecked();
+                boolean isPet = petCheckBox.isChecked();
+                String vehicleType = (String) vehicleTypeSpinner.getSelectedItem();
 
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(PassengerMainActivity.this);
-                LayoutInflater inflater = PassengerMainActivity.this.getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.estimation_accept, null);
-                builder.setView(dialogView);
-                builder.setBackground(getResources().getDrawable(R.drawable.rounded_dialog));
-                final AlertDialog forgotPasswordDialog = builder.create();
-                TextView estimatedTime = dialogView.findViewById(R.id.estimated_time);
-                TextView estimatedCost = dialogView.findViewById(R.id.estimated_cost);
+                EstimationRequestDTO2  estimationRequest = new EstimationRequestDTO2(departure,destination,isKid, isPet, vehicleType);
 
-                estimatedTime.setText("Estimated time: 30 minutes");
-                estimatedCost.setText("Estimated cost: $15");
-                Button sendButton = dialogView.findViewById(R.id.accept_estimation_button);
+                if (hour < LocalDateTime.now().getHour() && minute < LocalDateTime.now().getMinute())
+                {
+                    Toast.makeText(TaxiDriver.getAppContext(), "Time must be in future.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                sendButton.setOnClickListener(new View.OnClickListener() {
+                unregisteredUserRepository.getEstimation(new Callback<EstimationDTO>() {
                     @Override
-                    public void onClick(View v) {
+                    public void onResponse(@NonNull Call<EstimationDTO> call, @NonNull Response<EstimationDTO> response) {
+                        if (response.isSuccessful()) {
 
-                        Toast.makeText(TaxiDriver.getAppContext(), "Button clicked", Toast.LENGTH_SHORT).show();
+                            assert response.body() != null;
+
+                            EstimationDTO estimation = response.body();
+                            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(PassengerMainActivity.this);
+                            LayoutInflater inflater = PassengerMainActivity.this.getLayoutInflater();
+                            View dialogView = inflater.inflate(R.layout.estimation_accept, null);
+                            builder.setView(dialogView);
+                            builder.setBackground(getResources().getDrawable(R.drawable.rounded_dialog));
+                            final AlertDialog estimationDialog = builder.create();
+                            TextView estimatedTime = dialogView.findViewById(R.id.estimated_time);
+                            TextView estimatedCost = dialogView.findViewById(R.id.estimated_cost);
+
+                            estimatedTime.setText("Estimated time: " + estimation.getEstimatedTimeInMinutes() + " minutes");
+                            estimatedCost.setText("Estimated cost: " + estimation.getEstimatedCost() +  " $");
+                            Button sendButton = dialogView.findViewById(R.id.accept_estimation_button);
+
+                            sendButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    waitDriverDialog.show();
+                                    estimationDialog.dismiss();
+
 
                         /*
                         String email = emailEditText.getText().toString();
@@ -137,10 +182,23 @@ public class PassengerMainActivity extends AppCompatActivity {
                             Toast.makeText(TaxiDriver.getAppContext(), "Email field is empty.", Toast.LENGTH_SHORT).show();
                         }
                          */
-                    }
-                });
+                                }
+                            });
 
-                forgotPasswordDialog.show();
+                            estimationDialog.show();
+
+                        } else {
+                            Toast.makeText(TaxiDriver.getAppContext(), "Estimation response body invalid.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<EstimationDTO> call, Throwable t) {
+                        Toast.makeText(TaxiDriver.getAppContext(), "Address does not exist in Novi Sad.", Toast.LENGTH_SHORT).show();
+                    }
+                }, estimationRequest);
+
+
 
             }
         });
