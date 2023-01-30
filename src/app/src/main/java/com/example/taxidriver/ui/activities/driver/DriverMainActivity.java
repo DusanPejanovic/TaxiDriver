@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.taxidriver.R;
+import com.example.taxidriver.TaxiDriver;
 import com.example.taxidriver.data.dto.LocationDTO3;
+import com.example.taxidriver.data.dto.PendingRideResponseDTO;
+import com.example.taxidriver.data.repository.DriverRepository;
 import com.example.taxidriver.domain.viewmodel.DriverMainViewModel;
 import com.example.taxidriver.ui.activities.passenger.PassengerMainActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -27,17 +32,53 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class DriverMainActivity extends AppCompatActivity {
 
     private MapView mapView;
     DriverMainViewModel driverMainViewModel;
+    AlertDialog acceptRideDialog;
+    SharedPreferences prefs = TaxiDriver.getAppContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
+
+
+    private Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            DriverRepository repository = new DriverRepository();
+            repository.isTherePendingRide(new Callback<PendingRideResponseDTO>() {
+                @Override
+                public void onResponse(Call<PendingRideResponseDTO> call, Response<PendingRideResponseDTO> response) {
+
+                    if(response.isSuccessful())
+                    {
+                        acceptRideDialog.show();
+                    }
+                    else
+                    {}
+
+                }
+
+                @Override
+                public void onFailure(Call<PendingRideResponseDTO> call, Throwable t) {
+                    // handle error
+                }
+            }, prefs.getString("userId", ""));
+            handler.postDelayed(runnable, 10000);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+
+
 
 
         driverMainViewModel = new DriverMainViewModel();
@@ -59,9 +100,11 @@ public class DriverMainActivity extends AppCompatActivity {
         View dialogView = inflater.inflate(R.layout.accept_ride_dialog, null);
         builder.setView(dialogView);
         builder.setBackground(getResources().getDrawable(R.drawable.rounded_dialog));
-        final AlertDialog acceptRideDialog = builder.create();
+        acceptRideDialog = builder.create();
 
         // acceptRideDialog.show();
+
+
 
         driverMainViewModel.getAllActiveVehicles().observe(this, list -> {
 
@@ -82,8 +125,16 @@ public class DriverMainActivity extends AppCompatActivity {
                 }
         );
 
+        String id = "1";
+
 
         driverMainViewModel.fetchActiveVehiclesLocation();
+
+        handler.post(runnable);
+
+
+
+
 
 
 
@@ -128,5 +179,12 @@ public class DriverMainActivity extends AppCompatActivity {
 
 
 
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        handler.removeCallbacks(runnable);
     }
 }

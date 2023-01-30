@@ -3,6 +3,7 @@ package com.example.taxidriver.data.repository;
 import com.example.taxidriver.data.RetrofitClient;
 import com.example.taxidriver.data.api.DriverApi;
 import com.example.taxidriver.data.dto.PaginatedResponse;
+import com.example.taxidriver.data.dto.PendingRideResponseDTO;
 import com.example.taxidriver.data.dto.RideDTO;
 
 import java.io.IOException;
@@ -20,6 +21,10 @@ public class DriverRepository {
 
     public void getRideHistory(Callback<PaginatedResponse<RideDTO>> callback, String id) {
         driverApi.getRideHistory(id).enqueue(callback);
+    }
+
+    public void isTherePendingRide(Callback<PendingRideResponseDTO> callback, String id) {
+        driverApi.isTherePendingRide(id).enqueue(callback);
     }
 
 }

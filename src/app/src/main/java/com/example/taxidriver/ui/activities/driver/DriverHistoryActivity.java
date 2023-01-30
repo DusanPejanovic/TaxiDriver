@@ -6,13 +6,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.taxidriver.R;
+import com.example.taxidriver.TaxiDriver;
 import com.example.taxidriver.data.dto.RideDTO;
 import com.example.taxidriver.data.repository.DriverRepository;
 import com.example.taxidriver.domain.model.Ride;
@@ -26,13 +29,17 @@ import java.util.List;
 public class DriverHistoryActivity extends AppCompatActivity {
 
     private RideHistoryViewModel viewModel;
+    SharedPreferences prefs = TaxiDriver.getAppContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_history);
 
-        String id = "1";
+
+        String id = prefs.getString("userId", null);
+
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 

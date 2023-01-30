@@ -36,31 +36,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-
-        UserRepository repository = new UserRepository();
-
-        repository.getUsers( new Callback<PaginatedResponse<User>>() {
-            @Override
-            public void onResponse(@NonNull Call<PaginatedResponse<User>> call, @NonNull Response<PaginatedResponse<User>> response) {
-                if (response.isSuccessful()) {
-                    PaginatedResponse<User> usersPaginated = response.body();
-                    // Do something with the user data
-
-                    int z = 3;
-                } else {
-                    // Handle error response
-                    int w = 2;
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<PaginatedResponse<User>> call, Throwable t) {
-
-                int a = 2;
-                // Handle failure
-            }
-        });
-
     }
 
 
