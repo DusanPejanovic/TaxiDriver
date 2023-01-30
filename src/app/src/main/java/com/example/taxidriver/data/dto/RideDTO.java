@@ -24,10 +24,10 @@ public class RideDTO {
     private RejectionLetterDTO rejection;
     private LocationDTO locations;
     private String status;
+
+
     public RideDTO() {
     }
-
-
 
     public RideDTO(Ride ride){
         this.id = ride.getId();
@@ -58,7 +58,6 @@ public class RideDTO {
     }
 
     public String getStartTime() {
-
         return startTime;
     }
 

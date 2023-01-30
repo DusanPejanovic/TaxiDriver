@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.taxidriver.R;
+import com.example.taxidriver.data.dto.LocationDTO3;
+import com.example.taxidriver.domain.viewmodel.DriverMainViewModel;
 import com.example.taxidriver.ui.activities.passenger.PassengerMainActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -23,14 +25,13 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-
-
+import org.osmdroid.views.overlay.Marker;
 
 
 public class DriverMainActivity extends AppCompatActivity {
 
     private MapView mapView;
-
+    DriverMainViewModel driverMainViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,8 @@ public class DriverMainActivity extends AppCompatActivity {
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
+
+        driverMainViewModel = new DriverMainViewModel();
 
         setContentView(R.layout.activity_driver_main);
 
@@ -58,7 +61,29 @@ public class DriverMainActivity extends AppCompatActivity {
         builder.setBackground(getResources().getDrawable(R.drawable.rounded_dialog));
         final AlertDialog acceptRideDialog = builder.create();
 
-        acceptRideDialog.show();
+        // acceptRideDialog.show();
+
+        driverMainViewModel.getAllActiveVehicles().observe(this, list -> {
+
+                    if (list != null) {
+                        for (LocationDTO3 location : list) {
+                            GeoPoint driverLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
+                            Marker driverMarker = new Marker(mapView);
+                            driverMarker.setPosition(driverLocation);
+                            driverMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                            driverMarker.setFlat(true);
+                            driverMarker.setTitle("Driver");
+                            driverMarker.setSubDescription("Standard");
+                            mapView.getOverlays().add(driverMarker);
+                            mapView.invalidate();
+                        }
+                    }
+
+                }
+        );
+
+
+        driverMainViewModel.fetchActiveVehiclesLocation();
 
 
 

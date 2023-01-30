@@ -32,11 +32,17 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import com.example.taxidriver.R;
 import com.example.taxidriver.TaxiDriver;
+import com.example.taxidriver.data.api.RideApi;
 import com.example.taxidriver.data.dto.EstimationDTO;
 import com.example.taxidriver.data.dto.EstimationRequestDTO2;
+import com.example.taxidriver.data.dto.LocationDTO;
 import com.example.taxidriver.data.dto.LocationDTO3;
 import com.example.taxidriver.data.dto.ResetPasswordDTO;
+import com.example.taxidriver.data.dto.RideDTO;
+import com.example.taxidriver.data.dto.RideRequestDTO;
+import com.example.taxidriver.data.repository.RideRepository;
 import com.example.taxidriver.data.repository.UnregisteredUserRepository;
+import com.example.taxidriver.domain.model.Ride;
 import com.example.taxidriver.domain.viewmodel.PassengerMainViewModel;
 import com.example.taxidriver.domain.viewmodel.RideHistoryViewModel;
 import com.example.taxidriver.ui.activities.LoginActivity;
@@ -56,16 +62,16 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-// putnik u bazi pravi -> pennding ride
 
-//
 
 
 public class PassengerMainActivity extends AppCompatActivity {
@@ -79,6 +85,7 @@ public class PassengerMainActivity extends AppCompatActivity {
     private Spinner vehicleTypeSpinner;
     private Button submitRideRequestButton;
     private UnregisteredUserRepository unregisteredUserRepository;
+    private RideRepository rideRepository;
     private PassengerMainViewModel viewModel;
 
 
@@ -93,6 +100,7 @@ public class PassengerMainActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(PassengerMainViewModel.class);
 
         unregisteredUserRepository = new UnregisteredUserRepository();
+        rideRepository = new RideRepository();
 
         // Find the elements in the layout by their ID
         destinationEditText = findViewById(R.id.destination);
@@ -138,7 +146,57 @@ public class PassengerMainActivity extends AppCompatActivity {
 
                 EstimationRequestDTO2  estimationRequest = new EstimationRequestDTO2(departure,destination,isKid, isPet, vehicleType);
 
-                if (hour < LocalDateTime.now().getHour() && minute < LocalDateTime.now().getMinute())
+                Integer currentHour = LocalDateTime.now().getHour();
+                Integer currentMinute = LocalDateTime.now().getMinute();
+
+                if (TextUtils.isEmpty(departure)) {
+                    Toast.makeText(TaxiDriver.getAppContext(), "Departure field must not be empty.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(destination)) {
+                    Toast.makeText(TaxiDriver.getAppContext(), "Destination field must not be empty.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(departure)) {
+                    Toast.makeText(TaxiDriver.getAppContext(), "Departure field must not be empty.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (destination.length() > 100) {
+                    Toast.makeText(TaxiDriver.getAppContext(), "Destination length too big.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (departure.length() > 100) {
+                    Toast.makeText(TaxiDriver.getAppContext(), "Departure length too big.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                departure = departure.substring(0, 1).toUpperCase() + departure.substring(1);
+
+                departureEditText.setText(departure);
+
+
+                destination = destination.substring(0, 1).toUpperCase() + destination.substring(1);
+
+                destinationEditText.setText(destination);
+
+                String regex = "^[A-Z][a-zA-Z ]+[0-9]{1,4}$";
+
+                if (!destination.matches(regex)) {
+                    Toast.makeText(TaxiDriver.getAppContext(), "Destination address must end with number.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
+                if (!departure.matches(regex)) {
+                    Toast.makeText(TaxiDriver.getAppContext(), "Departure address must end with number.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
+                if (hour < currentHour || (hour == LocalDateTime.now().getHour() && minute < currentMinute))
                 {
                     Toast.makeText(TaxiDriver.getAppContext(), "Time must be in future.", Toast.LENGTH_SHORT).show();
                     return;
@@ -168,8 +226,33 @@ public class PassengerMainActivity extends AppCompatActivity {
                             sendButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+
                                     waitDriverDialog.show();
                                     estimationDialog.dismiss();
+                                    LocalDateTime scheduleTime = LocalDateTime.now().withHour(hour).withMinute(minute);
+                                    String scheduleTimeString = scheduleTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                                    LocationDTO location = new LocationDTO(estimation.getDeparture(), estimation.getDestionation());
+                                    RideRequestDTO rideRequest = new RideRequestDTO(vehicleType.toUpperCase(Locale.ROOT), isKid, isPet, location, scheduleTimeString);
+                                    rideRepository.submitRideRequest(new Callback<RideDTO>() {
+
+                                        @Override
+                                        public void onResponse(Call<RideDTO> call, Response<RideDTO> response) {
+                                            if (response.isSuccessful()) {
+                                                RideDTO rideDTO = response.body();
+                                                assert rideDTO != null;
+                                                Toast.makeText(TaxiDriver.getAppContext(), "Submitted ride with id: " + rideDTO.getId().toString(), Toast.LENGTH_SHORT).show();
+                                                waitDriverDialog.dismiss();
+
+                                            } else {
+                                                Toast.makeText(TaxiDriver.getAppContext(), "No driver available, please try again later.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<RideDTO> call, Throwable t) {
+                                            Toast.makeText(TaxiDriver.getAppContext(), "No driver available, please try again later.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }, rideRequest);
 
 
                         /*
@@ -188,7 +271,7 @@ public class PassengerMainActivity extends AppCompatActivity {
                             estimationDialog.show();
 
                         } else {
-                            Toast.makeText(TaxiDriver.getAppContext(), "Estimation response body invalid.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(TaxiDriver.getAppContext(), "Address does not exist in Novi Sad.", Toast.LENGTH_SHORT).show();
                         }
                     }
 
