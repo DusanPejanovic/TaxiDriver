@@ -33,28 +33,12 @@ public class RideRepository {
         rideApi.getAcceptedRides(id).enqueue(callback);
     }
 
-    public void acceptRide(String id) {
-        rideApi.acceptRide(id).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if(response.isSuccessful())
-                {
-                    Toast.makeText(TaxiDriver.getAppContext(), "You accepted ride.", Toast.LENGTH_SHORT).show();
+    public void acceptRide(Callback<Void> callback,  String id) {
+        rideApi.acceptRide(id).enqueue(callback);
+    }
 
-                }
-                else
-                {
-                    Toast.makeText(TaxiDriver.getAppContext(), "Something went wrong, you did not accept ride.", Toast.LENGTH_SHORT).show();
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(TaxiDriver.getAppContext(), "Something went wrong, you did not accept ride.", Toast.LENGTH_SHORT).show();
-
-            }
-        });
+    public void startRide(Callback<Void> callback,  String id) {
+        rideApi.acceptRide(id).enqueue(callback);
     }
 
 }

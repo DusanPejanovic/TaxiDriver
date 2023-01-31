@@ -3,7 +3,6 @@ package com.example.taxidriver.ui.activities.driver;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +16,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,14 +23,11 @@ import android.widget.Toast;
 import com.example.taxidriver.R;
 import com.example.taxidriver.TaxiDriver;
 import com.example.taxidriver.data.dto.LocationDTO3;
-import com.example.taxidriver.data.dto.PendingRideResponseDTO;
 import com.example.taxidriver.data.dto.RideDTO;
 import com.example.taxidriver.data.repository.DriverRepository;
 import com.example.taxidriver.data.repository.RideRepository;
 import com.example.taxidriver.domain.viewmodel.DriverMainViewModel;
 import com.example.taxidriver.domain.viewmodel.RideHistoryViewModel;
-import com.example.taxidriver.ui.activities.passenger.PassengerMainActivity;
-import com.example.taxidriver.ui.fragments.HistoryFragment;
 import com.example.taxidriver.ui.fragments.ScheduledFragment;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -57,11 +52,10 @@ public class DriverMainActivity extends AppCompatActivity {
     SharedPreferences prefs = TaxiDriver.getAppContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
     AlertDialog acceptRideDialog;
     RideRepository rideRepository;
-    private RideHistoryViewModel rideViewModel;
 
 
     private Handler handler = new Handler();
-    private Runnable runnable = new Runnable() {
+    private Runnable offeringRideRunnable = new Runnable() {
         @Override
         public void run() {
             DriverRepository repository = new DriverRepository();
@@ -72,7 +66,6 @@ public class DriverMainActivity extends AppCompatActivity {
                     if(response.isSuccessful())
                     {
                         RideDTO rideDTO = response.body();
-                        int x = 3;
                         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(DriverMainActivity.this);
                         LayoutInflater inflater = DriverMainActivity.this.getLayoutInflater();
                         View dialogView = inflater.inflate(R.layout.accept_ride_dialog, null);
@@ -82,8 +75,30 @@ public class DriverMainActivity extends AppCompatActivity {
                         acceptRideButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                rideRepository.acceptRide(rideDTO.getId().toString());
+                                rideRepository.acceptRide(new Callback<Void>() {
+                                    @Override
+                                    public void onResponse(Call<Void> call, Response<Void> response) {
+                                        if(response.isSuccessful())
+                                        {
+                                            Toast.makeText(TaxiDriver.getAppContext(), "You accepted ride.", Toast.LENGTH_SHORT).show();
+                                            driverMainViewModel.fetchScheduledRides(prefs.getString("userId", "1"));
+
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(TaxiDriver.getAppContext(), "Something went wrong, you did not accept ride.", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Void> call, Throwable t) {
+                                        Toast.makeText(TaxiDriver.getAppContext(), "Something went wrong, you did not accept ride.", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                },rideDTO.getId().toString());
                                 acceptRideDialog.dismiss();
+
                             }
                         });
                         ProgressBar progressBar = dialogView.findViewById(R.id.progress_bar);
@@ -141,11 +156,21 @@ public class DriverMainActivity extends AppCompatActivity {
                 public void onFailure(Call<RideDTO> call, Throwable t) {
                     // handle error
                 }
-            }, prefs.getString("userId", ""));
-            handler.postDelayed(runnable, 10000);
+            }, prefs.getString("userId", "1"));
+            handler.postDelayed(offeringRideRunnable, 10000);
         }
     };
 
+/*
+    private Runnable scheduledRidesRunnable = new Runnable() {
+        @Override
+        public void run() {
+            driverMainViewModel.fetchScheduledRides(prefs.getString("userId", "1"));
+            handler.postDelayed(scheduledRidesRunnable, 10000);
+        }
+    };
+
+ */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,11 +196,13 @@ public class DriverMainActivity extends AppCompatActivity {
         driverMainViewModel.getScheduledRides().observe(this, list -> {
 
                     if(list != null)
-                        fragmentManager.beginTransaction().add(R.id.mainContent2, ScheduledFragment.newInstance(list)).commit();
+                        fragmentManager.beginTransaction().add(R.id.mainContent2, ScheduledFragment.newInstance(list, DriverMainActivity.this)).commit();
 
                 }
         );
         driverMainViewModel.fetchScheduledRides(id);
+       // handler.postDelayed(scheduledRidesRunnable, 5000);
+
 
 
         mapView.setTileSource(TileSourceFactory.MAPNIK);
@@ -213,7 +240,7 @@ public class DriverMainActivity extends AppCompatActivity {
 
         driverMainViewModel.fetchActiveVehiclesLocation();
 
-        handler.post(runnable);
+        handler.post(offeringRideRunnable);
 
 
 
@@ -268,6 +295,7 @@ public class DriverMainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        handler.removeCallbacks(runnable);
+        handler.removeCallbacks(offeringRideRunnable);
+       // handler.removeCallbacks(scheduledRidesRunnable);
     }
 }

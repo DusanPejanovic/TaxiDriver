@@ -42,7 +42,17 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+
         <activity
+            android:name=".ui.activities.CurrentRideActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+
             android:name=".ui.activities.driver.DriverInboxActivity"
             android:exported="false"
             android:label="@string/title_activity_inbox_driver"
