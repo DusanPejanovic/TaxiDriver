@@ -1,6 +1,7 @@
 package com.example.taxidriver.data.api;
 
 import com.example.taxidriver.data.dto.ChangePasswordCodeDTO;
+import com.example.taxidriver.data.dto.LocationDTO3;
 import com.example.taxidriver.data.dto.PaginatedResponse;
 import com.example.taxidriver.data.dto.ResetPasswordDTO;
 import com.example.taxidriver.domain.model.User;
@@ -18,6 +19,10 @@ import retrofit2.http.Path;
 public interface UserApi {
     @GET("api/user")
     Call<PaginatedResponse<User>> getUsers();
+
+    @GET("api/user/location")
+    Call<LocationDTO3> getCurrentLocation();
+
 
     @POST("/api/user/code")
     Call<Void> sendCode(@Body ResetPasswordDTO resetPasswordDTO);

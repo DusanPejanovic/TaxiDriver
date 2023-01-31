@@ -8,6 +8,7 @@ import com.example.taxidriver.TaxiDriver;
 import com.example.taxidriver.data.RetrofitClient;
 import com.example.taxidriver.data.api.UserApi;
 import com.example.taxidriver.data.dto.ChangePasswordCodeDTO;
+import com.example.taxidriver.data.dto.LocationDTO3;
 import com.example.taxidriver.data.dto.PaginatedResponse;
 import com.example.taxidriver.data.dto.ResetPasswordDTO;
 import com.example.taxidriver.domain.model.User;
@@ -29,6 +30,10 @@ public class UserRepository {
 
     public void getUsers(Callback<PaginatedResponse<User>> callback) {
         userApi.getUsers().enqueue(callback);
+    }
+
+    public void getCurrentLocation(Callback<LocationDTO3> callback) {
+        userApi.getCurrentLocation().enqueue(callback);
     }
 
 

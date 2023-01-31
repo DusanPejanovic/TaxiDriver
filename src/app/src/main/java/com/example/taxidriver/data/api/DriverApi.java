@@ -3,6 +3,8 @@ package com.example.taxidriver.data.api;
 import com.example.taxidriver.data.dto.PaginatedResponse;
 import com.example.taxidriver.data.dto.PendingRideResponseDTO;
 import com.example.taxidriver.data.dto.RideDTO;
+import com.example.taxidriver.data.dto.VehicleDTO;
+import com.example.taxidriver.domain.model.Location;
 import com.example.taxidriver.domain.model.Ride;
 
 import java.util.List;
@@ -18,4 +20,7 @@ public interface DriverApi {
 
     @GET("api/driver/pending-ride/{driver-id}")
     Call<RideDTO> isTherePendingRide(@Path("driver-id") String id);
+
+    @GET("/api/driver/{id}/vehicle")
+    Call<VehicleDTO> getDriverVehicle(@Path("id") String id);
 }

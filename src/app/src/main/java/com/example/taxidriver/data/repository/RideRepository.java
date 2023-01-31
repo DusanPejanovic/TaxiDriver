@@ -38,7 +38,7 @@ public class RideRepository {
     }
 
     public void startRide(Callback<Void> callback,  String id) {
-        rideApi.acceptRide(id).enqueue(callback);
+        rideApi.startRide(id).enqueue(callback);
     }
 
 }

@@ -5,6 +5,7 @@ import com.example.taxidriver.data.api.DriverApi;
 import com.example.taxidriver.data.dto.PaginatedResponse;
 import com.example.taxidriver.data.dto.PendingRideResponseDTO;
 import com.example.taxidriver.data.dto.RideDTO;
+import com.example.taxidriver.data.dto.VehicleDTO;
 
 import java.io.IOException;
 
@@ -25,6 +26,10 @@ public class DriverRepository {
 
     public void isTherePendingRide(Callback<RideDTO> callback, String id) {
         driverApi.isTherePendingRide(id).enqueue(callback);
+    }
+
+    public void getDriverVehicle(Callback<VehicleDTO> callback, String id) {
+        driverApi.getDriverVehicle(id).enqueue(callback);
     }
 
 }
