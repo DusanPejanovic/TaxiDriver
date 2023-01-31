@@ -23,7 +23,7 @@ public class DriverRepository {
         driverApi.getRideHistory(id).enqueue(callback);
     }
 
-    public void isTherePendingRide(Callback<PendingRideResponseDTO> callback, String id) {
+    public void isTherePendingRide(Callback<RideDTO> callback, String id) {
         driverApi.isTherePendingRide(id).enqueue(callback);
     }
 

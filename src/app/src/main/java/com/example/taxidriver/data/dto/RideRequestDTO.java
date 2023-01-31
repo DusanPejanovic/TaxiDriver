@@ -11,6 +11,8 @@ public class RideRequestDTO {
     private boolean petTransport;
     private LocationDTO locations;
     private String scheduledTime;
+    private Integer estimationTime;
+    private Integer estimationPrice;
 
     public RideRequestDTO() { }
 
@@ -51,6 +53,22 @@ public class RideRequestDTO {
 
     public boolean isPetTransport() {
         return petTransport;
+    }
+
+    public Integer getEstimationTime() {
+        return estimationTime;
+    }
+
+    public void setEstimationTime(Integer estimationTime) {
+        this.estimationTime = estimationTime;
+    }
+
+    public Integer getEstimationPrice() {
+        return estimationPrice;
+    }
+
+    public void setEstimationPrice(Integer estimationPrice) {
+        this.estimationPrice = estimationPrice;
     }
 
     public void setPetTransport(boolean petTransport) {

@@ -17,5 +17,5 @@ public interface DriverApi {
 
 
     @GET("api/driver/pending-ride/{driver-id}")
-    Call<PendingRideResponseDTO> isTherePendingRide(@Path("driver-id") String id);
+    Call<RideDTO> isTherePendingRide(@Path("driver-id") String id);
 }

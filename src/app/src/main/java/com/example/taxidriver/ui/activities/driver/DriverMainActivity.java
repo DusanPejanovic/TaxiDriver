@@ -12,8 +12,11 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +24,7 @@ import com.example.taxidriver.R;
 import com.example.taxidriver.TaxiDriver;
 import com.example.taxidriver.data.dto.LocationDTO3;
 import com.example.taxidriver.data.dto.PendingRideResponseDTO;
+import com.example.taxidriver.data.dto.RideDTO;
 import com.example.taxidriver.data.repository.DriverRepository;
 import com.example.taxidriver.domain.viewmodel.DriverMainViewModel;
 import com.example.taxidriver.ui.activities.passenger.PassengerMainActivity;
@@ -32,6 +36,9 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,8 +48,8 @@ public class DriverMainActivity extends AppCompatActivity {
 
     private MapView mapView;
     DriverMainViewModel driverMainViewModel;
-    AlertDialog acceptRideDialog;
     SharedPreferences prefs = TaxiDriver.getAppContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
+    AlertDialog acceptRideDialog;
 
 
     private Handler handler = new Handler();
@@ -50,13 +57,72 @@ public class DriverMainActivity extends AppCompatActivity {
         @Override
         public void run() {
             DriverRepository repository = new DriverRepository();
-            repository.isTherePendingRide(new Callback<PendingRideResponseDTO>() {
+            repository.isTherePendingRide(new Callback<RideDTO>() {
                 @Override
-                public void onResponse(Call<PendingRideResponseDTO> call, Response<PendingRideResponseDTO> response) {
+                public void onResponse(Call<RideDTO> call, Response<RideDTO> response) {
 
                     if(response.isSuccessful())
                     {
+                        RideDTO rideDTO = response.body();
+                        int x = 3;
+                        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(DriverMainActivity.this);
+                        LayoutInflater inflater = DriverMainActivity.this.getLayoutInflater();
+                        View dialogView = inflater.inflate(R.layout.accept_ride_dialog, null);
+                        Button acceptRideButton = dialogView.findViewById(R.id.accept_ride);
+
+
+                        acceptRideButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                acceptRideDialog.dismiss();
+                            }
+                        });
+                        ProgressBar progressBar = dialogView.findViewById(R.id.progress_bar);
+                        EditText destinationEditText = dialogView.findViewById(R.id.destination2);
+                        EditText departureEditText = dialogView.findViewById(R.id.departure2);
+                        TextView timeTextView = dialogView.findViewById(R.id.time2);
+                        TextView priceTextView = dialogView.findViewById(R.id.price2);
+                        CheckBox petCheckBox = dialogView.findViewById(R.id.pet2);
+                        CheckBox kidCheckBox = dialogView.findViewById(R.id.kid2);
+                        String departure = rideDTO.getLocations().getDeparture().getAddress();
+                        String destination = rideDTO.getLocations().getDestination().getAddress();
+                        LocalDateTime startTime = LocalDateTime.parse(rideDTO.getStartTime());
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+                        timeTextView.setText("Time: "+startTime.format(formatter));
+                        priceTextView.setText("Price: " + rideDTO.getTotalCost().toString()+ " $");
+                        departureEditText.setText(departure);
+                        destinationEditText.setText(destination);
+                        petCheckBox.setChecked(rideDTO.isPetTransport());
+                        kidCheckBox.setChecked(rideDTO.isBabyTransport());
+
+                        builder.setView(dialogView);
+                        builder.setBackground(getResources().getDrawable(R.drawable.rounded_dialog));
+                        acceptRideDialog = builder.create();
                         acceptRideDialog.show();
+
+                        final int totalProgressTime = 11;
+                        final Thread thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                int jumpTime = 0;
+
+                                while(jumpTime < totalProgressTime) {
+                                    try {
+                                        Thread.sleep(1000);
+                                        jumpTime += 1;
+                                        progressBar.setProgress(jumpTime);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                acceptRideDialog.dismiss();
+
+                            }
+                        });
+                        thread.start();
+
+
                     }
                     else
                     {}
@@ -64,7 +130,7 @@ public class DriverMainActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<PendingRideResponseDTO> call, Throwable t) {
+                public void onFailure(Call<RideDTO> call, Throwable t) {
                     // handle error
                 }
             }, prefs.getString("userId", ""));
@@ -95,12 +161,7 @@ public class DriverMainActivity extends AppCompatActivity {
         mapView.getController().setCenter(new GeoPoint(45.2396, 19.8227));
 
 
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(DriverMainActivity.this);
-        LayoutInflater inflater = DriverMainActivity.this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.accept_ride_dialog, null);
-        builder.setView(dialogView);
-        builder.setBackground(getResources().getDrawable(R.drawable.rounded_dialog));
-        acceptRideDialog = builder.create();
+
 
         // acceptRideDialog.show();
 

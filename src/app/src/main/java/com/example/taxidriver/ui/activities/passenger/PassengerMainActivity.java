@@ -110,9 +110,11 @@ public class PassengerMainActivity extends AppCompatActivity {
         int hour = timePicker.getHour();
         int minute = timePicker.getMinute();
 
+        destinationEditText = findViewById(R.id.destination);
+        departureEditText = findViewById(R.id.departure);
         petCheckBox = findViewById(R.id.pet);
-        vehicleTypeSpinner = findViewById(R.id.vehicle_type);
         kidCheckBox = findViewById(R.id.kid);
+        vehicleTypeSpinner = findViewById(R.id.vehicle_type);
         submitRideRequestButton = findViewById(R.id.submit_ride_request);
         mapView = findViewById(R.id.map_view);
 
@@ -144,7 +146,6 @@ public class PassengerMainActivity extends AppCompatActivity {
                 boolean isPet = petCheckBox.isChecked();
                 String vehicleType = (String) vehicleTypeSpinner.getSelectedItem();
 
-                EstimationRequestDTO2  estimationRequest = new EstimationRequestDTO2(departure,destination,isKid, isPet, vehicleType);
 
                 Integer currentHour = LocalDateTime.now().getHour();
                 Integer currentMinute = LocalDateTime.now().getMinute();
@@ -201,6 +202,7 @@ public class PassengerMainActivity extends AppCompatActivity {
                     Toast.makeText(TaxiDriver.getAppContext(), "Time must be in future.", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                EstimationRequestDTO2  estimationRequest = new EstimationRequestDTO2(departure,destination,isKid, isPet, vehicleType);
 
                 unregisteredUserRepository.getEstimation(new Callback<EstimationDTO>() {
                     @Override
@@ -233,6 +235,8 @@ public class PassengerMainActivity extends AppCompatActivity {
                                     String scheduleTimeString = scheduleTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
                                     LocationDTO location = new LocationDTO(estimation.getDeparture(), estimation.getDestionation());
                                     RideRequestDTO rideRequest = new RideRequestDTO(vehicleType.toUpperCase(Locale.ROOT), isKid, isPet, location, scheduleTimeString);
+                                    rideRequest.setEstimationTime(estimation.getEstimatedTimeInMinutes());
+                                    rideRequest.setEstimationPrice(estimation.getEstimatedCost());
                                     rideRepository.submitRideRequest(new Callback<RideDTO>() {
 
                                         @Override
