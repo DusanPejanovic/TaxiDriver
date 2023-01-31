@@ -26,6 +26,7 @@ import com.example.taxidriver.data.dto.LocationDTO3;
 import com.example.taxidriver.data.dto.PendingRideResponseDTO;
 import com.example.taxidriver.data.dto.RideDTO;
 import com.example.taxidriver.data.repository.DriverRepository;
+import com.example.taxidriver.data.repository.RideRepository;
 import com.example.taxidriver.domain.viewmodel.DriverMainViewModel;
 import com.example.taxidriver.ui.activities.passenger.PassengerMainActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -50,7 +51,7 @@ public class DriverMainActivity extends AppCompatActivity {
     DriverMainViewModel driverMainViewModel;
     SharedPreferences prefs = TaxiDriver.getAppContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
     AlertDialog acceptRideDialog;
-
+    RideRepository rideRepository;
 
     private Handler handler = new Handler();
     private Runnable runnable = new Runnable() {
@@ -74,7 +75,7 @@ public class DriverMainActivity extends AppCompatActivity {
                         acceptRideButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-
+                                rideRepository.acceptRide(rideDTO.getId().toString());
                                 acceptRideDialog.dismiss();
                             }
                         });
@@ -145,7 +146,7 @@ public class DriverMainActivity extends AppCompatActivity {
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
 
-
+        rideRepository = new RideRepository();
 
         driverMainViewModel = new DriverMainViewModel();
 
