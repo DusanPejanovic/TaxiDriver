@@ -21,4 +21,7 @@ public interface RideApi {
     @PUT("/api/ride/{id}/accept")
     Call<Void> acceptRide(@Path("id") String id);
 
+    @GET("/api/driver/{id}/accepted-rides")
+    Call<PaginatedResponse<RideDTO>> getAcceptedRides(@Path("id") String id);
+
 }

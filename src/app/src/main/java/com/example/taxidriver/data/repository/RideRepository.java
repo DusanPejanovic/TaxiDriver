@@ -29,6 +29,9 @@ public class RideRepository {
         rideApi.submitRequestForRide(rideRequest).enqueue(callback);
     }
 
+    public void getAcceptedRides(Callback<PaginatedResponse<RideDTO>> callback, String id) {
+        rideApi.getAcceptedRides(id).enqueue(callback);
+    }
 
     public void acceptRide(String id) {
         rideApi.acceptRide(id).enqueue(new Callback<Void>() {

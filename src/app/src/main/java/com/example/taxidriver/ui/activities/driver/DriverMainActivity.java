@@ -2,6 +2,8 @@ package com.example.taxidriver.ui.activities.driver;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
 import android.content.Intent;
@@ -28,7 +30,9 @@ import com.example.taxidriver.data.dto.RideDTO;
 import com.example.taxidriver.data.repository.DriverRepository;
 import com.example.taxidriver.data.repository.RideRepository;
 import com.example.taxidriver.domain.viewmodel.DriverMainViewModel;
+import com.example.taxidriver.domain.viewmodel.RideHistoryViewModel;
 import com.example.taxidriver.ui.activities.passenger.PassengerMainActivity;
+import com.example.taxidriver.ui.fragments.HistoryFragment;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.osmdroid.config.Configuration;
@@ -52,6 +56,8 @@ public class DriverMainActivity extends AppCompatActivity {
     SharedPreferences prefs = TaxiDriver.getAppContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
     AlertDialog acceptRideDialog;
     RideRepository rideRepository;
+    private RideHistoryViewModel rideViewModel;
+
 
     private Handler handler = new Handler();
     private Runnable runnable = new Runnable() {
@@ -154,6 +160,22 @@ public class DriverMainActivity extends AppCompatActivity {
 
         mapView = findViewById(R.id.map_view);
 
+        String id = prefs.getString("userId", null);
+
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+
+
+        driverMainViewModel.getScheduledRides().observe(this, list -> {
+
+                    if(list != null)
+                        fragmentManager.beginTransaction().add(R.id.mainContent2, HistoryFragment.newInstance(list)).commit();
+
+                }
+        );
+        driverMainViewModel.fetchScheduledRides(id);
+
 
         mapView.setTileSource(TileSourceFactory.MAPNIK);
         mapView.setBuiltInZoomControls(true);
@@ -186,8 +208,6 @@ public class DriverMainActivity extends AppCompatActivity {
 
                 }
         );
-
-        String id = "1";
 
 
         driverMainViewModel.fetchActiveVehiclesLocation();
