@@ -33,6 +33,7 @@ import com.example.taxidriver.domain.viewmodel.DriverMainViewModel;
 import com.example.taxidriver.domain.viewmodel.RideHistoryViewModel;
 import com.example.taxidriver.ui.activities.passenger.PassengerMainActivity;
 import com.example.taxidriver.ui.fragments.HistoryFragment;
+import com.example.taxidriver.ui.fragments.ScheduledFragment;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.osmdroid.config.Configuration;
@@ -170,7 +171,7 @@ public class DriverMainActivity extends AppCompatActivity {
         driverMainViewModel.getScheduledRides().observe(this, list -> {
 
                     if(list != null)
-                        fragmentManager.beginTransaction().add(R.id.mainContent2, HistoryFragment.newInstance(list)).commit();
+                        fragmentManager.beginTransaction().add(R.id.mainContent2, ScheduledFragment.newInstance(list)).commit();
 
                 }
         );
