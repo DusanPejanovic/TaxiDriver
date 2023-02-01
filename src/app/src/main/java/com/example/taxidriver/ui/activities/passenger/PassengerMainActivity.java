@@ -95,6 +95,13 @@ public class PassengerMainActivity extends AppCompatActivity {
 
     private PassengerMainViewModel viewModel;
     private Handler handler = new Handler();
+    private Runnable activeVehicleRunnable = new Runnable() {
+        @Override
+        public void run() {
+            viewModel.fetchActiveVehiclesLocation();
+            handler.postDelayed(activeVehicleRunnable, 15000);
+        }
+    };
     private Runnable isInRideRunnable = new Runnable() {
         @Override
         public void run() {
@@ -144,6 +151,8 @@ public class PassengerMainActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(PassengerMainViewModel.class);
 
         unregisteredUserRepository = new UnregisteredUserRepository();
+
+        handler.postDelayed(activeVehicleRunnable, 15000);
 
         // Find the elements in the layout by their ID
         destinationEditText = findViewById(R.id.destination);
@@ -389,6 +398,7 @@ public class PassengerMainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         handler.removeCallbacks(isInRideRunnable);
+        handler.removeCallbacks(activeVehicleRunnable);
         // handler.removeCallbacks(scheduledRidesRunnable);
     }
 }
