@@ -10,9 +10,18 @@
         android:layout_marginBottom="10dp">
 
         <include layout="@layout/toolbar" />
+
     </com.google.android.material.appbar.AppBarLayout>
 
 
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_gravity="end"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="Active" />
 
     <androidx.cardview.widget.CardView
         xmlns:app="http://schemas.android.com/apk/res-auto"

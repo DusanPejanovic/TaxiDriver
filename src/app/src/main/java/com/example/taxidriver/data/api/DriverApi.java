@@ -23,4 +23,10 @@ public interface DriverApi {
 
     @GET("/api/driver/{id}/vehicle")
     Call<VehicleDTO> getDriverVehicle(@Path("id") String id);
+
+    @GET("/api/driver/active")
+    Call<Void> putDriverActive();
+
+    @GET("/api/driver/unactive")
+    Call<Void> putDriverUnactive();
 }

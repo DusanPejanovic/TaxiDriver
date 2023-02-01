@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ import com.example.taxidriver.data.dto.LocationDTO3;
 import com.example.taxidriver.data.dto.RideDTO;
 import com.example.taxidriver.data.repository.DriverRepository;
 import com.example.taxidriver.data.repository.RideRepository;
+import com.example.taxidriver.domain.model.Drive;
 import com.example.taxidriver.domain.viewmodel.DriverMainViewModel;
 import com.example.taxidriver.domain.viewmodel.RideHistoryViewModel;
 import com.example.taxidriver.ui.fragments.ScheduledFragment;
@@ -52,14 +54,23 @@ public class DriverMainActivity extends AppCompatActivity {
     SharedPreferences prefs = TaxiDriver.getAppContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
     AlertDialog acceptRideDialog;
     RideRepository rideRepository;
+    DriverRepository driverRepository = new DriverRepository();
+
 
 
     private Handler handler = new Handler();
+    private Runnable activeVehicleRunnable = new Runnable() {
+        @Override
+        public void run() {
+            driverMainViewModel.fetchActiveVehiclesLocation();
+            handler.postDelayed(activeVehicleRunnable, 15000);
+        }
+    };
+
     private Runnable offeringRideRunnable = new Runnable() {
         @Override
         public void run() {
-            DriverRepository repository = new DriverRepository();
-            repository.isTherePendingRide(new Callback<RideDTO>() {
+            driverRepository.isTherePendingRide(new Callback<RideDTO>() {
                 @Override
                 public void onResponse(Call<RideDTO> call, Response<RideDTO> response) {
 
@@ -191,6 +202,7 @@ public class DriverMainActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
+        handler.postDelayed(activeVehicleRunnable, 15000);
 
 
         driverMainViewModel.getScheduledRides().observe(this, list -> {
@@ -206,11 +218,11 @@ public class DriverMainActivity extends AppCompatActivity {
 
 
         mapView.setTileSource(TileSourceFactory.MAPNIK);
+
         mapView.setBuiltInZoomControls(true);
         mapView.setMultiTouchControls(true);
         mapView.getController().setZoom(15);
         mapView.getController().setCenter(new GeoPoint(45.2396, 19.8227));
-
 
 
 
@@ -244,7 +256,21 @@ public class DriverMainActivity extends AppCompatActivity {
 
 
 
+        Switch switchButton = (Switch) findViewById(R.id.switch1);
 
+        switchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (switchButton.isChecked()) {
+                    driverRepository.putDriverUnactive();
+                } else {
+                    driverRepository.putDriverUnactive();
+
+                }
+
+            }
+        });
 
 
 

@@ -9,6 +9,7 @@ import com.example.taxidriver.data.dto.VehicleDTO;
 
 import java.io.IOException;
 
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -31,6 +32,37 @@ public class DriverRepository {
     public void getDriverVehicle(Callback<VehicleDTO> callback, String id) {
         driverApi.getDriverVehicle(id).enqueue(callback);
     }
+
+
+    public void putDriverActive() {
+        driverApi.putDriverActive().enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    public void putDriverUnactive() {
+        driverApi.putDriverUnactive().enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
+
 
 }
 
