@@ -26,6 +26,10 @@ public class RideRepository {
         rideApi = RetrofitClient.getInstance().create(RideApi.class);
     }
 
+    public void getRide(Callback<RideDTO> callback, String id) {
+        rideApi.getRide(id).enqueue(callback);
+    }
+
     public void submitRideRequest(Callback<RideDTO> callback, RideRequestDTO rideRequest) {
         rideApi.submitRequestForRide(rideRequest).enqueue(callback);
     }

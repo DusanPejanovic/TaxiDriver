@@ -16,6 +16,8 @@ import retrofit2.http.Path;
 
 public interface RideApi {
 
+    @GET("/api/ride/{id}")
+    Call<RideDTO> getRide(@Path("id") String id);
 
     @POST("/api/ride")
     Call<RideDTO> submitRequestForRide(@Body RideRequestDTO rideRequestDTO);

@@ -45,25 +45,26 @@ public class HistoryFragment extends ListFragment {
 	public void onListItemClick(@NonNull ListView listView, @NonNull View view, int position, long id) {
 		super.onListItemClick(listView, view, position, id);
 
-		Drive drive = Mockup.getDrives2().get(position);
+		/*
+		 DriverRideHistoryActivity - na stranici je potrebno prikazati vozaču istoriju obavljenih vožnji.
+		 Za svaku vožnju moguće je videti informacije o dobijenoj oceni i komentaru, razmenjene poruke
+		 (referenca ka inbox-u), datum i vreme početka vožnje i kraja vožnje, broj putnika i profili
+		 putnika, putanju vožnje, ukupan broj pređenih km, cena vožnje
+		*/
+
+		RideDTO rideDTO = rideDTOList.get(position);
+
+		// grade
+		// comment
+		// razmenjene poruke
+		// vreme pocetka i kraja voznje
+		// profil putnika
+		// putanju voznje
+		// mileage
+		// price
 
 		Intent intent = new Intent(this.getActivity(), DriverHistoryDetailActivity.class);
-
-
-		intent.putExtra("cost", drive.getCost().toString());
-		intent.putExtra("mileage", drive.getMileage().toString());
-
-		intent.putExtra("startTime", drive.getStartTime().format(DateTimeFormatter.ofPattern("hh:mm")));
-		intent.putExtra("endTime", drive.getEndTime().format(DateTimeFormatter.ofPattern("hh:mm")));
-
-		intent.putExtra("startPoint", drive.getRoutes().getStartPoint());
-		intent.putExtra("endPoint", drive.getRoutes().getEndPoint());
-
-		intent.putExtra("comment", drive.getReview().getComment());
-		intent.putExtra("grade", drive.getReview().getGrade().toString());
-
-		intent.putExtra("passenger", drive.getPassenger().getEmail());
-
+		intent.putExtra("rideId", rideDTO.getId().toString());
 		startActivity(intent);
 	}
 
