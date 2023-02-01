@@ -34,6 +34,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.taxidriver.R;
 import com.example.taxidriver.TaxiDriver;
 import com.example.taxidriver.data.api.RideApi;
+import com.example.taxidriver.data.dto.ActiveVehicleDTO;
 import com.example.taxidriver.data.dto.EstimationDTO;
 import com.example.taxidriver.data.dto.EstimationRequestDTO2;
 import com.example.taxidriver.data.dto.IsInRideDTO;
@@ -343,14 +344,18 @@ public class PassengerMainActivity extends AppCompatActivity {
         viewModel.getAllActiveVehicles().observe(this, list -> {
 
                     if (list != null) {
-                        for (LocationDTO3 location : list) {
-                            GeoPoint driverLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
+                        for (ActiveVehicleDTO activeVehicleDTO : list) {
+                            GeoPoint driverLocation = new GeoPoint(activeVehicleDTO.getLatitude(), activeVehicleDTO.getLongitude());
                             Marker driverMarker = new Marker(mapView);
                             driverMarker.setPosition(driverLocation);
                             driverMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                             driverMarker.setFlat(true);
-                            driverMarker.setTitle("Driver");
-                            driverMarker.setSubDescription("Standard");
+
+                            if(activeVehicleDTO.isInRide())
+                                driverMarker.setTitle("TAKEN");
+                            else
+                                driverMarker.setTitle("FREE");
+
                             mapView.getOverlays().add(driverMarker);
                             mapView.invalidate();
                         }
