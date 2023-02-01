@@ -63,7 +63,7 @@ public class DriverMainActivity extends AppCompatActivity {
         @Override
         public void run() {
             driverMainViewModel.fetchActiveVehiclesLocation();
-            handler.postDelayed(activeVehicleRunnable, 15000);
+            handler.postDelayed(activeVehicleRunnable, 60000);
         }
     };
 
@@ -202,7 +202,7 @@ public class DriverMainActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        handler.postDelayed(activeVehicleRunnable, 15000);
+        handler.postDelayed(activeVehicleRunnable, 60000);
 
 
         driverMainViewModel.getScheduledRides().observe(this, list -> {

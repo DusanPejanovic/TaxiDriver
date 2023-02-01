@@ -99,7 +99,7 @@ public class PassengerMainActivity extends AppCompatActivity {
         @Override
         public void run() {
             viewModel.fetchActiveVehiclesLocation();
-            handler.postDelayed(activeVehicleRunnable, 15000);
+            handler.postDelayed(activeVehicleRunnable, 60000);
         }
     };
     private Runnable isInRideRunnable = new Runnable() {
@@ -122,6 +122,7 @@ public class PassengerMainActivity extends AppCompatActivity {
                             intent.putExtra("endLat", rideDTO.getLocations().getDestination().getLatitude().toString());
                             intent.putExtra("endLon", rideDTO.getLocations().getDestination().getLongitude().toString());
                             startActivity(intent);
+                            finish();
                         }
                     }
                     else
@@ -152,7 +153,7 @@ public class PassengerMainActivity extends AppCompatActivity {
 
         unregisteredUserRepository = new UnregisteredUserRepository();
 
-        handler.postDelayed(activeVehicleRunnable, 15000);
+        handler.postDelayed(activeVehicleRunnable, 60000);
 
         // Find the elements in the layout by their ID
         destinationEditText = findViewById(R.id.destination);

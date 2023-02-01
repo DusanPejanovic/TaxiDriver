@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,8 @@ import com.example.taxidriver.data.dto.CancelDTO;
 import com.example.taxidriver.data.dto.ChangePasswordCodeDTO;
 import com.example.taxidriver.data.dto.IsInRideDTO;
 import com.example.taxidriver.data.dto.ResetPasswordDTO;
+import com.example.taxidriver.data.dto.ReviewDTO2;
+import com.example.taxidriver.data.repository.ReviewRepository;
 import com.example.taxidriver.data.repository.RideRepository;
 import com.example.taxidriver.data.repository.UserRepository;
 import com.example.taxidriver.domain.viewmodel.CurrentRideViewModel;
@@ -66,6 +69,10 @@ public class CurrentRideActivity extends AppCompatActivity {
     private TextView mTimerTextView;
     private int mSeconds = 0;
     SharedPreferences prefs = TaxiDriver.getAppContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
+    ReviewRepository reviewRepository = new ReviewRepository();
+
+    Boolean panicSent = false;
+    private String rideId;
 
     RideRepository rideRepository;
     private Handler handler = new Handler();
@@ -88,8 +95,43 @@ public class CurrentRideActivity extends AppCompatActivity {
                         IsInRideDTO isInRideDTO = response.body();
                         assert isInRideDTO != null;
                         if (!isInRideDTO.getInRide()) {
-                            startActivity(new Intent(CurrentRideActivity.this, PassengerMainActivity.class));
-                            finish();
+
+                            handler.removeCallbacks(isInRideRunnable);
+
+                            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(CurrentRideActivity.this);
+                            LayoutInflater inflater = CurrentRideActivity.this.getLayoutInflater();
+                            View dialogView = inflater.inflate(R.layout.submit_review_dialog, null);
+                            builder.setView(dialogView);
+                            builder.setBackground(getResources().getDrawable(R.drawable.rounded_dialog));
+                            final AlertDialog forgotPasswordDialog = builder.create();
+
+                            final EditText driverCommentEditText = dialogView.findViewById(R.id.driver_comment);
+                            final EditText vehicleCommentEditText = dialogView.findViewById(R.id.vehicle_comment);
+
+                            RatingBar driverRatingBar = dialogView.findViewById(R.id.rating_bar_driver);
+                            RatingBar vehicleRatingBar = dialogView.findViewById(R.id.rating_bar_vehicle);
+
+                            Button sendButton = dialogView.findViewById(R.id.submit_review_button);
+
+                            sendButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String driverComment = driverCommentEditText.getText().toString();
+                                    String vehicleComment = vehicleCommentEditText.getText().toString();
+                                    int ratingDriver = Math.round(driverRatingBar.getRating());
+                                    int ratingVehicle = Math.round(vehicleRatingBar.getRating());
+                                    if (!TextUtils.isEmpty(driverComment) || !TextUtils.isEmpty(vehicleComment)) {
+                                        reviewRepository.postReviewDVehicle(new ReviewDTO2(ratingVehicle, vehicleComment), rideId);
+                                        reviewRepository.postReviewDriver(new ReviewDTO2(ratingDriver, driverComment), rideId);
+                                        startActivity(new Intent(CurrentRideActivity.this, PassengerMainActivity.class));
+                                        finish();
+                                    } else {
+                                        Toast.makeText(TaxiDriver.getAppContext(), "Write something...", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+                            forgotPasswordDialog.show();
                         }
                     }
                 }
@@ -110,7 +152,7 @@ public class CurrentRideActivity extends AppCompatActivity {
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
         setContentView(R.layout.activity_current_ride);
 
-        String rideId = getIntent().getStringExtra("rideId");
+        rideId = getIntent().getStringExtra("rideId");
         String startLatitude = getIntent().getStringExtra("startLat");
         String startLongitude = getIntent().getStringExtra("startLon");
         String endLatitude = getIntent().getStringExtra("endLat");
@@ -294,12 +336,19 @@ public class CurrentRideActivity extends AppCompatActivity {
         panicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (panicSent)
+                {
+                    Toast.makeText(TaxiDriver.getAppContext(), "Help sent, stay calm.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
                 rideRepository.panicRide(new retrofit2.Callback<Void>() {
                     @Override
                     public void onResponse(retrofit2.Call<Void> call, retrofit2.Response<Void> response) {
 
-                        Toast.makeText(TaxiDriver.getAppContext(), "Help sent, stay calm.", Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(TaxiDriver.getAppContext(), "We are sending help.", Toast.LENGTH_SHORT).show();
+                        panicSent = true;
                     }
                     @Override
                     public void onFailure(retrofit2.Call<Void> call, Throwable t) {}
