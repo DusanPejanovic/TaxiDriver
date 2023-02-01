@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ import com.example.taxidriver.TaxiDriver;
 import com.example.taxidriver.data.api.RideApi;
 import com.example.taxidriver.data.dto.EstimationDTO;
 import com.example.taxidriver.data.dto.EstimationRequestDTO2;
+import com.example.taxidriver.data.dto.IsInRideDTO;
 import com.example.taxidriver.data.dto.LocationDTO;
 import com.example.taxidriver.data.dto.LocationDTO3;
 import com.example.taxidriver.data.dto.ResetPasswordDTO;
@@ -42,9 +44,11 @@ import com.example.taxidriver.data.dto.RideDTO;
 import com.example.taxidriver.data.dto.RideRequestDTO;
 import com.example.taxidriver.data.repository.RideRepository;
 import com.example.taxidriver.data.repository.UnregisteredUserRepository;
+import com.example.taxidriver.data.repository.UserRepository;
 import com.example.taxidriver.domain.model.Ride;
 import com.example.taxidriver.domain.viewmodel.PassengerMainViewModel;
 import com.example.taxidriver.domain.viewmodel.RideHistoryViewModel;
+import com.example.taxidriver.ui.activities.CurrentRideActivity;
 import com.example.taxidriver.ui.activities.LoginActivity;
 import com.example.taxidriver.ui.activities.driver.DriverMainActivity;
 import com.example.taxidriver.ui.fragments.HistoryFragment;
@@ -85,9 +89,48 @@ public class PassengerMainActivity extends AppCompatActivity {
     private Spinner vehicleTypeSpinner;
     private Button submitRideRequestButton;
     private UnregisteredUserRepository unregisteredUserRepository;
-    private RideRepository rideRepository;
-    private PassengerMainViewModel viewModel;
+    private RideRepository rideRepository = new RideRepository();
+    private UserRepository userRepository = new UserRepository();
 
+    private PassengerMainViewModel viewModel;
+    private Handler handler = new Handler();
+    private Runnable isInRideRunnable = new Runnable() {
+        @Override
+        public void run() {
+            userRepository.isUserInRide(new Callback<IsInRideDTO>() {
+                @Override
+                public void onResponse(Call<IsInRideDTO> call, Response<IsInRideDTO> response) {
+                    if(response.isSuccessful())
+                    {
+                        IsInRideDTO isInRideDTO = response.body();
+                        assert isInRideDTO != null;
+                        if(isInRideDTO.getInRide())
+                        {
+                            RideDTO rideDTO = isInRideDTO.getRideDTO();
+                            Intent intent = new Intent(PassengerMainActivity.this, CurrentRideActivity.class);
+                            intent.putExtra("rideId", rideDTO.getId().toString());
+                            intent.putExtra("startLat", rideDTO.getLocations().getDeparture().getLatitude().toString());
+                            intent.putExtra("startLon", rideDTO.getLocations().getDeparture().getLongitude().toString());
+                            intent.putExtra("endLat", rideDTO.getLocations().getDestination().getLatitude().toString());
+                            intent.putExtra("endLon", rideDTO.getLocations().getDestination().getLongitude().toString());
+                            startActivity(intent);
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(TaxiDriver.getAppContext(), "IsInRide response body wrong.", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<IsInRideDTO> call, Throwable t) {
+                    Toast.makeText(TaxiDriver.getAppContext(), "Is in ride faliure.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            handler.postDelayed(isInRideRunnable, 10000);
+        }
+    };
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -100,16 +143,11 @@ public class PassengerMainActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(PassengerMainViewModel.class);
 
         unregisteredUserRepository = new UnregisteredUserRepository();
-        rideRepository = new RideRepository();
 
         // Find the elements in the layout by their ID
         destinationEditText = findViewById(R.id.destination);
         departureEditText = findViewById(R.id.departure);
-        //timeEditText = findViewById(R.id.time);
         TimePicker timePicker = findViewById(R.id.time_picker);
-        int hour = timePicker.getHour();
-        int minute = timePicker.getMinute();
-
         destinationEditText = findViewById(R.id.destination);
         departureEditText = findViewById(R.id.departure);
         petCheckBox = findViewById(R.id.pet);
@@ -118,11 +156,12 @@ public class PassengerMainActivity extends AppCompatActivity {
         submitRideRequestButton = findViewById(R.id.submit_ride_request);
         mapView = findViewById(R.id.map_view);
 
+        handler.postDelayed(isInRideRunnable, 10000);
 
         mapView.setTileSource(TileSourceFactory.MAPNIK);
         mapView.setBuiltInZoomControls(true);
         mapView.setMultiTouchControls(true);
-        mapView.getController().setZoom(16);
+        mapView.getController().setZoom(15);
         mapView.getController().setCenter(new GeoPoint(45.2396, 19.8227));
 
         MaterialAlertDialogBuilder builder1 = new MaterialAlertDialogBuilder(PassengerMainActivity.this);
@@ -342,6 +381,14 @@ public class PassengerMainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        handler.removeCallbacks(isInRideRunnable);
+        // handler.removeCallbacks(scheduledRidesRunnable);
     }
 }
 

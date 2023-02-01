@@ -1,5 +1,6 @@
 package com.example.taxidriver.ui.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,20 +8,35 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.taxidriver.R;
 import com.example.taxidriver.TaxiDriver;
+import com.example.taxidriver.data.dto.CancelDTO;
+import com.example.taxidriver.data.dto.ChangePasswordCodeDTO;
+import com.example.taxidriver.data.dto.IsInRideDTO;
+import com.example.taxidriver.data.dto.ResetPasswordDTO;
+import com.example.taxidriver.data.repository.RideRepository;
+import com.example.taxidriver.data.repository.UserRepository;
 import com.example.taxidriver.domain.viewmodel.CurrentRideViewModel;
 import com.example.taxidriver.domain.viewmodel.RideHistoryViewModel;
+import com.example.taxidriver.ui.activities.driver.DriverMainActivity;
 import com.example.taxidriver.ui.activities.passenger.PassengerMainActivity;
 import com.example.taxidriver.ui.fragments.HistoryFragment;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,14 +63,43 @@ public class CurrentRideActivity extends AppCompatActivity {
 
     MapView mapView;
     private CurrentRideViewModel viewModel;
+    private TextView mTimerTextView;
+    private int mSeconds = 0;
+    SharedPreferences prefs = TaxiDriver.getAppContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
 
+    RideRepository rideRepository;
     private Handler handler = new Handler();
-
     private Runnable vehicleLocationRunnable = new Runnable() {
         @Override
         public void run() {
             viewModel.fetchCurrentLocationVehicle();
-            handler.postDelayed(vehicleLocationRunnable, 5000);
+            handler.postDelayed(vehicleLocationRunnable, 10000);
+        }
+    };
+
+    UserRepository userRepository = new UserRepository();
+    private Runnable isInRideRunnable = new Runnable() {
+        @Override
+        public void run() {
+            userRepository.isUserInRide(new retrofit2.Callback<IsInRideDTO>() {
+                @Override
+                public void onResponse(retrofit2.Call<IsInRideDTO> call, retrofit2.Response<IsInRideDTO> response) {
+                    if (response.isSuccessful()) {
+                        IsInRideDTO isInRideDTO = response.body();
+                        assert isInRideDTO != null;
+                        if (!isInRideDTO.getInRide()) {
+                            startActivity(new Intent(CurrentRideActivity.this, PassengerMainActivity.class));
+                            finish();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(retrofit2.Call<IsInRideDTO> call, Throwable t) {
+                    Toast.makeText(TaxiDriver.getAppContext(), "Is in ride faliure.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            handler.postDelayed(isInRideRunnable, 10000);
         }
     };
 
@@ -71,6 +116,8 @@ public class CurrentRideActivity extends AppCompatActivity {
         String endLatitude = getIntent().getStringExtra("endLat");
         String endLongitude = getIntent().getStringExtra("endLon");
 
+        rideRepository = new RideRepository();
+
         mapView = findViewById(R.id.map_view);
 
         GeoPoint startPoint = new GeoPoint(Double.parseDouble(startLatitude), Double.parseDouble(startLongitude));
@@ -80,7 +127,7 @@ public class CurrentRideActivity extends AppCompatActivity {
         mapView.setTileSource(TileSourceFactory.MAPNIK);
         mapView.setBuiltInZoomControls(true);
         mapView.setMultiTouchControls(true);
-        mapView.getController().setZoom(17);
+        mapView.getController().setZoom(15);
         mapView.getController().setCenter(startPoint);
 
 
@@ -173,12 +220,139 @@ public class CurrentRideActivity extends AppCompatActivity {
                                             }
                                         });
 
+
+
+        Button finishButton = findViewById(R.id.finish_ride);
+
+        finishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CurrentRideActivity.this, DriverMainActivity.class);
+                startActivity(intent);
+                rideRepository.finishRide(new retrofit2.Callback<Void>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<Void> call, retrofit2.Response<Void> response) {}
+                    @Override
+                    public void onFailure(retrofit2.Call<Void> call, Throwable t) {}
+                }, rideId);
+                finish();
+            }
+        });
+
+        Button cancelButton = findViewById(R.id.cancle_ride);
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(CurrentRideActivity.this);
+                LayoutInflater inflater = CurrentRideActivity.this.getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.forgot_password_dialog, null);
+                builder.setView(dialogView);
+                builder.setBackground(getResources().getDrawable(R.drawable.rounded_dialog));
+                final AlertDialog forgotPasswordDialog = builder.create();
+
+                final EditText emailEditText = dialogView.findViewById(R.id.email_edit_text);
+                Button sendButton = dialogView.findViewById(R.id.send_button);
+                TextView enterText = dialogView.findViewById(R.id.enter_text);
+                emailEditText.setHint("They were drunk...");
+                enterText.setText("Enter your reason: ");
+
+                sendButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String email = emailEditText.getText().toString();
+                        if (!TextUtils.isEmpty(email)) {
+                            CancelDTO cancelDTO = new CancelDTO(email);
+                            rideRepository.cancelRide(new retrofit2.Callback<Void>() {
+                                @Override
+                                public void onResponse(retrofit2.Call<Void> call, retrofit2.Response<Void> response) {
+                                    Toast.makeText(TaxiDriver.getAppContext(), "Cancel succesfully sent..", Toast.LENGTH_SHORT).show();
+
+                                }
+                                @Override
+                                public void onFailure(retrofit2.Call<Void> call, Throwable t) {
+                                    Toast.makeText(TaxiDriver.getAppContext(), "Cancel NOT succesfully sent..", Toast.LENGTH_SHORT).show();
+
+                                }
+                            }, rideId, cancelDTO);
+                            forgotPasswordDialog.dismiss();
+                            Intent intent = new Intent(CurrentRideActivity.this, DriverMainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(TaxiDriver.getAppContext(), "Reason field is empty.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                forgotPasswordDialog.show();
+            }
+        });
+
+        Button panicButton = findViewById(R.id.panic_driver);
+
+        panicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rideRepository.panicRide(new retrofit2.Callback<Void>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<Void> call, retrofit2.Response<Void> response) {
+
+                        Toast.makeText(TaxiDriver.getAppContext(), "Help sent, stay calm.", Toast.LENGTH_SHORT).show();
+
+                    }
+                    @Override
+                    public void onFailure(retrofit2.Call<Void> call, Throwable t) {}
+                }, rideId);
+            }
+        });
+
+
+        mTimerTextView = findViewById(R.id.timer_text_view);
+
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                int minutes = mSeconds/60;
+                int seconde = mSeconds%60;
+                String strMinute = "";
+                String strSeconde = "";
+
+                if(minutes< 10)
+                    strMinute += "0";
+
+                if(seconde< 10)
+                    strSeconde += "0";
+
+                strMinute += minutes;
+                strSeconde += seconde;
+                mTimerTextView.setText("Time: " + strMinute + ":" + strSeconde);
+                mSeconds++;
+                handler.postDelayed(this, 1000);
+            }
+        });
+
+
+        if(prefs.getString("role", "").equals("ROLE_PASSENGER"))
+        {
+            ViewGroup cancelParent = (ViewGroup) cancelButton.getParent();
+            cancelParent.removeView(cancelButton);
+
+            ViewGroup finishParent = (ViewGroup) finishButton.getParent();
+            finishParent.removeView(finishButton);
+
+            handler.postDelayed(isInRideRunnable, 10000);
+
+        }
+
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         handler.removeCallbacks(vehicleLocationRunnable);
+        handler.removeCallbacks(isInRideRunnable);
         // handler.removeCallbacks(scheduledRidesRunnable);
     }
 

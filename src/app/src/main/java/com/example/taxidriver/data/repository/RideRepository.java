@@ -6,6 +6,7 @@ import com.example.taxidriver.TaxiDriver;
 import com.example.taxidriver.data.RetrofitClient;
 import com.example.taxidriver.data.api.DriverApi;
 import com.example.taxidriver.data.api.RideApi;
+import com.example.taxidriver.data.dto.CancelDTO;
 import com.example.taxidriver.data.dto.PaginatedResponse;
 import com.example.taxidriver.data.dto.RideDTO;
 import com.example.taxidriver.data.dto.RideRequestDTO;
@@ -37,9 +38,23 @@ public class RideRepository {
         rideApi.acceptRide(id).enqueue(callback);
     }
 
+    public void cancelRide(Callback<Void> callback, String id, CancelDTO cancelDTO) {
+        rideApi.cancelRide(id, cancelDTO).enqueue(callback);
+    }
+
+    public void panicRide(Callback<Void> callback, String id) {
+        rideApi.panicRide(id).enqueue(callback);
+    }
+
+
     public void startRide(Callback<Void> callback,  String id) {
         rideApi.startRide(id).enqueue(callback);
     }
+
+    public void finishRide(Callback<Void> callback,  String id) {
+        rideApi.finishRide(id).enqueue(callback);
+    }
+
 
 }
 

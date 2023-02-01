@@ -1,6 +1,7 @@
 package com.example.taxidriver.data.api;
 
 import com.example.taxidriver.data.dto.ChangePasswordCodeDTO;
+import com.example.taxidriver.data.dto.IsInRideDTO;
 import com.example.taxidriver.data.dto.LocationDTO3;
 import com.example.taxidriver.data.dto.PaginatedResponse;
 import com.example.taxidriver.data.dto.ResetPasswordDTO;
@@ -23,6 +24,9 @@ public interface UserApi {
     @GET("api/user/location")
     Call<LocationDTO3> getCurrentLocation();
 
+
+    @GET("/api/user/is-in-ride")
+    Call<IsInRideDTO> isUserInRide();
 
     @POST("/api/user/code")
     Call<Void> sendCode(@Body ResetPasswordDTO resetPasswordDTO);

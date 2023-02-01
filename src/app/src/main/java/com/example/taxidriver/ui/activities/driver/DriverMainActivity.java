@@ -208,7 +208,7 @@ public class DriverMainActivity extends AppCompatActivity {
         mapView.setTileSource(TileSourceFactory.MAPNIK);
         mapView.setBuiltInZoomControls(true);
         mapView.setMultiTouchControls(true);
-        mapView.getController().setZoom(16);
+        mapView.getController().setZoom(15);
         mapView.getController().setCenter(new GeoPoint(45.2396, 19.8227));
 
 

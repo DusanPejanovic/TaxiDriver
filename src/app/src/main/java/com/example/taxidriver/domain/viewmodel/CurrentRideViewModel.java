@@ -32,6 +32,7 @@ public class CurrentRideViewModel extends ViewModel {
 
     private MutableLiveData<LocationDTO3> vehicleLocation;
 
+
     public CurrentRideViewModel() {
         userRepository = new UserRepository();
         vehicleLocation = new MutableLiveData<>();
@@ -48,7 +49,6 @@ public class CurrentRideViewModel extends ViewModel {
                 if (response.isSuccessful()) {
                     LocationDTO3 locationDTO3 = response.body();
                     assert locationDTO3 != null;
-                    Toast.makeText(TaxiDriver.getAppContext(), "Vehicle, success", Toast.LENGTH_SHORT).show();
                     vehicleLocation.postValue(locationDTO3);
 
 

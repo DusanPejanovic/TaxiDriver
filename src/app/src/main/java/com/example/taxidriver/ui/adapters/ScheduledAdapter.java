@@ -83,6 +83,7 @@ public class ScheduledAdapter extends BaseAdapter{
                         intent.putExtra("endLat", rideDTO.getLocations().getDestination().getLatitude().toString());
                         intent.putExtra("endLon", rideDTO.getLocations().getDestination().getLongitude().toString());
                         context.startActivity(intent);
+                        ((Activity) context).finish();
 
                     }
 

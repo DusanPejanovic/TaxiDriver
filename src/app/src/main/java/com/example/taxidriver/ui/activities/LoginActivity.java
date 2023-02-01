@@ -82,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = pref.edit();
                             editor.putString("token", token);
                             editor.putString("userId", userId);
+                            editor.putString("role", role);
                             editor.apply();
 
                             if(Objects.equals(role, "ROLE_DRIVER"))
