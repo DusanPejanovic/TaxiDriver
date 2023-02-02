@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.taxidriver.TaxiDriver;
 import com.example.taxidriver.data.dto.PaginatedResponse;
 import com.example.taxidriver.data.dto.RideDTO;
+import com.example.taxidriver.data.dto.RideDTO4;
 import com.example.taxidriver.data.repository.DriverRepository;
 import com.example.taxidriver.data.repository.RideRepository;
 
@@ -23,23 +24,23 @@ public class RideHistoryDetailViewModel extends ViewModel {
 
     private final RideRepository rideRepository;
 
-    private MutableLiveData<RideDTO> ride;
+    private MutableLiveData<RideDTO4> ride;
 
     public RideHistoryDetailViewModel() {
         rideRepository = new RideRepository();
         ride = new MutableLiveData<>();
     }
 
-    public LiveData<RideDTO> getRide() {
+    public LiveData<RideDTO4> getRide() {
         return ride;
     }
 
     public void fetchRide(String id) {
-        rideRepository.getRide(new Callback<RideDTO>() {
+        rideRepository.getRide(new Callback<RideDTO4>() {
             @Override
-            public void onResponse(@NonNull Call<RideDTO> call, @NonNull Response<RideDTO> response) {
+            public void onResponse(@NonNull Call<RideDTO4> call, @NonNull Response<RideDTO4> response) {
                 if (response.isSuccessful()) {
-                    RideDTO rideDTO = response.body();
+                    RideDTO4 rideDTO = response.body();
                     assert rideDTO != null;
                     Toast.makeText(TaxiDriver.getAppContext(), "Ride Detail, success", Toast.LENGTH_SHORT).show();
                     ride.postValue(rideDTO);
@@ -51,7 +52,7 @@ public class RideHistoryDetailViewModel extends ViewModel {
             }
 
             @Override
-            public void onFailure(@NonNull Call<RideDTO> call, Throwable t) {
+            public void onFailure(@NonNull Call<RideDTO4> call, Throwable t) {
               Toast.makeText(TaxiDriver.getAppContext(), "Ride Detail, on failure.", Toast.LENGTH_SHORT).show();
             }
         }, id);

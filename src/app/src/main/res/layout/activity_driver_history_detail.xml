@@ -54,7 +54,7 @@
                     android:gravity="center"
                     >
                     <TextView
-                        android:padding="10dp"
+                        android:padding="4dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Start Point:"
@@ -80,7 +80,7 @@
                     android:gravity="center"
                     >
                     <TextView
-                        android:padding="10dp"
+                        android:padding="4dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Start Time:"
@@ -105,7 +105,7 @@
                     android:gravity="center"
                     >
                     <TextView
-                        android:padding="10dp"
+                        android:padding="4dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Passenger:"
@@ -130,7 +130,7 @@
                     android:gravity="center"
                     >
                     <TextView
-                        android:padding="10dp"
+                        android:padding="4dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Comment:"
@@ -160,7 +160,7 @@
                     android:gravity="center"
                     >
                     <TextView
-                        android:padding="10dp"
+                        android:padding="4dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="End Point:"
@@ -186,7 +186,7 @@
                     android:gravity="center"
                     >
                     <TextView
-                        android:padding="10dp"
+                        android:padding="4dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="End Time:"
@@ -212,7 +212,7 @@
                     android:gravity="center"
                     >
                     <TextView
-                        android:padding="10dp"
+                        android:padding="4dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Cost:"
@@ -238,7 +238,7 @@
                     android:gravity="center"
                     >
                     <TextView
-                        android:padding="10dp"
+                        android:padding="4dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Grade:"
@@ -268,13 +268,13 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:layout_marginBottom="25dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
             app:cardElevation="10dp"
             app:cardCornerRadius="15dp">
 
             <org.osmdroid.views.MapView
-                android:id="@+id/map_view"
+                android:id="@+id/map_view_detail"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:layout_weight="1" />

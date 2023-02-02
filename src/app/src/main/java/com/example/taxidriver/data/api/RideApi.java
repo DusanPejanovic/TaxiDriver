@@ -4,6 +4,7 @@ import com.example.taxidriver.data.dto.CancelDTO;
 import com.example.taxidriver.data.dto.PaginatedResponse;
 import com.example.taxidriver.data.dto.ResetPasswordDTO;
 import com.example.taxidriver.data.dto.RideDTO;
+import com.example.taxidriver.data.dto.RideDTO4;
 import com.example.taxidriver.data.dto.RideRequestDTO;
 import com.example.taxidriver.domain.model.User;
 
@@ -16,8 +17,8 @@ import retrofit2.http.Path;
 
 public interface RideApi {
 
-    @GET("/api/ride/{id}")
-    Call<RideDTO> getRide(@Path("id") String id);
+    @GET("/api/ride/get/{id}")
+    Call<RideDTO4> getRide(@Path("id") String id);
 
     @POST("/api/ride")
     Call<RideDTO> submitRequestForRide(@Body RideRequestDTO rideRequestDTO);

@@ -92,8 +92,6 @@ public class PassengerMainActivity extends AppCompatActivity {
     private UnregisteredUserRepository unregisteredUserRepository;
     private RideRepository rideRepository = new RideRepository();
     private UserRepository userRepository = new UserRepository();
-
-
     private PassengerMainViewModel viewModel;
     private Handler handler = new Handler();
     private Runnable activeVehicleRunnable = new Runnable() {
