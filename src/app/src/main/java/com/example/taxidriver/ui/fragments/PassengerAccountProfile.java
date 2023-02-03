@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.taxidriver.R;
+import com.example.taxidriver.data.repository.PassengerRepository;
 import com.example.taxidriver.domain.model.Passenger;
 import com.example.taxidriver.util.Mockup;
 
@@ -30,6 +31,7 @@ public class PassengerAccountProfile extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private PassengerRepository passengerRepository;
 
     public PassengerAccountProfile() {
         // Required empty public constructor
@@ -71,7 +73,7 @@ public class PassengerAccountProfile extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_passenger_account_profile, container, false);
-        mockupPassenger(view);
+        fillPassengerInfo(view);
         Button confirm_changes  = view.findViewById(R.id.confirm_button);
         confirm_changes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +97,7 @@ public class PassengerAccountProfile extends Fragment {
         });
         return view;
     }
-    public static void mockupPassenger(View view){
+    public static void fillPassengerInfo(View view){
         Passenger passenger = Mockup.getPassenger();
         EditText name = (EditText) view.findViewById(R.id.nameInput);
         name.setText(passenger.getName());
