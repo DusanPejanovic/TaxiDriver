@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.example.taxidriver.TaxiDriver;
 import com.example.taxidriver.data.api.AuthApi;
+import com.example.taxidriver.data.dto.PassengerDTO;
 import com.example.taxidriver.domain.model.User;
 import com.google.gson.JsonObject;
 
@@ -41,24 +42,19 @@ public class AuthRepository {
         call.enqueue(callback);
     }
 
-    public void signup(User user, final AuthCallback authCallback) {
+    public void signup(PassengerDTO passengerDTO, Callback<JsonObject> callback) {
 
-        Call<Void> call = authApi.signup(user);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    authCallback.onSuccess();
-                } else {
-                    authCallback.onFailure(response.message());
-                }
-            }
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("email",passengerDTO.getEmail());
+        jsonObject.addProperty("firstname",passengerDTO.getName());
+        jsonObject.addProperty("lastname", passengerDTO.getSurname());
+        jsonObject.addProperty("address",passengerDTO.getAddress());
+        jsonObject.addProperty("password", passengerDTO.getPassword());
+        jsonObject.addProperty("telephoneNumber",passengerDTO.getTelephoneNumber());
+        jsonObject.addProperty("profilePicture",passengerDTO.getProfilePicture());
+        Call<JsonObject> call = authApi.signup(jsonObject);
 
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                authCallback.onFailure(t.getMessage());
-            }
-        });
+        call.enqueue(callback);
     }
 
     public void logout() {

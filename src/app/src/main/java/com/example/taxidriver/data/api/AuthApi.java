@@ -16,7 +16,7 @@ public interface AuthApi {
     Call<JsonObject> login(@Body JsonObject jsonObject);
 
     @POST("/api/user/signup")
-    Call<Void> signup(@Body User user);
+    Call<JsonObject> signup(@Body JsonObject jsonObject);
 
     @GET("/user")
     Call<JsonObject> getUser(@Header("Authorization") String access_token);

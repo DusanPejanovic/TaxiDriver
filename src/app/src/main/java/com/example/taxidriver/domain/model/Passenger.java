@@ -17,6 +17,9 @@ public class Passenger extends User{
         this.favoriteRoutes = favoriteRoutes;
     }
 
+    public Passenger() {
+    }
+
     public List<Drive> getDrives() {
         return drives;
     }

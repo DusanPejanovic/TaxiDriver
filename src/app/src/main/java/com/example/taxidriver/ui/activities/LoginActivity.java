@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 authRepository.login(email, password,new Callback<JsonObject>() {
                     @Override
-                    public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
+                        public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
                         if (response.isSuccessful()) {
 
                             assert response.body() != null;

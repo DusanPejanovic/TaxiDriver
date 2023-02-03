@@ -15,6 +15,8 @@ public class User {
     List<RejectionLetter> rejectionLetters;
     boolean is_blocked = false;
 
+    public User() {
+    }
 
     public User(String id, String name, String lastname, String email, String profilePicture, String phoneNumber, String adress, String password, List<Message> messagesSent, List<Message> messagesRecived, List<RejectionLetter> rejectionLetters) {
         this.id = Long.valueOf(id);
