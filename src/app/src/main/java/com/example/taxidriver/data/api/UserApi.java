@@ -1,6 +1,7 @@
 package com.example.taxidriver.data.api;
 
 import com.example.taxidriver.data.dto.ChangePasswordCodeDTO;
+import com.example.taxidriver.data.dto.ChangePasswordDTO;
 import com.example.taxidriver.data.dto.IsInRideDTO;
 import com.example.taxidriver.data.dto.LocationDTO3;
 import com.example.taxidriver.data.dto.PaginatedResponse;
@@ -18,6 +19,9 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface UserApi {
+    @PUT("api/user/{id}/changePassword")
+    Call<Void> changePassword(@Path("id") String id, @Body ChangePasswordDTO request);
+
     @GET("api/user")
     Call<PaginatedResponse<User>> getUsers();
 

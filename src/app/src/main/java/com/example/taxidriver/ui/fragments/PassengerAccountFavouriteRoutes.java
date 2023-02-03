@@ -1,7 +1,9 @@
 package com.example.taxidriver.ui.fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -15,12 +17,20 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.taxidriver.R;
+import com.example.taxidriver.TaxiDriver;
+import com.example.taxidriver.data.dto.FavouriteRouteResponseDTO;
+import com.example.taxidriver.data.repository.RideRepository;
+import com.example.taxidriver.data.repository.UserRepository;
 import com.example.taxidriver.ui.activities.passenger.PassengerMainActivity;
 import com.example.taxidriver.ui.adapters.FavouriteRouteAdapter;
 import com.example.taxidriver.domain.model.FavoriteRoute;
 import com.example.taxidriver.util.Mockup;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,9 +43,12 @@ public class PassengerAccountFavouriteRoutes extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private ArrayList<FavoriteRoute> routes = new ArrayList<FavoriteRoute>();
+    private ArrayList<FavouriteRouteResponseDTO> routes = new ArrayList<FavouriteRouteResponseDTO>();
     private ListView routesListView;
 
+    RideRepository rideRepository = new RideRepository();
+    UserRepository userRepository = new UserRepository();
+    SharedPreferences prefs = TaxiDriver.getAppContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
 
     public PassengerAccountFavouriteRoutes() {
         // Required empty public constructor
@@ -109,13 +122,6 @@ public class PassengerAccountFavouriteRoutes extends Fragment {
     private class RoutesItemsClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//            ImageView delete = view.findViewById(R.id.delete_fav_route);
-//            delete.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Toast.makeText(getContext(), position, Toast.LENGTH_SHORT).show();
-//                }
-//            });
             AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
             builder.setMessage("Order an uber for the chosen route?");
             builder.setCancelable(true);
@@ -139,8 +145,24 @@ public class PassengerAccountFavouriteRoutes extends Fragment {
     }
 
     private void prepareList() {
-        for (FavoriteRoute fr : Mockup.getFavoriteRoutes()) {
-            routes.add(fr);
-        }
+        rideRepository.getPassengerFavorites(new retrofit2.Callback<List<FavouriteRouteResponseDTO>>() {
+            @Override
+            public void onResponse(Call<List<FavouriteRouteResponseDTO>> call, Response<List<FavouriteRouteResponseDTO>> response) {
+                if( response.isSuccessful()){
+                    for (FavouriteRouteResponseDTO fr : response.body()) {
+                        routes.add(fr);
+                    }
+                }else{
+                    // TODO no favourites currently
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<FavouriteRouteResponseDTO>> call, Throwable t) {
+
+            }
+        }, prefs.getString("userId", null));
+
     }
 }
