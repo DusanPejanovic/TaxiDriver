@@ -18,10 +18,12 @@ import android.widget.Toast;
 
 import com.example.taxidriver.R;
 import com.example.taxidriver.TaxiDriver;
+import com.example.taxidriver.data.dto.ChangePasswordDTO;
 import com.example.taxidriver.data.dto.IsInRideDTO;
 import com.example.taxidriver.data.dto.PassengerDTO;
 import com.example.taxidriver.data.dto.RideDTO4;
 import com.example.taxidriver.data.repository.PassengerRepository;
+import com.example.taxidriver.data.repository.UserRepository;
 import com.example.taxidriver.domain.model.Passenger;
 import com.example.taxidriver.util.Mockup;
 
@@ -49,6 +51,7 @@ public class PassengerAccountProfile extends Fragment {
     private String mParam1;
     private String mParam2;
     PassengerRepository passengerRepository = new PassengerRepository();
+    UserRepository userRepository = new UserRepository();
     SharedPreferences prefs = TaxiDriver.getAppContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
 
     public PassengerAccountProfile() {
@@ -73,7 +76,8 @@ public class PassengerAccountProfile extends Fragment {
         return fragment;
 
     }
-    public static PassengerAccountProfile newInstance(){
+
+    public static PassengerAccountProfile newInstance() {
         return new PassengerAccountProfile();
     }
 
@@ -85,7 +89,8 @@ public class PassengerAccountProfile extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    private void fillPassengerInfo(View view){
+
+    private void fillPassengerInfo(View view) {
         passengerRepository.getPassengerDetails(new retrofit2.Callback<PassengerDTO>() {
             @Override
             public void onResponse(Call<PassengerDTO> call, Response<PassengerDTO> response) {
@@ -93,13 +98,13 @@ public class PassengerAccountProfile extends Fragment {
                     PassengerDTO passenger = response.body();
                     EditText name = (EditText) view.findViewById(R.id.nameInput);
                     name.setText(passenger.getName());
-                    EditText surname = (EditText)view.findViewById(R.id.surnameInput);
+                    EditText surname = (EditText) view.findViewById(R.id.surnameInput);
                     surname.setText(passenger.getSurname());
                     EditText address = (EditText) view.findViewById(R.id.addressInput);
                     address.setText(passenger.getAddress());
-                    EditText phoneNum = (EditText)view.findViewById(R.id.phoneNumberInput);
+                    EditText phoneNum = (EditText) view.findViewById(R.id.phoneNumberInput);
                     phoneNum.setText(passenger.getTelephoneNumber());
-                    EditText email = (EditText)view.findViewById(R.id.emailInput);
+                    EditText email = (EditText) view.findViewById(R.id.emailInput);
                     email.setText(passenger.getEmail());
 
 
@@ -118,17 +123,17 @@ public class PassengerAccountProfile extends Fragment {
 
     }
 
-    private void changePassengerInfo(View view){
+    private void changePassengerInfo(View view) {
         PassengerDTO passenger = new PassengerDTO();
         EditText name = (EditText) view.findViewById(R.id.nameInput);
         passenger.setName(name.getText().toString());
-        EditText surname = (EditText)view.findViewById(R.id.surnameInput);
+        EditText surname = (EditText) view.findViewById(R.id.surnameInput);
         passenger.setSurname(surname.getText().toString());
         EditText address = (EditText) view.findViewById(R.id.addressInput);
         passenger.setAddress(address.getText().toString());
-        EditText phoneNum = (EditText)view.findViewById(R.id.phoneNumberInput);
+        EditText phoneNum = (EditText) view.findViewById(R.id.phoneNumberInput);
         passenger.setTelephoneNumber(phoneNum.getText().toString());
-        EditText email = (EditText)view.findViewById(R.id.emailInput);
+        EditText email = (EditText) view.findViewById(R.id.emailInput);
         passenger.setEmail(email.getText().toString());
         passenger.setProfilePicture("profile.png");
         passengerRepository.putPassengerDetails(new retrofit2.Callback<PassengerDTO>() {
@@ -160,12 +165,13 @@ public class PassengerAccountProfile extends Fragment {
         }, prefs.getString("userId", null), passenger);
 
     }
-    private boolean validateForms(View view){
+
+    private boolean validateForms(View view) {
         EditText name = (EditText) view.findViewById(R.id.nameInput);
-        EditText surname = (EditText)view.findViewById(R.id.surnameInput);
+        EditText surname = (EditText) view.findViewById(R.id.surnameInput);
         EditText address = (EditText) view.findViewById(R.id.addressInput);
-        EditText phoneNum = (EditText)view.findViewById(R.id.phoneNumberInput);
-        EditText email = (EditText)view.findViewById(R.id.emailInput);
+        EditText phoneNum = (EditText) view.findViewById(R.id.phoneNumberInput);
+        EditText email = (EditText) view.findViewById(R.id.emailInput);
         ArrayList<EditText> fieldsNonEmpty = new ArrayList<EditText>(Arrays.asList(name, surname, address, phoneNum, phoneNum));
         final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         final String phoneNumberPattern = "^(?:(?:\\+|0{0,2})91(\\s*[\\-]\\s*)?|[0]?)?[789]\\d{9}$";
@@ -182,7 +188,7 @@ public class PassengerAccountProfile extends Fragment {
             email.setError(null);
         }
         boolean isEmpty = false;
-        for (EditText field: fieldsNonEmpty) {
+        for (EditText field : fieldsNonEmpty) {
             if (TextUtils.isEmpty(field.getText())) {
                 field.setError("Cannot be empty");
                 isEmpty = true;
@@ -193,17 +199,52 @@ public class PassengerAccountProfile extends Fragment {
 
         return !isEmpty;
     }
+
+    private void showChangePasswordDialog(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.change_password_dialog, null);
+        builder.setView(dialogView);
+        builder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                EditText currentPassword = dialogView.findViewById(R.id.current_password_input);
+                EditText newPassword = dialogView.findViewById(R.id.new_password_input);
+                EditText confirmPassword = dialogView.findViewById(R.id.confirm_password_input);
+                if (! newPassword.getText().toString().equals(confirmPassword.getText().toString())) {
+                    Toast.makeText(TaxiDriver.getAppContext(), "New password must match confirm password.", Toast.LENGTH_SHORT).show();
+                } else if (newPassword.getText().toString().equals(currentPassword.getText().toString())) {
+                    Toast.makeText(TaxiDriver.getAppContext(), "New password can't be the same as your current one", Toast.LENGTH_SHORT).show();
+                } else {
+                    userRepository.changePassword(prefs.getString("userId", null),
+                            new ChangePasswordDTO(newPassword.getText().toString(), currentPassword.getText().toString()));
+//                    dialog.dismiss();
+                }
+
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_passenger_account_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_passenger_account_profile, container, false);
         fillPassengerInfo(view);
-        Button confirm_changes  = view.findViewById(R.id.confirm_button);
+        Button confirm_changes = view.findViewById(R.id.confirm_button);
         confirm_changes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view1) {
-                if (!validateForms(view)){
+                if (!validateForms(view)) {
                     return;
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(view1.getContext());
@@ -222,6 +263,13 @@ public class PassengerAccountProfile extends Fragment {
 
                 AlertDialog alert = builder.create();
                 alert.show();
+            }
+        });
+        Button change_password = view.findViewById(R.id.change_password);
+        change_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view1) {
+                showChangePasswordDialog(view);
             }
         });
         return view;

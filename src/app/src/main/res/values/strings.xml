@@ -15,6 +15,7 @@
     <string name="changePassword">change password</string>
     <string name="changeEmail">change email</string>
     <string name="current_password">Current password:</string>
+    <string name="current_password_input">current password</string>
     <string name="new_password">New password:</string>
     <string name="new_password_input">new password</string>
     <string name="confirm_password">Confirm password:</string>
