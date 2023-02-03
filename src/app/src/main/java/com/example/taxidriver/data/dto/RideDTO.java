@@ -157,7 +157,7 @@ public class RideDTO {
         return status;
     }
     public int getMileage(){
-        return 2;
+        return 3;
     }
 
     public void setStatus(String status) {

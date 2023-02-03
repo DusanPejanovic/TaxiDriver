@@ -7,6 +7,7 @@ import com.example.taxidriver.data.RetrofitClient;
 import com.example.taxidriver.data.api.DriverApi;
 import com.example.taxidriver.data.api.RideApi;
 import com.example.taxidriver.data.dto.CancelDTO;
+import com.example.taxidriver.data.dto.FavouriteRouteResponseDTO;
 import com.example.taxidriver.data.dto.PaginatedResponse;
 import com.example.taxidriver.data.dto.RideDTO;
 import com.example.taxidriver.data.dto.RideDTO4;
@@ -59,7 +60,13 @@ public class RideRepository {
     public void finishRide(Callback<Void> callback,  String id) {
         rideApi.finishRide(id).enqueue(callback);
     }
+    public void getPassengerFavorites(Callback<List<FavouriteRouteResponseDTO>> callback, String id){
+        rideApi.getFavorites(id).enqueue(callback);
+    }
 
+    public void deleteFavoriteRide(Callback<Void> callback, String id){
+        rideApi.deleteFavouriteRide(id);
+    }
 
 }
 

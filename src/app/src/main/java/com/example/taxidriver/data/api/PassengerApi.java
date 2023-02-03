@@ -1,5 +1,6 @@
 package com.example.taxidriver.data.api;
 
+import com.example.taxidriver.data.dto.FavouriteRouteResponseDTO;
 import com.example.taxidriver.data.dto.PaginatedResponse;
 import com.example.taxidriver.data.dto.PassengerDTO;
 import com.example.taxidriver.data.dto.RideDTO;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -22,9 +24,9 @@ public interface PassengerApi {
 
     @PUT("api/passenger/{passenger-id}")
     Call<PassengerDTO> changePassengerDetails(@Path("passenger-id") String id,@Body PassengerDTO request);
+
     @GET("api/passenger/{passenger-id}/ride")
     Call<PaginatedResponse<RideDTO>> getRides(@Path("passenger-id") String passengerId);
 
-//    @GET("/api/driver/{id}/vehicle")
-//    Call<VehicleDTO> getDriverVehicle(@Path("id") String id);
+
 }
