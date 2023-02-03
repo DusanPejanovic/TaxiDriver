@@ -1,5 +1,7 @@
 package com.example.taxidriver.ui.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.taxidriver.R;
+import com.example.taxidriver.TaxiDriver;
+import com.example.taxidriver.data.dto.PaginatedResponse;
+import com.example.taxidriver.data.dto.RideDTO;
+import com.example.taxidriver.data.dto.RideDTO1;
+import com.example.taxidriver.data.repository.PassengerRepository;
+import com.example.taxidriver.data.repository.UserRepository;
 import com.example.taxidriver.ui.adapters.DriveReportAdapter;
 import com.example.taxidriver.domain.model.Drive;
 import com.example.taxidriver.domain.model.DriveReport;
@@ -21,6 +29,12 @@ import com.example.taxidriver.util.Mockup;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,6 +61,9 @@ public class PassengerAccountReports extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    PassengerRepository passengerRepository = new PassengerRepository();
+    UserRepository userRepository = new UserRepository();
+    SharedPreferences prefs = TaxiDriver.getAppContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
 
     public PassengerAccountReports() {
         // Required empty public constructor
@@ -91,36 +108,35 @@ public class PassengerAccountReports extends Fragment {
 //        ArrayList<DriveReport> items = getReportRides(LocalDateTime.of(2022, 11, 14, 0, 0), LocalDateTime.of(2022, 11, 19, 0, 0));
         View view = inflater.inflate(R.layout.fragment_passenger_account_reports, container, false);
         driveReportsListView = view.findViewById(R.id.listViewReport);
-//        items = getReportRides(LocalDateTime.now(), LocalDateTime.now().plusWeeks(1));
+
         items = new ArrayList<DriveReport>();
         DriveReportAdapter adapter = new DriveReportAdapter(getActivity(), items);
         driveReportsListView.setAdapter(adapter);
         CalendarView from = view.findViewById(R.id.dateStarting);
         CalendarView to = view.findViewById(R.id.dateEnding);
-
+        getReportRides(LocalDateTime.now(), LocalDateTime.now().plusWeeks(1), adapter, view);
         from.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
                 fromDate = LocalDateTime.of(year, month + 1, day, 0, 0);
-                if(toDate != null){
+                if (toDate != null) {
                     if (fromDate.isBefore(toDate) && toDate != null) {
-                        TextView totalRides = view.findViewById(R.id.totalRides);
-                        TextView totalKm = view.findViewById(R.id.totalKm);
-                        TextView totalMoney = view.findViewById(R.id.totalSpent);
-                        TextView averageRidesText = view.findViewById(R.id.averageRides);
-                        TextView averageKmText = view.findViewById(R.id.averageKm);
-                        TextView averageMoneyText = view.findViewById(R.id.averageSpent);
+//                        TextView totalRides = view.findViewById(R.id.totalRides);
+//                        TextView totalKm = view.findViewById(R.id.totalKm);
+//                        TextView totalMoney = view.findViewById(R.id.totalSpent);
+//                        TextView averageRidesText = view.findViewById(R.id.averageRides);
+//                        TextView averageKmText = view.findViewById(R.id.averageKm);
+//                        TextView averageMoneyText = view.findViewById(R.id.averageSpent);
 
-                        items = getReportRides(fromDate, toDate);
-                        adapter.items = items;
-                        adapter.notifyDataSetChanged();
-                        totalRides.setText(String.valueOf(ridesSum));
-                        totalKm.setText(String.valueOf(kmSum));
-                        totalMoney.setText(String.valueOf(moneySum));
-                        averageRidesText.setText(String.valueOf(averageRides));
-                        averageKmText.setText(String.valueOf(averageKm));
-                        averageMoneyText.setText(String.valueOf(averageMoney));
-
+                        getReportRides(fromDate, toDate, adapter, view);
+//                        adapter.items = items;
+//                        adapter.notifyDataSetChanged();
+//                        totalRides.setText(String.valueOf(ridesSum));
+//                        totalKm.setText(String.valueOf(kmSum));
+//                        totalMoney.setText(String.valueOf(moneySum));
+//                        averageRidesText.setText(String.valueOf(averageRides));
+//                        averageKmText.setText(String.valueOf(averageKm));
+//                        averageMoneyText.setText(String.valueOf(averageMoney));
 
 
                     }
@@ -132,84 +148,118 @@ public class PassengerAccountReports extends Fragment {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
                 toDate = LocalDateTime.of(year, month + 1, day, 0, 0);
-                if (fromDate != null){
+                if (fromDate != null) {
                     if (fromDate.isBefore(toDate)) {
-                        TextView totalRides = view.findViewById(R.id.totalRides);
-                        TextView totalKm = view.findViewById(R.id.totalKm);
-                        TextView totalMoney = view.findViewById(R.id.totalSpent);
-                        TextView averageRidesText = view.findViewById(R.id.averageRides);
-                        TextView averageKmText = view.findViewById(R.id.averageKm);
-                        TextView averageMoneyText = view.findViewById(R.id.averageSpent);
+//                        TextView totalRides = view.findViewById(R.id.totalRides);
+//                        TextView totalKm = view.findViewById(R.id.totalKm);
+//                        TextView totalMoney = view.findViewById(R.id.totalSpent);
+//                        TextView averageRidesText = view.findViewById(R.id.averageRides);
+//                        TextView averageKmText = view.findViewById(R.id.averageKm);
+//                        TextView averageMoneyText = view.findViewById(R.id.averageSpent);
 
-                        items = getReportRides(fromDate, toDate);
-                        adapter.items = items;
-                        adapter.notifyDataSetChanged();
-                        totalRides.setText(String.valueOf(ridesSum));
-                        totalKm.setText(String.valueOf(kmSum));
-                        totalMoney.setText(String.valueOf(moneySum));
-                        averageRidesText.setText(String.valueOf(averageRides));
-                        averageKmText.setText(String.valueOf(averageKm));
-                        averageMoneyText.setText(String.valueOf(averageMoney));
-
-                        adapter.notifyDataSetChanged();
+                        getReportRides(fromDate, toDate, adapter, view);
+//                        adapter.items = items;
+//                        adapter.notifyDataSetChanged();
+//                        totalRides.setText(String.valueOf(ridesSum));
+//                        totalKm.setText(String.valueOf(kmSum));
+//                        totalMoney.setText(String.valueOf(moneySum));
+//                        averageRidesText.setText(String.valueOf(averageRides));
+//                        averageKmText.setText(String.valueOf(averageKm));
+//                        averageMoneyText.setText(String.valueOf(averageMoney));
+//
+//                        adapter.notifyDataSetChanged();
                     }
                 }
-                }
+            }
 
         });
         adapter.notifyDataSetChanged();
         return view;
     }
-    public class dateChangeListener implements  CalendarView.OnDateChangeListener{
+
+    public class dateChangeListener implements CalendarView.OnDateChangeListener {
         @Override
         public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
 
         }
     }
 
-    public ArrayList<DriveReport> getReportRides(LocalDateTime from, LocalDateTime to) {
-        ArrayList<DriveReport> reports = new ArrayList<DriveReport>();
-        ArrayList<Drive> drives = Mockup.getDrives();
-        ridesSum = 0;
-        kmSum = 0;
-        moneySum = 0;
-        int i = 0;
-        for (LocalDateTime date = from; date.isBefore(to); date = date.plusDays(1)) {
-            DriveReport dr = new DriveReport(date, 0, 0, 0);
-            while (i < drives.size()) {
-                if (date.toLocalDate().equals(drives.get(i).getStartTime().toLocalDate())) {
-                    dr.rides += 1;
-                    ridesSum += 1;
-                    dr.mileage += drives.get(i).getMileage();
-                    kmSum += drives.get(i).getMileage();
-                    dr.spent += drives.get(i).getCost();
-                    moneySum += drives.get(i).getCost();
-                    i++;
-                } else {
-                    if(reports.isEmpty()){
-                        i++;
-                        if (i == drives.size()){
-                            i = 0;
-                            break;
-                        }
+    public void getReportRides(LocalDateTime from, LocalDateTime to, DriveReportAdapter adapter, View view ) {
+        final ArrayList<DriveReport> reports = new ArrayList<DriveReport>();
+//        ArrayList<Drive> rides = Mockup.getDrives();
+        final ArrayList<RideDTO> rides = new ArrayList<>();
+        passengerRepository.getPassengerRides(new retrofit2.Callback<PaginatedResponse<RideDTO>>() {
+            @Override
+            public void onResponse(Call<PaginatedResponse<RideDTO>> call, Response<PaginatedResponse<RideDTO>> response) {
+                for(RideDTO r: response.body().getResults()){
+                    if ( r.getStatus().equals("FINSHED")){
+                        rides.add(r);
                     }
-
-                    else
-                        break;
                 }
+                ridesSum = 0;
+                kmSum = 0;
+                moneySum = 0;
+                int i = 0;
+                for (LocalDateTime date = from; date.isBefore(to); date = date.plusDays(1)) {
+                    DriveReport dr = new DriveReport(date, 0, 0, 0);
+                    while (i < rides.size()) {
+                        LocalDateTime ldt = LocalDateTime.parse(rides.get(i).getStartTime());
+                        if (date.toLocalDate().equals(ldt.toLocalDate())) {
+                            dr.rides += 1;
+                            ridesSum += 1;
+                            dr.mileage += rides.get(i).getMileage();
+                            kmSum += rides.get(i).getMileage();
+                            dr.spent += rides.get(i).getTotalCost();
+                            moneySum += rides.get(i).getTotalCost();
+                            i++;
+                        } else {
+                            if (reports.isEmpty()) {
+                                i++;
+                                if (i == rides.size()) {
+                                    i = 0;
+                                    break;
+                                }
+                            } else
+                                break;
+                        }
+
+                    }
+                    reports.add(dr);
+                }
+                DecimalFormat format = new DecimalFormat("#.00");
+                averageRides = Double.parseDouble(format.format((double) ridesSum / reports.size()));
+                averageKm = Double.parseDouble(format.format((double) kmSum / reports.size()));
+                averageMoney = Double.parseDouble(format.format((double) moneySum / reports.size()));
+
+
+
+                TextView totalRides = view.findViewById(R.id.totalRides);
+                TextView totalKm = view.findViewById(R.id.totalKm);
+                TextView totalMoney = view.findViewById(R.id.totalSpent);
+                TextView averageRidesText = view.findViewById(R.id.averageRides);
+                TextView averageKmText = view.findViewById(R.id.averageKm);
+                TextView averageMoneyText = view.findViewById(R.id.averageSpent);
+
+                adapter.items = items;
+                adapter.notifyDataSetChanged();
+                totalRides.setText(String.valueOf(ridesSum));
+                totalKm.setText(String.valueOf(kmSum));
+                totalMoney.setText(String.valueOf(moneySum));
+                averageRidesText.setText(String.valueOf(averageRides));
+                averageKmText.setText(String.valueOf(averageKm));
+                averageMoneyText.setText(String.valueOf(averageMoney));
+
+                adapter.notifyDataSetChanged();
+                items = reports;
 
             }
-            reports.add(dr);
-        }
-        DecimalFormat format = new DecimalFormat("#.00");
-        averageRides = Double.parseDouble(format.format((double) ridesSum / reports.size()));
-        averageKm = Double.parseDouble(format.format((double) kmSum / reports.size()));
-        averageMoney =  Double.parseDouble(format.format((double) moneySum / reports.size()));
 
 
-        items = reports;
+            @Override
+            public void onFailure(Call<PaginatedResponse<RideDTO>> call, Throwable t) {
 
-        return reports;
+            }
+        }, prefs.getString("userId", null));
     }
 
     @Override

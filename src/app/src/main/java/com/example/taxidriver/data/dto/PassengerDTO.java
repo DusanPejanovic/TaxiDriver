@@ -1,10 +1,8 @@
 package com.example.taxidriver.data.dto;
 
 import com.example.taxidriver.domain.model.Passenger;
-import com.example.taxidriver.domain.model.User;
 
 public class PassengerDTO {
-
     private Long id;
 
     private String name;
@@ -21,36 +19,7 @@ public class PassengerDTO {
 
     private String address;
 
-    public PassengerDTO(Long id, String name, String surname, String password, String profilePicture, String telephoneNumber, String email, String address) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.password = password;
-        this.profilePicture = profilePicture;
-        this.telephoneNumber = telephoneNumber;
-        this.email = email;
-        this.address = address;
-    }
 
-    public PassengerDTO(String name, String surname, String password, String profilePicture, String telephoneNumber, String email, String address) {
-        this.name = name;
-        this.surname = surname;
-        this.password = password;
-        this.profilePicture = profilePicture;
-        this.telephoneNumber = telephoneNumber;
-        this.email = email;
-        this.address = address;
-    }
-
-    public PassengerDTO(User userLoged) {
-        this.id = userLoged.getId();
-        this.name = userLoged.getName();
-        this.surname = userLoged.getSurname();
-        this.profilePicture = userLoged.getProfilePicture();
-        this.telephoneNumber = userLoged.getTelephoneNumber();
-        this.email = userLoged.getEmail();
-        this.address = userLoged.getAddress();
-    }
 
     public Long getId() {
         return id;
@@ -116,25 +85,6 @@ public class PassengerDTO {
         this.email = address;
     }
 
-    public static PassengerDTO passengerToDTO(Passenger passenger){
-        return new PassengerDTO(passenger.getId(),passenger.getName(), passenger.getSurname(),
-                "ovaj podatak se ne prikazuje",
-                passenger.getProfilePicture(),passenger.getTelephoneNumber(), passenger.getEmail(),passenger.getAddress());
-    }
-
-    public static Passenger DTOToPassenger(PassengerDTO passengerDTO){
-        Passenger passenger = new Passenger();
-        passenger.setId(passengerDTO.getId());
-        passenger.setAddress(passengerDTO.getAddress());
-        passenger.setName(passengerDTO.getName());
-        passenger.setSurname(passengerDTO.getSurname());
-        passenger.setPassword(passengerDTO.getPassword());
-        passenger.setProfilePicture(passengerDTO.getProfilePicture());
-        passenger.setTelephoneNumber(passengerDTO.getTelephoneNumber());
-        passenger.setEmail(passengerDTO.getEmail());
-        return passenger;
-    }
-
     public Passenger passengerChanging(Passenger passenger){
         if(this.address != null){
             passenger.setAddress(this.getAddress());
@@ -155,28 +105,6 @@ public class PassengerDTO {
             passenger.setName(this.getName());
         }
         return passenger;
-    }
-
-    public boolean isPassengerDTOEmpty(){
-        if(this.address == null && this.getName() == null && this.getSurname() == null && this.telephoneNumber == null
-                && this.profilePicture == null && this.email == null){
-            return true;
-        }
-        return false;
-    }
-
-    public boolean invalidDTOData(){
-        if(this.getName().length() > 20)
-            return true;
-        if(this.getSurname().length() > 20)
-            return true;
-        if (this.getAddress().length() > 40)
-            return true;
-        //if (this.getEmail().contains("@") == false )
-        //    return true;
-        if (this.getTelephoneNumber().length() > 13)
-            return true;
-        return false;
     }
 
 }

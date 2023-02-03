@@ -8,6 +8,7 @@ import com.example.taxidriver.TaxiDriver;
 import com.example.taxidriver.data.RetrofitClient;
 import com.example.taxidriver.data.api.UserApi;
 import com.example.taxidriver.data.dto.ChangePasswordCodeDTO;
+import com.example.taxidriver.data.dto.ChangePasswordDTO;
 import com.example.taxidriver.data.dto.IsInRideDTO;
 import com.example.taxidriver.data.dto.LocationDTO3;
 import com.example.taxidriver.data.dto.PaginatedResponse;
@@ -31,6 +32,23 @@ public class UserRepository {
 
     public void getUsers(Callback<PaginatedResponse<User>> callback) {
         userApi.getUsers().enqueue(callback);
+    }
+    public void changePassword(String id, ChangePasswordDTO changePasswordDTO){
+        userApi.changePassword(id, changePasswordDTO).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.isSuccessful()){
+                    Toast.makeText(TaxiDriver.getAppContext(), "Password successfully changed!", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(TaxiDriver.getAppContext(), "Incorrect password!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, Throwable t) {
+                Toast.makeText(TaxiDriver.getAppContext(), "Server failure.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void getCurrentLocation(Callback<LocationDTO3> callback) {
