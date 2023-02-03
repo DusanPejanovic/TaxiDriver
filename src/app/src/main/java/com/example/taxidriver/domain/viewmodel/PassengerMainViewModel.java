@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.taxidriver.TaxiDriver;
 import com.example.taxidriver.data.api.VehicleApi;
+import com.example.taxidriver.data.dto.ActiveVehicleDTO;
 import com.example.taxidriver.data.dto.LocationDTO3;
 import com.example.taxidriver.data.dto.PaginatedResponse;
 import com.example.taxidriver.data.dto.RideDTO;
@@ -25,26 +26,26 @@ public class PassengerMainViewModel extends ViewModel {
 
     private final VehicleRepository vehicleRepository;
 
-    private final MutableLiveData<List<LocationDTO3>> activeVehiclesLocation;
+    private final MutableLiveData<List<ActiveVehicleDTO>> activeVehiclesLocation;
 
     public PassengerMainViewModel() {
         vehicleRepository = new VehicleRepository();
         activeVehiclesLocation = new MutableLiveData<>();
     }
 
-    public LiveData<List<LocationDTO3>> getAllActiveVehicles() {
+    public LiveData<List<ActiveVehicleDTO>> getAllActiveVehicles() {
         return activeVehiclesLocation;
     }
 
     public void fetchActiveVehiclesLocation() {
-        vehicleRepository.getAllActiveVehicles(new Callback<PaginatedResponse<LocationDTO3>>() {
+        vehicleRepository.getAllActiveVehicles(new Callback<PaginatedResponse<ActiveVehicleDTO>>() {
             @Override
-            public void onResponse(@NonNull Call<PaginatedResponse<LocationDTO3>> call, @NonNull Response<PaginatedResponse<LocationDTO3>> response) {
+            public void onResponse(@NonNull Call<PaginatedResponse<ActiveVehicleDTO>> call, @NonNull Response<PaginatedResponse<ActiveVehicleDTO>> response) {
                 if (response.isSuccessful()) {
-                    PaginatedResponse<LocationDTO3> paginatedResponse = response.body();
+                    PaginatedResponse<ActiveVehicleDTO> paginatedResponse = response.body();
                     assert paginatedResponse != null;
                     Toast.makeText(TaxiDriver.getAppContext(), "Active Vehicles Location, success", Toast.LENGTH_SHORT).show();
-                    List<LocationDTO3> list = paginatedResponse.getResults();
+                    List<ActiveVehicleDTO> list = paginatedResponse.getResults();
                     activeVehiclesLocation.postValue(list);
 
 
@@ -54,7 +55,7 @@ public class PassengerMainViewModel extends ViewModel {
             }
 
             @Override
-            public void onFailure(@NonNull Call<PaginatedResponse<LocationDTO3>> call, Throwable t) {
+            public void onFailure(@NonNull Call<PaginatedResponse<ActiveVehicleDTO>> call, Throwable t) {
               Toast.makeText(TaxiDriver.getAppContext(), "Active Vehicles Location, on failure.", Toast.LENGTH_SHORT).show();
             }
         });

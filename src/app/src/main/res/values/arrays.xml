@@ -5,4 +5,6 @@
         <item>Premium</item>
         <item>Luxury</item>
     </string-array>
+    <string-array name="grades">1,2,3,4,5</string-array>
 </resources>
+

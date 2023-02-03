@@ -9,6 +9,7 @@ import com.example.taxidriver.data.api.RideApi;
 import com.example.taxidriver.data.dto.CancelDTO;
 import com.example.taxidriver.data.dto.PaginatedResponse;
 import com.example.taxidriver.data.dto.RideDTO;
+import com.example.taxidriver.data.dto.RideDTO4;
 import com.example.taxidriver.data.dto.RideRequestDTO;
 import com.example.taxidriver.domain.model.Ride;
 
@@ -24,6 +25,10 @@ public class RideRepository {
 
     public RideRepository() {
         rideApi = RetrofitClient.getInstance().create(RideApi.class);
+    }
+
+    public void getRide(Callback<RideDTO4> callback, String id) {
+        rideApi.getRide(id).enqueue(callback);
     }
 
     public void submitRideRequest(Callback<RideDTO> callback, RideRequestDTO rideRequest) {
