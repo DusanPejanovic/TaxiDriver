@@ -15,7 +15,10 @@ public class PassengerRepository {
         passengerApi = RetrofitClient.getInstance().create(PassengerApi.class);
     }
 
-    public void getDriverVehicle(Callback<PassengerDTO> callback, String id) {
+    public void getPassengerDetails(Callback<PassengerDTO> callback, String id) {
         passengerApi.getPassengerDetails(id).enqueue(callback);
+    }
+    public void putPassengerDetails(Callback<PassengerDTO> callback,String id, PassengerDTO request){
+        passengerApi.changePassengerDetails(id, request).enqueue(callback);
     }
 }
