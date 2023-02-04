@@ -2,7 +2,9 @@ package com.example.taxidriver.data.repository;
 
 import com.example.taxidriver.data.RetrofitClient;
 import com.example.taxidriver.data.api.DriverApi;
+import com.example.taxidriver.data.dto.DriverDTO1;
 import com.example.taxidriver.data.dto.PaginatedResponse;
+import com.example.taxidriver.data.dto.PassengerDTO;
 import com.example.taxidriver.data.dto.PendingRideResponseDTO;
 import com.example.taxidriver.data.dto.RideDTO;
 import com.example.taxidriver.data.dto.VehicleDTO;
@@ -48,6 +50,17 @@ public class DriverRepository {
         });
     }
 
+    public void getDriverRides(Callback<PaginatedResponse<RideDTO>> callback, String id){
+        driverApi.getRides(id).enqueue(callback);
+    }
+
+    public void getDriverDetails(Callback<DriverDTO1> callback, String id) {
+        driverApi.getDriverDetails(id).enqueue(callback);
+    }
+
+    public void putDriverDetails(Callback<DriverDTO1> callback,String id, DriverDTO1 request){
+        driverApi.changeDriverDetails(id, request).enqueue(callback);
+    }
 
     public void putDriverUnactive() {
         driverApi.putDriverUnactive().enqueue(new Callback<Void>() {
