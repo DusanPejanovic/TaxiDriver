@@ -148,6 +148,7 @@ public class PassengerMainActivity extends AppCompatActivity {
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
+
         viewModel = new ViewModelProvider(this).get(PassengerMainViewModel.class);
 
         unregisteredUserRepository = new UnregisteredUserRepository();
@@ -160,6 +161,10 @@ public class PassengerMainActivity extends AppCompatActivity {
         TimePicker timePicker = findViewById(R.id.time_picker);
         destinationEditText = findViewById(R.id.destination);
         departureEditText = findViewById(R.id.departure);
+        if (getIntent().getExtras() != null){
+            departureEditText.setText(getIntent().getStringExtra("departure"));
+            destinationEditText.setText(getIntent().getStringExtra("destination"));
+        }
         petCheckBox = findViewById(R.id.pet);
         kidCheckBox = findViewById(R.id.kid);
         vehicleTypeSpinner = findViewById(R.id.vehicle_type);
