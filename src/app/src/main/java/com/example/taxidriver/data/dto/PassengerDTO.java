@@ -19,7 +19,18 @@ public class PassengerDTO {
 
     private String address;
 
+    public PassengerDTO() {
+    }
 
+    public PassengerDTO(String name, String surname, String password, String profilePicture, String telephoneNumber, String email, String address) {
+        this.name = name;
+        this.surname = surname;
+        this.password = password;
+        this.profilePicture = profilePicture;
+        this.telephoneNumber = telephoneNumber;
+        this.email = email;
+        this.address = address;
+    }
 
     public Long getId() {
         return id;

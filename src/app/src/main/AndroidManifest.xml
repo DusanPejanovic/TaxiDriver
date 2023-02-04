@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"  />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
-        android:name="TaxiDriver"
+        android:name=".TaxiDriver"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -42,8 +43,13 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
-
+        <activity
+            android:name=".ui.activities.driver.DriverAccountActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".ui.activities.CurrentRideActivity"
             android:exported="true">
@@ -52,7 +58,6 @@
                 android:value="" />
         </activity>
         <activity
-
             android:name=".ui.activities.driver.DriverInboxActivity"
             android:exported="false"
             android:label="@string/title_activity_inbox_driver"

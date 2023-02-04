@@ -310,8 +310,7 @@ public class DriverMainActivity extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                startActivity(new Intent(DriverMainActivity.this, PassengerAccountActivity.class));
-                Toast.makeText(DriverMainActivity.this, "TODO: Add driver account", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(DriverMainActivity.this, DriverAccountActivity.class));
                 finish();
 
             }

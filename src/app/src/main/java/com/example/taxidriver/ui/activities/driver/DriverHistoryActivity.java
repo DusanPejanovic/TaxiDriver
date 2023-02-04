@@ -81,8 +81,7 @@ public class DriverHistoryActivity extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //startActivity(new Intent(DriverHistoryActivity.this, PassengerAccountActivity.class));
-                Toast.makeText(DriverHistoryActivity.this, "TODO: Add driver account", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(DriverHistoryActivity.this, DriverAccountActivity.class));
                 finish();
 
             }
