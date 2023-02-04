@@ -177,7 +177,8 @@ public class PassengerAccountFavouriteRoutes extends Fragment {
                     "Yes",
                     (dialog, id1) -> {
                         Intent intent = new Intent(view.getContext(), PassengerMainActivity.class);
-
+                        intent.putExtra("departure", routes.get(position).getStartingPoint().getAddress());
+                        intent.putExtra("destination", routes.get(position).getDestination().getAddress());
                         startActivity(intent);
                         dialog.cancel();
                     });
