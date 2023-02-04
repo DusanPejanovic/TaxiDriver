@@ -58,5 +58,10 @@
     <string name="comment_input">comment</string>
     <string name="grade">Grade:</string>
     <string name="grade_input">grade</string>
+    <string name="your_messages">YOUR MESSAGES:</string>
+    <string name="ride">RIDE</string>
+    <string name="support">SUPPORT</string>
+    <string name="panic">PANIC</string>
+    <string name="load">LOAD</string>
 
 </resources>

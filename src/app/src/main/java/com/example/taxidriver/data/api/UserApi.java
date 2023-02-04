@@ -4,6 +4,8 @@ import com.example.taxidriver.data.dto.ChangePasswordCodeDTO;
 import com.example.taxidriver.data.dto.ChangePasswordDTO;
 import com.example.taxidriver.data.dto.IsInRideDTO;
 import com.example.taxidriver.data.dto.LocationDTO3;
+import com.example.taxidriver.data.dto.MessageDTO;
+import com.example.taxidriver.data.dto.MessageDTO2;
 import com.example.taxidriver.data.dto.PaginatedResponse;
 import com.example.taxidriver.data.dto.ResetPasswordDTO;
 import com.example.taxidriver.domain.model.User;
@@ -37,4 +39,11 @@ public interface UserApi {
 
     @PUT("/api/user/resetPassword")
     Call<Void> resetPassword(@Body ChangePasswordCodeDTO changePasswordCodeDTO);
+
+    @GET("api/user/{id}/message")
+    Call<PaginatedResponse<MessageDTO>> getMessages(@Path("id") String id);
+
+    @POST("api/user/{id}/message")
+    Call<MessageDTO> sendMessage(@Path("id") String id, @Body MessageDTO2 message);
+
 }
