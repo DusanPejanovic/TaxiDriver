@@ -69,6 +69,13 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".ui.activities.passenger.PassengerHistoryActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ui.activities.driver.DriverMainActivity"
             android:exported="true">
             <meta-data

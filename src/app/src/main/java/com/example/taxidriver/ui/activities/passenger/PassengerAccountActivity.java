@@ -102,8 +102,7 @@ public class PassengerAccountActivity extends AppCompatActivity {
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                startActivity(new Intent(PassengerMainActivity.this, PassengerHistoryFragment.class));
-                Toast.makeText(PassengerAccountActivity.this, "TODO: Add passenger ride history", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(PassengerAccountActivity.this, PassengerHistoryActivity.class));
                 finish();
             }
         });
