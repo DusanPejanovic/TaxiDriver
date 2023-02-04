@@ -1,20 +1,32 @@
 package com.example.taxidriver.ui.activities.driver;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.taxidriver.R;
 import com.example.taxidriver.TaxiDriver;
+import com.example.taxidriver.data.dto.ChangePasswordDTO;
+import com.example.taxidriver.data.dto.ReviewDTO2;
+import com.example.taxidriver.data.repository.ReviewRepository;
 import com.example.taxidriver.domain.viewmodel.RideHistoryDetailViewModel;
+import com.example.taxidriver.ui.activities.passenger.PassengerMainActivity;
 import com.example.taxidriver.ui.fragments.HistoryFragment;
 
 import org.json.JSONArray;
@@ -40,6 +52,7 @@ public class DriverHistoryDetailActivity extends AppCompatActivity {
 
      RideHistoryDetailViewModel rideHistoryDetailViewModel;
      SharedPreferences prefs = TaxiDriver.getAppContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
+     ReviewRepository reviewRepository = new ReviewRepository();
      String rideId;
 
     @Override
@@ -77,12 +90,52 @@ public class DriverHistoryDetailActivity extends AppCompatActivity {
 
                     if(rideDTO != null)
                     {
-                        LocalDateTime ldt = LocalDateTime.parse(rideDTO.getEndTime());
-                        if(rideDTO.getGrade() != null || ldt.isAfter(ldt.plusDays(3))){
-                            Button review = findViewById(R.id.review);
-                            ViewGroup reviewParent = (ViewGroup) review.getParent();
-                            reviewParent.removeView(review);
+
+                        if(prefs.getString("role", "").equals("ROLE_PASSENGER"))
+                        {
+                            Button order = findViewById(R.id.orderAgain);
+                            order.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                                    builder.setMessage("Order an uber for the chosen route?");
+                                    builder.setCancelable(true);
+                                    builder.setPositiveButton(
+                                            "Yes",
+                                            (dialog, id1) -> {
+                                                Intent intent = new Intent(view.getContext(), PassengerMainActivity.class);
+                                                intent.putExtra("departure", rideDTO.getStartPoint());
+                                                intent.putExtra("destination", rideDTO.getEndPoint());
+                                                startActivity(intent);
+                                                dialog.cancel();
+                                            });
+
+                                    builder.setNegativeButton(
+                                            "No",
+                                            (dialog, id2) -> dialog.cancel());
+
+                                    AlertDialog alert = builder.create();
+                                    alert.show();
+                                }
+                            });
+                            if(rideDTO.getGrade() != null && rideDTO.getComment() != null){
+                                Button review = findViewById(R.id.review);
+                                ViewGroup reviewParent = (ViewGroup) review.getParent();
+                                reviewParent.removeView(review);
+                            }
+                            else{
+                                Button review = findViewById(R.id.review);
+                                review.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        showReviewDialog(rideId);
+                                    }
+                                });
+                            }
+
+
                         }
+
 
 
 
@@ -205,18 +258,6 @@ public class DriverHistoryDetailActivity extends AppCompatActivity {
                     }
                 }
         );
-        if(prefs.getString("role", "").equals("ROLE_PASSENGER"))
-        {
-            Button review = findViewById(R.id.review);
-            review.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                }
-            });
-
-
-        }
 
 
         rideHistoryDetailViewModel.fetchRide(rideId);
@@ -226,12 +267,47 @@ public class DriverHistoryDetailActivity extends AppCompatActivity {
             ViewGroup reviewParent = (ViewGroup) review.getParent();
             reviewParent.removeView(review);
 
+            Button order = findViewById(R.id.orderAgain);
+            ViewGroup orderParent = (ViewGroup) order.getParent();
+            orderParent.removeView(order);
+
 
         }
-/*
-
-
- */
 
     }
+    private void showReviewDialog(String rideId){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.leave_review_dialog, null);
+        builder.setView(dialogView);
+        builder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                EditText comment = dialogView.findViewById(R.id.comment_input);
+                NumberPicker grade = dialogView.findViewById(R.id.grade_input);
+                if (TextUtils.isEmpty(comment.getText())) {
+                    Toast.makeText(TaxiDriver.getAppContext(), "Comment can't be empty.", Toast.LENGTH_SHORT).show();
+                } else if ( grade.getValue() > 5 || grade.getValue() < 1) {
+                    Toast.makeText(TaxiDriver.getAppContext(), "Grade must be between 1 and 5", Toast.LENGTH_SHORT).show();
+                } else {
+                    reviewRepository.postReviewDriver(new ReviewDTO2(grade.getValue(), comment.getText().toString()), rideId);
+                    Toast.makeText(TaxiDriver.getAppContext(), "Review posted", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
+    }
+
+
+
 }
