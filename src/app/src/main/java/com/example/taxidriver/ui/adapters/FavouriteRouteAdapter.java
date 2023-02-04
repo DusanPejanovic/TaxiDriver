@@ -13,12 +13,13 @@ import com.example.taxidriver.data.dto.FavouriteRouteResponseDTO;
 import com.example.taxidriver.domain.model.FavoriteRoute;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FavouriteRouteAdapter extends BaseAdapter {
     private Context context;
-    public  ArrayList<FavouriteRouteResponseDTO> items;
+    public  List<FavouriteRouteResponseDTO> items;
 
-    public FavouriteRouteAdapter(Context context, ArrayList<FavouriteRouteResponseDTO> items) {
+    public FavouriteRouteAdapter(Context context, List<FavouriteRouteResponseDTO> items) {
         this.context = context;
         this.items = items;
     }
@@ -41,6 +42,15 @@ public class FavouriteRouteAdapter extends BaseAdapter {
         items.remove(index);
         notifyDataSetChanged();
     }
+
+    public List<FavouriteRouteResponseDTO> getItems() {
+        return items;
+    }
+
+    public void setItems(List<FavouriteRouteResponseDTO> items) {
+        this.items = items;
+    }
+
     @Override
     public View getView(int i, View convertView, ViewGroup parent) {
         View view;
@@ -54,8 +64,8 @@ public class FavouriteRouteAdapter extends BaseAdapter {
         }
         TextView from = (TextView) view.findViewById(R.id.from);
         TextView to = (TextView) view.findViewById(R.id.to);
-        from.setText(String.format("Address: %f; %f", fr.getStartingPoint().getLatitude(), fr.getStartingPoint().getLongitude()));
-        to.setText(String.format("Address: %f; %f", fr.getDestination().getLatitude(), fr.getDestination().getLongitude()));
+        from.setText(String.format("FROM: %s", fr.getStartingPoint().getAddress()));
+        to.setText(String.format("TO: %s", fr.getDestination().getAddress()));
 
 
         return view;
