@@ -3,11 +3,17 @@ package com.example.taxidriver.ui.activities.driver;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.taxidriver.R;
+import com.example.taxidriver.TaxiDriver;
 import com.example.taxidriver.domain.viewmodel.RideHistoryDetailViewModel;
 import com.example.taxidriver.ui.fragments.HistoryFragment;
 
@@ -20,6 +26,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Polyline;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +39,7 @@ import okhttp3.Response;
 public class DriverHistoryDetailActivity extends AppCompatActivity {
 
      RideHistoryDetailViewModel rideHistoryDetailViewModel;
+     SharedPreferences prefs = TaxiDriver.getAppContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
      String rideId;
 
     @Override
@@ -69,6 +77,17 @@ public class DriverHistoryDetailActivity extends AppCompatActivity {
 
                     if(rideDTO != null)
                     {
+                        LocalDateTime ldt = LocalDateTime.parse(rideDTO.getEndTime());
+                        if(rideDTO.getGrade() != null || ldt.isAfter(ldt.plusDays(3))){
+                            Button review = findViewById(R.id.review);
+                            ViewGroup reviewParent = (ViewGroup) review.getParent();
+                            reviewParent.removeView(review);
+                        }
+
+
+
+
+
 
                         int limit = 15;
 
@@ -186,9 +205,29 @@ public class DriverHistoryDetailActivity extends AppCompatActivity {
                     }
                 }
         );
+        if(prefs.getString("role", "").equals("ROLE_PASSENGER"))
+        {
+            Button review = findViewById(R.id.review);
+            review.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+
+
+        }
 
 
         rideHistoryDetailViewModel.fetchRide(rideId);
+        if(prefs.getString("role", "").equals("ROLE_DRIVER"))
+        {
+            Button review = findViewById(R.id.review);
+            ViewGroup reviewParent = (ViewGroup) review.getParent();
+            reviewParent.removeView(review);
+
+
+        }
 /*
 
 
