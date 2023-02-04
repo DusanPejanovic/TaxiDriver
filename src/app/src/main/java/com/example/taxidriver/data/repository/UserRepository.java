@@ -11,6 +11,8 @@ import com.example.taxidriver.data.dto.ChangePasswordCodeDTO;
 import com.example.taxidriver.data.dto.ChangePasswordDTO;
 import com.example.taxidriver.data.dto.IsInRideDTO;
 import com.example.taxidriver.data.dto.LocationDTO3;
+import com.example.taxidriver.data.dto.MessageDTO;
+import com.example.taxidriver.data.dto.MessageDTO2;
 import com.example.taxidriver.data.dto.PaginatedResponse;
 import com.example.taxidriver.data.dto.ResetPasswordDTO;
 import com.example.taxidriver.domain.model.User;
@@ -30,6 +32,12 @@ public class UserRepository {
         userApi = RetrofitClient.getInstance().create(UserApi.class);
     }
 
+    public void getMessages(Callback<PaginatedResponse<MessageDTO>> callback, String id){
+        userApi.getMessages(id).enqueue(callback);
+    }
+    public  void sendMessage(Callback<MessageDTO> callback, String id, MessageDTO2 request){
+        userApi.sendMessage(id, request).enqueue(callback);
+    }
     public void getUsers(Callback<PaginatedResponse<User>> callback) {
         userApi.getUsers().enqueue(callback);
     }

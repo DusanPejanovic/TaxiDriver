@@ -192,7 +192,7 @@ public class PassengerAccountReports extends Fragment {
             @Override
             public void onResponse(Call<PaginatedResponse<RideDTO>> call, Response<PaginatedResponse<RideDTO>> response) {
                 for(RideDTO r: response.body().getResults()){
-                    if ( r.getStatus().equals("FINSHED")){
+                    if ( r.getStatus().equals("FINISHED")){
                         rides.add(r);
                     }
                 }

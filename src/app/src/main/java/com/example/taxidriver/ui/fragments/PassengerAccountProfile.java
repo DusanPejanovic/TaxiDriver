@@ -2,6 +2,7 @@ package com.example.taxidriver.ui.fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -25,6 +26,10 @@ import com.example.taxidriver.data.dto.RideDTO4;
 import com.example.taxidriver.data.repository.PassengerRepository;
 import com.example.taxidriver.data.repository.UserRepository;
 import com.example.taxidriver.domain.model.Passenger;
+import com.example.taxidriver.ui.activities.LoginActivity;
+import com.example.taxidriver.ui.activities.driver.DriverAccountActivity;
+import com.example.taxidriver.ui.activities.driver.DriverHistoryActivity;
+import com.example.taxidriver.ui.activities.driver.DriverHistoryDetailActivity;
 import com.example.taxidriver.util.Mockup;
 
 import java.io.IOException;
@@ -141,9 +146,13 @@ public class PassengerAccountProfile extends Fragment {
             public void onResponse(Call<PassengerDTO> call, Response<PassengerDTO> response) {
                 if (response.isSuccessful()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setMessage("Change successful!");
+                    builder.setMessage("Change successful, please login again");
                     AlertDialog dialog = builder.create();
+
                     dialog.show();
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+
 
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
