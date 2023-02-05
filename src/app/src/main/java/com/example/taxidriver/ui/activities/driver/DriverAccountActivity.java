@@ -20,7 +20,6 @@ import com.example.taxidriver.TaxiDriver;
 import com.example.taxidriver.domain.viewmodel.RideHistoryViewModel;
 import com.example.taxidriver.ui.activities.passenger.PassengerAccountActivity;
 import com.example.taxidriver.ui.activities.passenger.PassengerHistoryActivity;
-import com.example.taxidriver.ui.activities.passenger.PassengerInboxActivity2;
 import com.example.taxidriver.ui.activities.passenger.PassengerMainActivity;
 import com.example.taxidriver.ui.fragments.DriverAccountProfile;
 import com.example.taxidriver.ui.fragments.DriverAccountReports;
@@ -31,8 +30,8 @@ import com.example.taxidriver.ui.fragments.PassengerAccountReports;
 import com.example.taxidriver.util.FragmentTransition;
 
 public class DriverAccountActivity extends AppCompatActivity {
-    private String currentTab;
 
+    private String currentTab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
