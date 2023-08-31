@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.driver.DriverInboxActivity">
+    android:orientation="vertical"
+    tools:context=".ui.activities.driver.DriverInboxActivity"
+    android:gravity="center_horizontal">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -17,88 +19,60 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ListView
-        android:id="@+id/history_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="300dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
-
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="18dp"
-        android:fontFamily="@font/ubuntu_light"
-        android:text="Your messages:"
-        android:textColor="@color/black"
-        android:textSize="34dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar" />
-
-    <RadioButton
-        android:id="@+id/radioButton"
-        android:layout_width="wrap_content"
+        android:padding="15dp"
+        android:text="@string/your_messages"
+        android:textAlignment="center"
+        android:textSize="24sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="36dp"
-        android:buttonTint="@color/black"
-        android:checked="true"
-        android:fontFamily="@font/ubuntu_light"
-        android:text="Panic"
-        android:textColor="@color/black"
-        android:textSize="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        android:orientation="horizontal">
 
-    <RadioButton
-        android:id="@+id/radioButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="36dp"
-        android:buttonTint="@color/black"
-        android:checked="true"
-        android:text="Passenger"
-        android:textColor="@color/black"
-        android:textSize="16dp"
-        app:layout_constraintStart_toEndOf="@+id/radioButton"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/rideSwitch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ride"
+            android:textAlignment="center"
+            app:thumbTint="@color/teal_200"/>
 
-    <RadioButton
-        android:id="@+id/radioButton3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="36dp"
-        android:buttonTint="@color/black"
-        android:checked="true"
-        android:fontFamily="@font/ubuntu_light"
-        android:text="Support"
-        android:textColor="@color/black"
-        android:textSize="16dp"
-        app:layout_constraintStart_toEndOf="@+id/radioButton2"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/supportSwitch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/support"
+            android:checked="true"
+            android:textAlignment="center"
+            app:thumbTint="@color/purple_200"/>
 
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/panicSwitch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/panic"
+            android:textAlignment="center"
+            app:thumbTint="@color/purple_500"/>
+
+    </LinearLayout>
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
+        android:layout_width="240dp"
+        android:gravity="center_horizontal"
         android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="21dp"
-        android:backgroundTint="@android:color/black"
-        android:text="SELECT"
-        android:textColorHighlight="#FFFFFF"
-        android:textColorLink="#FFFFFF"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioButton2"
-        app:rippleColor="#000000" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:id="@+id/loadMessages"
+        android:text="@string/load"
+        android:padding="10dp"
+        android:layout_margin="2dp"
+        android:backgroundTint="@color/gray"
+        />
+    <RelativeLayout
+        android:id="@+id/mainContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
